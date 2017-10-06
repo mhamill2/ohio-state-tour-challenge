@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -64,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("REQUIRED","OnCreate() Executed");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
@@ -92,6 +94,41 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+    @Override
+    protected void onStart(){
+        Log.d("REQUIRED","OnStart() Executed");
+        super.onStart();
+    }
+
+    @Override
+    protected void onPause(){
+        Log.d("REQUIRED","OnPause() Executed");
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume(){
+        Log.d("REQUIRED","OnResume() Executed");
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop(){
+        Log.d("REQUIRED","OnStop() Executed");
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart(){
+        Log.d("REQUIRED","OnRestart() Executed");
+        super.onRestart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d("REQUIRED","OnDestroy() Executed");
+        super.onDestroy();
     }
 
     private void populateAutoComplete() {
