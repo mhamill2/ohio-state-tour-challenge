@@ -6,13 +6,5 @@
     android:layout_height="match_parent"
     tools:context="osu.mobile_apps.ohiostatetourchallenge.ListActivity">
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Testing App"
-        tools:layout_editor_absoluteX="143dp"
-        tools:layout_editor_absoluteY="43dp" />
+
 </android.support.constraint.ConstraintLayout>
