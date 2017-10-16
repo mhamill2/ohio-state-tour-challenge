@@ -3,6 +3,7 @@ package osu.mobile_apps.ohiostatetourchallenge;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -66,6 +67,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("CREATION", "OnCreate() Executed");
+        Log.d("REQUIRED","OnCreate() Executed");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
@@ -85,15 +87,56 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Log.d("TESTING", "Before OnClick");
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("TESTING", "OnClick");
                 attemptLogin();
+                Log.d("TESTING", "After Attempt");
+                Intent intent = new Intent(LoginActivity.this, ListActivity.class);
+                Log.d("TESTING", "Before Start Activity");
+                startActivity(intent);
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+    @Override
+    protected void onStart(){
+        Log.d("REQUIRED","OnStart() Executed");
+        super.onStart();
+    }
+
+    @Override
+    protected void onPause(){
+        Log.d("REQUIRED","OnPause() Executed");
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume(){
+        Log.d("REQUIRED","OnResume() Executed");
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop(){
+        Log.d("REQUIRED","OnStop() Executed");
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart(){
+        Log.d("REQUIRED","OnRestart() Executed");
+        super.onRestart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d("REQUIRED","OnDestroy() Executed");
+        super.onDestroy();
     }
 
     private void populateAutoComplete() {
@@ -190,6 +233,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
+        Log.d("TESTING", "After login");
     }
 
     private boolean isEmailValid(String email) {
