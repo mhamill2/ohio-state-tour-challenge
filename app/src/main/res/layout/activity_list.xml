@@ -7,4 +7,19 @@
     tools:context="osu.mobile_apps.ohiostatetourchallenge.ListActivity">
 
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome User"
+        tools:layout_absoluteX="0dp"
+        tools:layout_absoluteY="0dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/locationList"
+        android:layout_width="395dp"
+        android:layout_height="568dp"
+        tools:layout_absoluteX="0dp"
+        tools:layout_absoluteY="19dp" />
+
 </android.support.constraint.ConstraintLayout>
