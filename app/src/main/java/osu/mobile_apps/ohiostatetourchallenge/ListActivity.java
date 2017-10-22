@@ -39,7 +39,7 @@ public class ListActivity extends AppCompatActivity {
             listItems.add(listItem);
         }
 
-        mAdapter = new myAdpater(listItems, this);
+        mAdapter = new myAdpater(listItems);
 
         mlocations.setAdapter(mAdapter);
 
