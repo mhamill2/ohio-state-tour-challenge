@@ -25,13 +25,16 @@
                 android:text="Heading"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:clickable="true"/>
 
             <TextView
                 android:id="@+id/textViewDescription"
                 android:text="Description"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                />
 
                 </LinearLayout>
 

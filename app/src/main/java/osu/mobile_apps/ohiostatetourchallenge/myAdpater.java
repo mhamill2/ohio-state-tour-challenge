@@ -4,6 +4,7 @@ import android.content.Context;
 import android.print.PrintDocumentAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -14,14 +15,19 @@ import java.util.List;
  */
 
 public class myAdpater extends RecyclerView.Adapter<myAdpater.ViewHolder> {
-    private String[] mDataset;
+    private  List<ListItem> listItems;
+    private Context context;
+
 
     public myAdpater(List<ListItem> listItems) {
         this.listItems = listItems;
     }
 
-    private List<ListItem> listItems;
-    private Context context;
+    public interface OnItemClickListener{
+        void onItemClick(ListItem item);
+    }
+
+
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -38,11 +44,6 @@ public class myAdpater extends RecyclerView.Adapter<myAdpater.ViewHolder> {
         }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public myAdpater(String[] myDataset) {
-        mDataset = myDataset;
-    }
-
     // Create new views (invoked by the layout manager)
     @Override
     public myAdpater.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -57,7 +58,6 @@ public class myAdpater extends RecyclerView.Adapter<myAdpater.ViewHolder> {
         ListItem listItem = listItems.get(position);
         holder.mTextViewHead.setText(listItem.getHead());
         holder.mTextViewDescription.setText(listItem.getDesc());
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)

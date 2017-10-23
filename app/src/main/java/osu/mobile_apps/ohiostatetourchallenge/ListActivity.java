@@ -1,5 +1,6 @@
 package osu.mobile_apps.ohiostatetourchallenge;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.*;
@@ -7,6 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +36,7 @@ public class ListActivity extends AppCompatActivity {
 
         listItems = new ArrayList<>();
 
-        for( int i = 0; i<=10; i++){
+        for( int i = 0; i<10; i++){
             ListItem listItem = new ListItem(
                     "Heading" + (i+1),
                     "Description" + (i+1)
@@ -44,6 +49,17 @@ public class ListActivity extends AppCompatActivity {
         mlocations.setAdapter(mAdapter);
 
     }
+
+    public void onClick(View v){
+        //TODO Make this open a new activity and pass in information
+        Intent intent = new Intent(ListActivity.this, InformationActivity.class);
+        if(v.getId()==R.id.textViewHead){
+            TextView TestView = (TextView) v.findViewById(R.id.textViewHead);
+            intent.putExtra("Header", TestView.getText());
+        }
+        startActivity(intent);
+    }
+
 }
 
 

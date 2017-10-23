@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="osu.mobile_apps.ohiostatetourchallenge.InformationActivityFragment"
+    tools:showIn="@layout/activity_information">
+
+    <TextView
+        android:id="@+id/test"
+        android:layout_width="361dp"
+        android:layout_height="156dp"
+        android:text="Information Page"
+        tools:layout_absoluteX="0dp"
+        tools:layout_absoluteY="0dp"
+         />
+
+</android.support.constraint.ConstraintLayout>
