@@ -231,7 +231,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             User user = mDatabaseHelper.getUser(email);
             if (user.getPassword() != null) {
                 if (!user.getPassword().equals(password)) {
-                    mPasswordView.setError(getString(R.string.incorrect_password));
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
                     focusView = mPasswordView;
                     cancel = true;
                 }

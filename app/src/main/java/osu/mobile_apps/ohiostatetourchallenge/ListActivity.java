@@ -9,14 +9,17 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import database.OsuTourDbSchema.DatabaseHelper;
 
 public class ListActivity extends AppCompatActivity {
 
     private RecyclerView mlocations;
     private RecyclerView.Adapter mAdapter;
-
     private List<ListItem> listItems;
+    private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +31,12 @@ public class ListActivity extends AppCompatActivity {
         mlocations.setHasFixedSize(true);
 
         mlocations.setLayoutManager(new LinearLayoutManager(this));
-
+        List<Location> locations = mDatabaseHelper.getLocations();
+        Collections.sort(locations, Location.LocationNameComparator);
         listItems = new ArrayList<>();
-
-        for( int i = 0; i<10; i++){
-            ListItem listItem = new ListItem(
-                    "Heading" + (i+1),
-                    "Description" + (i+1)
-            );
-            listItems.add(listItem);
+        for(Location entry: locations) {
+            ListItem item = new ListItem(entry.getName(), entry.getDescription());
+            listItems.add(item);
         }
 
         mAdapter = new myAdpater(listItems);
