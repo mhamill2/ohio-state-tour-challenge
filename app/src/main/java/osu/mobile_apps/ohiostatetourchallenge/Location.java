@@ -6,7 +6,7 @@ import java.util.List;
 public class Location {
     private String name;
     private String description;
-    private Double lattitude;
+    private Double latitude;
     private Double longitude;
 
     public void setName(String name) {
@@ -21,8 +21,8 @@ public class Location {
         this.longitude = longitude;
     }
 
-    public void setLattitude(Double lattitude) {
-        this.lattitude = lattitude;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
     public String getName() {
@@ -37,8 +37,8 @@ public class Location {
         return longitude;
     }
 
-    public Double getLattitude() {
-        return lattitude;
+    public Double getLatitude() {
+        return latitude;
     }
 
     public static Comparator<Location> LocationNameComparator = new Comparator<Location>() {
