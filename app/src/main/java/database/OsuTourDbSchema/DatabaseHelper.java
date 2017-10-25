@@ -104,7 +104,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 Location loc = new Location();
                 loc.setName(cursor.getString(0));
                 loc.setDescription(cursor.getString(1));
-                loc.setLattitude(cursor.getDouble(2));
+                loc.setLatitude(cursor.getDouble(2));
                 loc.setLongitude(cursor.getDouble(3));
                 locations.add(loc);
             }
