@@ -5,12 +5,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -40,7 +37,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
@@ -55,14 +51,15 @@ import database.OsuTourDbSchema.OsuTourDbSchema;
 
 import static android.Manifest.permission.READ_CONTACTS;
 import static osu.mobile_apps.ohiostatetourchallenge.Login.mGoogleApiClient;
+import static osu.mobile_apps.ohiostatetourchallenge.Login.mGoogleSignInAccount;
 import static osu.mobile_apps.ohiostatetourchallenge.Login.mGoogleSignInOptions;
+import static osu.mobile_apps.ohiostatetourchallenge.Login.mGoogleSignInResult;
 
 /**
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoaderCallbacks<Cursor>, GoogleApiClient.OnConnectionFailedListener {
 
-    private Context mContext;
     private SQLiteDatabase mDatabaseWrite;
     private SQLiteDatabase mDatabaseRead;
     private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
@@ -117,7 +114,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
             public void onClick(View view) {
                 attemptLogin();
             }
@@ -418,14 +414,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
+            mGoogleSignInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(mGoogleSignInResult);
         }
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
-            GoogleSignInAccount acct = result.getSignInAccount();
+            mGoogleSignInAccount = result.getSignInAccount();
             updateUI(true);
         } else {
             updateUI(false);
