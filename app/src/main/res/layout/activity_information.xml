@@ -6,11 +6,48 @@
     android:layout_height="match_parent"
     tools:context="osu.mobile_apps.ohiostatetourchallenge.InformationActivity">
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="osu.mobile_apps.ohiostatetourchallenge.InformationActivity">
+      <!--
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/test_image"
+        />
+    -->
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textStyle="bold"
         android:text="Testing"
-        tools:layout_absoluteX="16dp"
-        tools:layout_absoluteY="31dp" />
+        tools:layout_absoluteX="0dp"
+        tools:layout_absoluteY="0dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:text="Description"
+            tools:layout_absoluteX="10dp"
+            tools:layout_absoluteY="0dp" />
+
+    </LinearLayout>
+
+
 </android.support.constraint.ConstraintLayout>
