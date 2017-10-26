@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:\Users\Vyyom\Downloads\ohio-state-tour-challenge\OhioStateTourChallenge.iml" filepath="C:\Users\Vyyom\Downloads\ohio-state-tour-challenge\OhioStateTourChallenge.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/ohio-state-tour-challenge.iml" filepath="$PROJECT_DIR$/ohio-state-tour-challenge.iml" />
-      <module fileurl="file://C:\Users\micha\Desktop\as-projects\OhioStateTourChallenge\ohio-state-tour-challenge.iml" filepath="C:\Users\micha\Desktop\as-projects\OhioStateTourChallenge\ohio-state-tour-challenge.iml" />
     </modules>
   </component>
 </project>

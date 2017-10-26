@@ -26,6 +26,12 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("TESTING","ON CREATE() FOR LIST");
         setContentView(R.layout.activity_list);
+        String userName = getIntent().getExtras().getString("User");
+
+        TextView welcome = (TextView) findViewById(R.id.welcome);
+        if(welcome != null) {
+            welcome.setText("Welcome " + userName + "!");
+        }
         mlocations = (RecyclerView) findViewById(R.id.locationList);
         //Every item has fixed size
         mlocations.setHasFixedSize(true);
@@ -34,8 +40,19 @@ public class ListActivity extends AppCompatActivity {
         List<Location> locations = mDatabaseHelper.getLocations();
         Collections.sort(locations, Location.LocationNameComparator);
         listItems = new ArrayList<>();
+
+        String description;
+        String smallDescription;
+
         for(Location entry: locations) {
-            ListItem item = new ListItem(entry.getName(), entry.getDescription());
+            description = entry.getDescription();
+            //TODO Check if location is unlocked or not
+            if (description.length()>110){
+                smallDescription = description.substring(0,110) + "...";
+            } else {
+                smallDescription = description;
+            }
+            ListItem item = new ListItem(entry.getName(), smallDescription);
             listItems.add(item);
         }
 
@@ -46,7 +63,6 @@ public class ListActivity extends AppCompatActivity {
     }
 
     public void onClick(View v){
-        //TODO Make this open a new activity and pass in information
         Intent intent = new Intent(ListActivity.this, InformationActivity.class);
         if(v.getId()==R.id.textViewHead){
             TextView TestView = (TextView) v.findViewById(R.id.textViewHead);

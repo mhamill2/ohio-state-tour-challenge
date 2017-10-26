@@ -195,7 +195,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        //TODO Make sure this verifies proper login
         if (mAuthTask != null) {
             return;
         }
@@ -250,9 +249,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
             Intent intent = new Intent(LoginActivity.this, ListActivity.class);
+            intent.putExtra("User", email);
             startActivity(intent);
         }
-        Log.d("TESTING", "After login");
     }
 
     private boolean isEmailValid(String email) {
