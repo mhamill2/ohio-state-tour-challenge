@@ -17,13 +17,11 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="osu.mobile_apps.ohiostatetourchallenge.InformationActivity">
-      <!--
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@mipmap/test_image"
+        android:src="@drawable/test_image"
         />
-    -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
