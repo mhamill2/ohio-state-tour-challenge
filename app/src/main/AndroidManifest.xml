@@ -24,12 +24,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListActivity"
-                  android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ListActivity" />
         <activity
             android:name=".InformationActivity"
             android:label="@string/title_activity_information"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
