@@ -26,6 +26,8 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("TESTING","ON CREATE() FOR LIST");
         setContentView(R.layout.activity_list);
+
+        //Get username from log in activity
         String userName = getIntent().getExtras().getString("User");
 
         TextView welcome = (TextView) findViewById(R.id.welcome);
@@ -36,6 +38,7 @@ public class ListActivity extends AppCompatActivity {
         //Every item has fixed size
         mlocations.setHasFixedSize(true);
 
+        //Create location list
         mlocations.setLayoutManager(new LinearLayoutManager(this));
         List<Location> locations = mDatabaseHelper.getLocations();
         Collections.sort(locations, Location.LocationNameComparator);
