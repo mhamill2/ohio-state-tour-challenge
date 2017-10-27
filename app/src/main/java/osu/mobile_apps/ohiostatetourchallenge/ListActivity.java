@@ -23,6 +23,10 @@ public class ListActivity extends AppCompatActivity {
     private List<ListItem> listItems;
     private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
 
+    // Stops the back button
+    @Override
+    public void onBackPressed() {}
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,11 +34,11 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
 
         //Get username from log in activity
-        String userName = getIntent().getExtras().getString("User");
+        //String userName = getIntent().getExtras().getString("User");
 
         TextView welcome = (TextView) findViewById(R.id.welcome);
         if(welcome != null) {
-            welcome.setText("Welcome " + userName + "!");
+            //welcome.setText("Welcome " + userName + "!");
         }
         mlocations = (RecyclerView) findViewById(R.id.locationList);
         //Every item has fixed size
