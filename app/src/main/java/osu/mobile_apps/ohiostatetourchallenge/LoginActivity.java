@@ -422,8 +422,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (result.isSuccess()) {
             mGoogleSignInAccount = result.getSignInAccount();
             updateUI(true);
-        } else {
-            updateUI(false);
         }
     }
 
@@ -434,12 +432,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Intent intent = new Intent(LoginActivity.this, ListActivity.class);
                 startActivity(intent);
             }
-        } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("SIGN-IN FAILED");
-            builder.setMessage("Unable to authenticate account.").setCancelable(false);
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
         }
     }
 
