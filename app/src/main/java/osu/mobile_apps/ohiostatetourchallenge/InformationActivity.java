@@ -31,6 +31,8 @@ public class InformationActivity extends AppCompatActivity {
         Log.d("TESTING", "InformationActivity onCreate()");
         setContentView(R.layout.activity_information);
 
+        TextView TV;
+
         //TODO Check if location is locked for user
         //if (location locked) {
         //Check for location permission
@@ -47,10 +49,16 @@ public class InformationActivity extends AppCompatActivity {
             }
 
             information = new SimpleLocation(this);
+            // if we can't access the location yet
+            if (!information.hasLocationEnabled()) {
+                // ask the user to enable location access
+            SimpleLocation.openSettings(this);
+            }
 
             Location location = (Location) getIntent().getSerializableExtra("Location");
 
-            SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
+            Log.d("TESTING","" + location.getLatitude() + ", " + location.getLongitude());
+            SimpleLocation.Point myCoords = information.getPosition();
             SimpleLocation.Point targetCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
 
             double distance = information.calculateDistance(myCoords, targetCoords);
@@ -73,7 +81,7 @@ public class InformationActivity extends AppCompatActivity {
                 */
         //}else{
             //Display everything, since location is unlocked and viewable from anywhere
-            TextView TV = (TextView) findViewById(R.id.textView);
+            TV = (TextView) findViewById(R.id.textView);
             ImageView image = findViewById(R.id.image);
             String locationImage = location.getName().toLowerCase().replace(" ", "").replace("(", "").replace(")", "");
             int resourceId = this.getResources().getIdentifier(locationImage, "drawable", "osu.mobile_apps.ohiostatetourchallenge");
