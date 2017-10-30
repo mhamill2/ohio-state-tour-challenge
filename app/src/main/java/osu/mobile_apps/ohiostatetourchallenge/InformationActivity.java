@@ -18,7 +18,6 @@ import im.delight.android.location.SimpleLocation;
 public class InformationActivity extends AppCompatActivity {
     private int mLocationPermissionGranted;
     private SimpleLocation deviceLocation;
-    private SimpleLocation targetLocation;
     private SimpleLocation information;
 
     public void getDeviceLocation() {
@@ -38,8 +37,6 @@ public class InformationActivity extends AppCompatActivity {
             mLocationPermissionGranted = ContextCompat.checkSelfPermission(this,
                     android.Manifest.permission.ACCESS_FINE_LOCATION);
 
-
-
             //TODO get distance to location, check if close enough
             try {
                 if (mLocationPermissionGranted == PackageManager.PERMISSION_GRANTED) {
@@ -48,6 +45,8 @@ public class InformationActivity extends AppCompatActivity {
             } catch (SecurityException e) {
                 Log.e("Exception: %s", e.getMessage());
             }
+
+            information = new SimpleLocation(this);
 
             Location location = (Location) getIntent().getSerializableExtra("Location");
 
@@ -65,7 +64,6 @@ public class InformationActivity extends AppCompatActivity {
                     if (TV != null){
                         TV.setText("Please move closer to location");
                     }
-
                 }else{
                     //Show challenge question
                     Intent intent = new Intent(ListActivity.this, QuestiontActivity.class);
