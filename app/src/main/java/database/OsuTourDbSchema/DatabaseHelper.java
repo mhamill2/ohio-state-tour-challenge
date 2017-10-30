@@ -25,10 +25,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate (SQLiteDatabase db) {
+        // CREATE User Table
         db.execSQL("create table " + OsuTourDbSchema.UserTable.NAME + "(" + " _id integer primary key autoincrement, " +
                 OsuTourDbSchema.UserTable.Cols.USER_NAME + " varchar(20) not null, " +
                 OsuTourDbSchema.UserTable.Cols.PASSWORD + " varchar(20) not null)"
         );
+
+        // CREATE Location Table
         db.execSQL("create table " + OsuTourDbSchema.LocationTable.NAME+ "(" + " _id integer primary key autoincrement, " +
                 OsuTourDbSchema.LocationTable.Cols.NAME + " varchar(50) not null, " +
                 OsuTourDbSchema.LocationTable.Cols.LATITUDE + " decimal(9, 6) not null, " +
@@ -42,27 +45,45 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.LocationTable.NAME +" VALUES(5, 'Orton Hall', 39.998345, -83.011951, 'Orton Hall, one of the oldest remaining buildings on Ohio State University campus, opened in 1893 and is named after Dr Edward Orton, Sr. who served as OSUs first president, Professor of Geology from 1873 to 1899, and Ohios State Geologist from 1882 until his death in 1899. Orton Hall is a tribute to this mans dedicated service towards the understanding of the geology of Ohio.')");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.LocationTable.NAME +" VALUES(6, 'University Hall', 40.000524, -83.014409, 'The original University Hall was constructed in 1873, and contained a majority of the university functions, including both student and faculty housing. After being closed in 1968 for safety reasons, the building was completely torn down in 1971. At this time the old hall was removed from the National Register of Historic Places. The current University Hall was reconstructed in its place, taking an almost exact outward copy of the original building, but updating the inner workings. It was completed in 1976.')");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.LocationTable.NAME +" VALUES(7, 'Wexner Center for the Arts', 40.000691, -83.009297, 'The Wexner Center for the Arts is The Ohio State University’s \"multidisciplinary, international laboratory for the exploration and advancement of contemporary art\". The Wexner Center opened in November 1989, named in honor of the father of Limited Brands founder Leslie Wexner, who was a major donor to the Center. The Wexner Center is a lab and public gallery, but not a museum, as it does not collect art.')");
-        db.execSQL("create table " + OsuTourDbSchema.QuestionTable.NAME+ "(" + " _id integer primary key autoincrement, " +
-                OsuTourDbSchema.QuestionTable.Cols.LOCATION_ID + " int not null, " +
-                OsuTourDbSchema.QuestionTable.Cols.TEXT + " text not null)"
-        );
 
+        // CREATE Question Table
+        db.execSQL("create table " + OsuTourDbSchema.QuestionTable.NAME+ "(" + " _id integer primary key autoincrement, " +
+                OsuTourDbSchema.QuestionTable.Cols.TEXT + " text)"
+        );
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(1, 'Who is there a sculpture of outside of the Thompson Library?')");
+
+        // CREATE Answer Table
         db.execSQL("create table " + OsuTourDbSchema.AnswerTable.NAME+ "(" + " _id integer primary key autoincrement, " +
                 OsuTourDbSchema.AnswerTable.Cols.TEXT + " text not null)"
         );
-        db.execSQL("create table " + OsuTourDbSchema.PlayerLocationCompletedTable.NAME + "(" + " _id integer primary key autoincrement, " +
-                OsuTourDbSchema.PlayerLocationCompletedTable.Cols.USER_ID + " int not null, " +
-                OsuTourDbSchema.PlayerLocationCompletedTable.Cols.LOCATION_ID + " int not null)"
-        );
-        db.execSQL("create table " + OsuTourDbSchema.LocationQuestionTable.NAME+ "(" + " _id integer primary key autoincrement, " +
-                OsuTourDbSchema.LocationQuestionTable.Cols.LOCATION_ID + " int not null, " +
-                OsuTourDbSchema.LocationQuestionTable.Cols.QUESTION_ID + " int not null)"
-        );
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(1, 'William Oxley Thompson')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(2, 'William Henry Thompson')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(3, 'Drake Oxley Thompson')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(4, 'Drake Henry Thompson')");
+
+        // CREATE QuestionAnswer Table
         db.execSQL("create table " + OsuTourDbSchema.QuestionAnswerTable.NAME+ "(" + " _id integer primary key autoincrement, " +
                 OsuTourDbSchema.QuestionAnswerTable.Cols.QUESTION_ID + " int not null, " +
                 OsuTourDbSchema.QuestionAnswerTable.Cols.ANSWER_ID + " int not null, " +
                 OsuTourDbSchema.QuestionAnswerTable.Cols.IS_CORRECT + " int not null)"
         );
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(1, 1, 1, 1)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(2, 1, 1, 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(3, 1, 1, 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(4, 1, 1, 0)");
+
+        // CREATE PlayerLocationsCompleted Table
+        db.execSQL("create table " + OsuTourDbSchema.PlayerLocationCompletedTable.NAME + "(" + " _id integer primary key autoincrement, " +
+                OsuTourDbSchema.PlayerLocationCompletedTable.Cols.USER_ID + " int not null, " +
+                OsuTourDbSchema.PlayerLocationCompletedTable.Cols.LOCATION_ID + " int not null)"
+        );
+
+        // CREATE LocationQuestion Table
+        db.execSQL("create table " + OsuTourDbSchema.LocationQuestionTable.NAME+ "(" + " _id integer primary key autoincrement, " +
+                OsuTourDbSchema.LocationQuestionTable.Cols.LOCATION_ID + " int not null, " +
+                OsuTourDbSchema.LocationQuestionTable.Cols.QUESTION_ID + " int not null)"
+        );
+
     }
 
     @Override

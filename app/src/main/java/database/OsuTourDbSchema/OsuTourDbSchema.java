@@ -29,7 +29,6 @@ public class OsuTourDbSchema {
         public static final String NAME = "question";
 
         public static final class Cols {
-            public static final String LOCATION_ID = "location_id";
             public static final String TEXT = "text";
         }
     }
