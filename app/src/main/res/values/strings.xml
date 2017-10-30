@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OhioStateTourChallenge</string>
+    <string name="app_name">Ohio State Tour Challenge</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">User Name</string>
