@@ -2,8 +2,10 @@ package osu.mobile_apps.ohiostatetourchallenge;
 
 import java.util.Comparator;
 import java.util.List;
+import java.io.Serializable;
 
-public class Location {
+
+public class Location implements Serializable {
     private String name;
     private String description;
     private Double latitude;

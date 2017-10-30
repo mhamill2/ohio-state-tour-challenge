@@ -85,6 +85,28 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return user;
     }
 
+    public Location getLocation(String name) {
+        Location loc = new Location();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {OsuTourDbSchema.LocationTable.Cols.NAME,
+                OsuTourDbSchema.LocationTable.Cols.LATITUDE,
+                OsuTourDbSchema.LocationTable.Cols.LONGITUDE,
+                OsuTourDbSchema.LocationTable.Cols.HISTORY};
+        Cursor cursor =
+                db.query(OsuTourDbSchema.LocationTable.NAME, columns,
+                        OsuTourDbSchema.LocationTable.Cols.NAME + " =?",
+                        new String[] {String.valueOf(name)},
+                        null, null, null, null);
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            loc.setName(cursor.getString(0));
+            loc.setLatitude(cursor.getDouble(1));
+            loc.setLongitude(cursor.getDouble(2));
+            loc.setDescription(cursor.getString(3));
+        }
+        return loc;
+    }
+
     public List<Location> getLocations() {
         List<Location> locations = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();

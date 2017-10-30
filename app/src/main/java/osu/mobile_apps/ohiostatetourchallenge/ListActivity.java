@@ -98,7 +98,8 @@ public class ListActivity extends AppCompatActivity {
         Intent intent = new Intent(ListActivity.this, InformationActivity.class);
         if(v.getId()==R.id.textViewHead){
             TextView TestView = (TextView) v.findViewById(R.id.textViewHead);
-            intent.putExtra("Header", TestView.getText());
+            Location location = mDatabaseHelper.getLocation(TestView.getText().toString());
+            intent.putExtra("Location", location);
         }
         startActivity(intent);
     }
