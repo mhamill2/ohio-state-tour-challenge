@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="osu.mobile_apps.ohiostatetourchallenge.InformationActivity">
+    tools:context="osu.mobile_apps.ohiostatetourchallenge.QuestionActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -25,13 +25,14 @@
             android:adjustViewBounds="true"
             android:contentDescription="Location Image"
             android:src="@drawable/test_image" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="Testing"
+        android:text="Location"
         tools:layout_absoluteX="0dp"
         tools:layout_absoluteY="0dp" />
     <View
@@ -39,16 +40,36 @@
         android:layout_height="2dp"
         android:background="@android:color/darker_gray"/>
 
-        <TextView
-            android:id="@+id/description"
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:text="Question?"
+        tools:layout_absoluteX="10dp"
+        tools:layout_absoluteY="0dp" />
+
+        <Button
+            android:id="@+id/Button1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:text="Description"
-            tools:layout_absoluteX="10dp"
-            tools:layout_absoluteY="0dp" />
+            android:text="Button1"/>
+        <Button
+            android:id="@+id/Button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button2"/>
+        <Button
+            android:id="@+id/Button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button3"/>
+        <Button
+            android:id="@+id/Button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button4"/>
 
     </LinearLayout>
-
 
 </android.support.constraint.ConstraintLayout>

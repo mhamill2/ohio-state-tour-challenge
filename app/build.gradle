@@ -34,4 +34,5 @@ dependencies {
     implementation 'com.github.delight-im:Android-SimpleLocation:v1.0.1'
 }
 
+
 apply plugin: 'com.google.gms.google-services'
