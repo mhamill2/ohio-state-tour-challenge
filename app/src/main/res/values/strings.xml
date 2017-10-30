@@ -18,4 +18,10 @@
     <string name="incorrect_password">Password is incorrect</string>
     <string name="title_activity_information">InformationActivity</string>
     <string name="title_activity_about">AboutActivity</string>
+    <string name="about_text">ABOUT</string>
+    <string name="about_text_1">This app allows you to become familiar with the campus in an interactive manner.
+        Select a location via the list or map. If you have not been to that location before then you will
+        see a challenge question, you must be at the indicated location to see the question.
+        After you answer the question correctly you will unlock additional information about that location.\n\n\n
+        Created by: Michael Hammil, Trevor Rambacher, Vyyom Kelkar.\nFor CSE 5236</string>
 </resources>
