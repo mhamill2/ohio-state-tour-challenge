@@ -81,7 +81,8 @@ public class ListActivity extends AppCompatActivity {
         switch(item.getItemId()){
             case R.id.map:
                 //Start map activity
-
+                Intent mapIntent = new Intent(ListActivity.this, MapActivity.class);
+                startActivity(mapIntent);
                 return true;
 
             case R.id.about:
