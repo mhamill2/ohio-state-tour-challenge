@@ -91,6 +91,11 @@ public class ListActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
 
+            case R.id.logout:
+                // Logout
+                this.finish();
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
