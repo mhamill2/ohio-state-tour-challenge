@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -49,6 +50,7 @@ import java.util.List;
 import database.OsuTourDbSchema.DatabaseHelper;
 import database.OsuTourDbSchema.OsuTourDbSchema;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.READ_CONTACTS;
 import static osu.mobile_apps.ohiostatetourchallenge.Login.mGoogleApiClient;
 import static osu.mobile_apps.ohiostatetourchallenge.Login.mGoogleSignInAccount;
@@ -67,7 +69,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     /**
      * Id to identity READ_CONTACTS permission request.
      */
-    private static final int REQUEST_READ_CONTACTS = 0;
+    private static final int ASK_MULTIPLE_PERMISSION_REQUEST_CODE = 0;
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -86,7 +88,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private int REQUEST_LOCATION = 1;
     private static final int RC_SIGN_IN = 9001;
 
     @Override
@@ -137,17 +138,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         signInButton.setSize(SignInButton.SIZE_WIDE);
         signInButton.setColorScheme(SignInButton.COLOR_DARK);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Check Permissions Now
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_LOCATION);
-        } else {
-            // permission has been granted, continue as usual
-
-        }
     }
     @Override
     protected void onStart(){
@@ -206,11 +196,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
                         public void onClick(View v) {
-                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
+                            requestPermissions(new String[]{
+                                            Manifest.permission.READ_CONTACTS,
+                                            Manifest.permission.ACCESS_FINE_LOCATION},
+                                    ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
                         }
                     });
         } else {
-            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
+            requestPermissions(new String[]{
+                            Manifest.permission.READ_CONTACTS,
+                            Manifest.permission.ACCESS_FINE_LOCATION},
+                    ASK_MULTIPLE_PERMISSION_REQUEST_CODE);
         }
         return false;
     }
@@ -221,13 +217,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_READ_CONTACTS) {
+        if (requestCode == ASK_MULTIPLE_PERMISSION_REQUEST_CODE) {
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 populateAutoComplete();
-            }
-        } else if (requestCode == REQUEST_LOCATION) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // TODO : match what to do if location permission is granted
             }
         }
     }
