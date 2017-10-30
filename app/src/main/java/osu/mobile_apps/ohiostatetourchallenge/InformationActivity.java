@@ -16,7 +16,6 @@ import com.google.android.gms.maps.model.LatLng;
 import im.delight.android.location.SimpleLocation;
 
 public class InformationActivity extends AppCompatActivity {
-    private int mLocationPermissionGranted;
     private SimpleLocation deviceLocation;
 
     @Override
@@ -30,9 +29,6 @@ public class InformationActivity extends AppCompatActivity {
         //TODO Check if location is locked for user
         //if (location locked) {
         //Check for location permission
-            mLocationPermissionGranted = ContextCompat.checkSelfPermission(this,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION);
-
             //TODO get distance to location, check if close enough
             deviceLocation = new SimpleLocation(this);
             // if we can't access the location yet
@@ -44,12 +40,13 @@ public class InformationActivity extends AppCompatActivity {
             Location location = (Location) getIntent().getSerializableExtra("Location");
 
             Log.d("TESTING","Target: " + location.getLatitude() + ", " + location.getLongitude());
-            Log.d("TESTING","" + deviceLocation.getLatitude() + ", " + deviceLocation.getLongitude());
+            Log.d("TESTING","Device: " + deviceLocation.getLatitude() + ", " + deviceLocation.getLongitude());
             SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
+            //SimpleLocation.Point myCoords = new SimpleLocation.Point(42, 83);
             SimpleLocation.Point targetCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
 
             double distance = deviceLocation.calculateDistance(myCoords, targetCoords);
-            Log.d("TESTING", "Distance: " + distance);
+            Log.d("TESTING", "Distance: " + distance + " meters");
 
                 /* TODO
                 //meters?
