@@ -23,7 +23,7 @@
         Select a location via the list or map. If you have not been to that location before then you will
         see a challenge question, you must be at the indicated location to see the question.
         After you answer the question correctly you will unlock additional information about that location.\n\n\n
-        Created by: Michael Hammil, Trevor Rambacher, Vyyom Kelkar.\nFor CSE 5236</string>
+        Created by: Michael Hamill, Trevor Rambacher, Vyyom Kelkar.\nFor CSE 5236</string>
     <string name="title_activity_map">Map</string>
     <string name="google_services">3.0.0</string>
 </resources>
