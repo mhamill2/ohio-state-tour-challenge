@@ -18,12 +18,6 @@ import im.delight.android.location.SimpleLocation;
 public class InformationActivity extends AppCompatActivity {
     private int mLocationPermissionGranted;
     private SimpleLocation deviceLocation;
-    private SimpleLocation information;
-
-    public void getDeviceLocation() {
-        Context context = this;
-        deviceLocation = new SimpleLocation(context, false);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,28 +34,21 @@ public class InformationActivity extends AppCompatActivity {
                     android.Manifest.permission.ACCESS_FINE_LOCATION);
 
             //TODO get distance to location, check if close enough
-            try {
-                if (mLocationPermissionGranted == PackageManager.PERMISSION_GRANTED) {
-                    getDeviceLocation();
-                }
-            } catch (SecurityException e) {
-                Log.e("Exception: %s", e.getMessage());
-            }
-
-            information = new SimpleLocation(this);
+            deviceLocation = new SimpleLocation(this);
             // if we can't access the location yet
-            if (!information.hasLocationEnabled()) {
+            if (!deviceLocation.hasLocationEnabled()) {
                 // ask the user to enable location access
             SimpleLocation.openSettings(this);
             }
 
             Location location = (Location) getIntent().getSerializableExtra("Location");
 
-            Log.d("TESTING","" + location.getLatitude() + ", " + location.getLongitude());
-            SimpleLocation.Point myCoords = information.getPosition();
+            Log.d("TESTING","Target: " + location.getLatitude() + ", " + location.getLongitude());
+            Log.d("TESTING","" + deviceLocation.getLatitude() + ", " + deviceLocation.getLongitude());
+            SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
             SimpleLocation.Point targetCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
 
-            double distance = information.calculateDistance(myCoords, targetCoords);
+            double distance = deviceLocation.calculateDistance(myCoords, targetCoords);
             Log.d("TESTING", "Distance: " + distance);
 
                 /* TODO
