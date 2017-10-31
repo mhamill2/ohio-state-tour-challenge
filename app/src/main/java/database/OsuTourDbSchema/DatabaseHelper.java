@@ -1,5 +1,6 @@
 package database.OsuTourDbSchema;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -234,6 +235,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         }
         return locationUnlocked;
+    }
+
+    private void completeLocation(Integer userId, Integer locationId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues c = new ContentValues();
+        c.put(OsuTourDbSchema.PlayerLocationCompletedTable.Cols.LOCATION_ID, locationId);
+        c.put(OsuTourDbSchema.PlayerLocationCompletedTable.Cols.USER_ID, userId);
+        long newRowId = db.insert(OsuTourDbSchema.PlayerLocationCompletedTable.NAME, null, c);
+        if(newRowId < 0) {
+            Log.d("ERROR", "In complete location: row not saved. ");
+        }
     }
 
 }
