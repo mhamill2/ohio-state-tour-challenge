@@ -27,10 +27,11 @@ public class InformationActivity extends AppCompatActivity {
 
         TextView TV;
 
-        //TODO Check if location is locked for user
-        //if (location locked) {
-        //Check for location permission
-        //TODO get distance to location, check if close enough
+        boolean isUnlocked = getIntent().getBooleanExtra("isUnlocked", false);
+        Location location = (Location) getIntent().getSerializableExtra("Location");
+
+        if (!isUnlocked) {
+        //get distance to location, check if close enough within 100 meters
         deviceLocation = new SimpleLocation(this);
         // if we can't access the location yet
         if (!deviceLocation.hasLocationEnabled()) {
@@ -38,19 +39,15 @@ public class InformationActivity extends AppCompatActivity {
             SimpleLocation.openSettings(this);
         }
 
-        Location location = (Location) getIntent().getSerializableExtra("Location");
-        boolean isUnlocked = getIntent().getBooleanExtra("isUnlocked", false);
         Log.d("TESTING", "Target: " + location.getLatitude() + ", " + location.getLongitude());
         Log.d("TESTING", "Device: " + deviceLocation.getLatitude() + ", " + deviceLocation.getLongitude());
         SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
-        //SimpleLocation.Point myCoords = new SimpleLocation.Point(42, 83);
+            //Testing point
+            //SimpleLocation.Point myCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
         SimpleLocation.Point targetCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
 
         double distance = deviceLocation.calculateDistance(myCoords, targetCoords);
         Log.d("TESTING", "Distance: " + distance + " meters");
-
-        //meters?
-        if (!isUnlocked) {
             if (distance > 100) {
                 //Say too far away
                 TV = (TextView) findViewById(R.id.description);
@@ -65,7 +62,7 @@ public class InformationActivity extends AppCompatActivity {
             } else {
                 //Show challenge question
                 Intent intent = new Intent(InformationActivity.this, QuestionActivity.class);
-                intent.putExtra("Location", location.getName());
+                intent.putExtra("Location", location);
                 startActivity(intent);
             }
         } else {
