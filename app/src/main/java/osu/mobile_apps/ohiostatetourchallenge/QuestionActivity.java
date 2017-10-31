@@ -8,16 +8,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import database.OsuTourDbSchema.DatabaseHelper;
 
 public class QuestionActivity extends AppCompatActivity {
+    private Location location;
+    private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         Log.d("TESTING", "Question Activity onCreate()");
         setContentView(R.layout.activity_question);
 
-        Location location = (Location) getIntent().getSerializableExtra("Location");
+        user = (User) getIntent().getSerializableExtra("Location");
+        location = (Location) getIntent().getSerializableExtra("Location");
         TextView TV = (TextView) findViewById(R.id.textView);
         ImageView image = findViewById(R.id.image);
 
@@ -31,7 +39,7 @@ public class QuestionActivity extends AppCompatActivity {
         TV = (TextView) findViewById(R.id.question);
         if (TV != null){
             //TODO get location question
-            TV.setText("Question goes here");
+            TV.setText("Select Correct to answer correctly");
         }
 
         //TODO set answer buttons text
@@ -42,18 +50,33 @@ public class QuestionActivity extends AppCompatActivity {
         Button B3 = (Button) findViewById(R.id.Button3);
         B3.setText("Set3");
         Button B4 = (Button) findViewById(R.id.Button4);
-        B4.setText("Set4");
+        B4.setText("Correct");
 
     }
 
     public void onClick(View v){
-        //TODO check if answer is correct
         Button selected = findViewById(v.getId());
         String answer = (String) selected.getText();
 
-        //TODO If correct unlock location and go to location information
+        //TODO check if selected button was correct
+        if(selected.getText().toString().equals("Correct")){
+            //TODO If correct unlock location and go to location information
+            Toast.makeText(getApplicationContext(), "That is the correct answer!!",
+                    Toast.LENGTH_SHORT).show();
 
-        //TODO If incorrect display incorrect toast
+            //TODO unlock location
+
+            //Start information activity
+            Intent intent = new Intent(QuestionActivity.this, InformationActivity.class);
+            intent.putExtra("Location", location.getName());
+            intent.putExtra("User", user);
+            startActivity(intent);
+
+        }else{
+            //If incorrect, display incorrect toast
+            Toast.makeText(getApplicationContext(), "That is not the correct answer.",
+                    Toast.LENGTH_SHORT).show();
+        }
 
     }
 }

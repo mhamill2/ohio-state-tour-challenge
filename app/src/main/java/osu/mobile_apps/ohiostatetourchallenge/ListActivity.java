@@ -112,6 +112,7 @@ public class ListActivity extends AppCompatActivity {
             TextView TestView = (TextView) v.findViewById(R.id.textViewHead);
             Location location = mDatabaseHelper.getLocation(TestView.getText().toString());
             intent.putExtra("Location", location);
+            intent.putExtra("User", user);
             intent.putExtra("isUnlocked", mDatabaseHelper.locationIsUnlocked(user.getId(), location.getId()));
         }
         startActivity(intent);

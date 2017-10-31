@@ -18,6 +18,7 @@ import im.delight.android.location.SimpleLocation;
 
 public class InformationActivity extends AppCompatActivity {
     private SimpleLocation deviceLocation;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,7 @@ public class InformationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_information);
 
         TextView TV;
+        user = (User) getIntent().getSerializableExtra("User");
 
         boolean isUnlocked = getIntent().getBooleanExtra("isUnlocked", false);
         Location location = (Location) getIntent().getSerializableExtra("Location");
@@ -41,9 +43,9 @@ public class InformationActivity extends AppCompatActivity {
 
         Log.d("TESTING", "Target: " + location.getLatitude() + ", " + location.getLongitude());
         Log.d("TESTING", "Device: " + deviceLocation.getLatitude() + ", " + deviceLocation.getLongitude());
-        SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
+        //SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
             //Testing point
-            //SimpleLocation.Point myCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
+            SimpleLocation.Point myCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
         SimpleLocation.Point targetCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
 
         double distance = deviceLocation.calculateDistance(myCoords, targetCoords);
@@ -63,6 +65,7 @@ public class InformationActivity extends AppCompatActivity {
                 //Show challenge question
                 Intent intent = new Intent(InformationActivity.this, QuestionActivity.class);
                 intent.putExtra("Location", location);
+                intent.putExtra("User", user);
                 startActivity(intent);
             }
         } else {
