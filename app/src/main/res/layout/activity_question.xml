@@ -53,21 +53,29 @@
             android:id="@+id/Button1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="onClick"
             android:text="Button1"/>
         <Button
             android:id="@+id/Button2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="onClick"
             android:text="Button2"/>
         <Button
             android:id="@+id/Button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="onClick"
             android:text="Button3"/>
         <Button
             android:id="@+id/Button4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="onClick"
             android:text="Button4"/>
 
     </LinearLayout>
