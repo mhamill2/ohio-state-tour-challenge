@@ -17,6 +17,14 @@ public class QuestionActivity extends AppCompatActivity {
     private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
     private User user;
 
+    // Stops the back button
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(QuestionActivity.this, ListActivity.class);
+        intent.putExtra("User", user);
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -24,7 +32,7 @@ public class QuestionActivity extends AppCompatActivity {
         Log.d("TESTING", "Question Activity onCreate()");
         setContentView(R.layout.activity_question);
 
-        user = (User) getIntent().getSerializableExtra("Location");
+        user = (User) getIntent().getSerializableExtra("User");
         location = (Location) getIntent().getSerializableExtra("Location");
         TextView TV = (TextView) findViewById(R.id.textView);
         ImageView image = findViewById(R.id.image);
@@ -60,16 +68,19 @@ public class QuestionActivity extends AppCompatActivity {
 
         //TODO check if selected button was correct
         if(selected.getText().toString().equals("Correct")){
-            //TODO If correct unlock location and go to location information
+
+            //If correct unlock location and go to location information
             Toast.makeText(getApplicationContext(), "That is the correct answer!!",
                     Toast.LENGTH_SHORT).show();
 
-            //TODO unlock location
+            //unlock location
+            mDatabaseHelper.completeLocation(user.getId(), location.getId());
 
             //Start information activity
             Intent intent = new Intent(QuestionActivity.this, InformationActivity.class);
-            intent.putExtra("Location", location.getName());
+            intent.putExtra("Location", location);
             intent.putExtra("User", user);
+            intent.putExtra("isUnlocked", mDatabaseHelper.locationIsUnlocked(user.getId(), location.getId()));
             startActivity(intent);
 
         }else{

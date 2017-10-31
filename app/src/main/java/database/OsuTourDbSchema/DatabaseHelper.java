@@ -237,7 +237,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return locationUnlocked;
     }
 
-    private void completeLocation(Integer userId, Integer locationId) {
+    public void completeLocation(Integer userId, Integer locationId) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues c = new ContentValues();
         c.put(OsuTourDbSchema.PlayerLocationCompletedTable.Cols.LOCATION_ID, locationId);

@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,14 @@ import im.delight.android.location.SimpleLocation;
 public class InformationActivity extends AppCompatActivity {
     private SimpleLocation deviceLocation;
     private User user;
+
+    // Stops the back button
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(InformationActivity.this, ListActivity.class);
+        intent.putExtra("User", user);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +52,7 @@ public class InformationActivity extends AppCompatActivity {
 
         Log.d("TESTING", "Target: " + location.getLatitude() + ", " + location.getLongitude());
         Log.d("TESTING", "Device: " + deviceLocation.getLatitude() + ", " + deviceLocation.getLongitude());
+        //TODO Highlighting Trevor's location testing lines
         //SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
             //Testing point
             SimpleLocation.Point myCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
@@ -84,6 +94,12 @@ public class InformationActivity extends AppCompatActivity {
             }
             Log.d("TESTING", "Data = " + location.getName());
         }
+    }
+
+    public void onClick(View v){
+        Intent intent = new Intent(InformationActivity.this, ListActivity.class);
+        intent.putExtra("User", user);
+        startActivity(intent);
     }
 
 }
