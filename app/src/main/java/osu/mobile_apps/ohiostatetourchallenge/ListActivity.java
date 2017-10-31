@@ -34,7 +34,7 @@ public class ListActivity extends AppCompatActivity {
         Log.d("TESTING","ON CREATE() FOR LIST");
         setContentView(R.layout.activity_list);
         user = (User) getIntent().getSerializableExtra("User");
-
+        Log.d("USER: ", user.getUserName());
         //Get username from log in activity
         //String userName = getIntent().getExtras().getString("User");
 

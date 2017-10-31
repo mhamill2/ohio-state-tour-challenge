@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private SQLiteDatabase mDatabaseWrite;
     private SQLiteDatabase mDatabaseRead;
     private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
+    private User user;
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -234,7 +235,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (mAuthTask != null) {
             return;
         }
-        User user = new User();
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -285,6 +285,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
             Intent intent = new Intent(LoginActivity.this, ListActivity.class);
+            Log.d("USER: ", user.getUserName());
             intent.putExtra("User", user);
             startActivity(intent);
         }
@@ -477,6 +478,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             values.put(OsuTourDbSchema.UserTable.Cols.USER_NAME, mEmail);
             values.put(OsuTourDbSchema.UserTable.Cols.PASSWORD, mPassword);
             long newRowId = mDatabaseWrite.insert(OsuTourDbSchema.UserTable.NAME, null, values);
+            user = mDatabaseHelper.getUser(mEmail);
+
             return true;
         }
 
