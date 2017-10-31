@@ -32,6 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 OsuTourDbSchema.UserTable.Cols.PASSWORD + " varchar(20) not null)"
         );
         db.execSQL("INSERT INTO " + OsuTourDbSchema.UserTable.NAME + " VALUES(1, 'hamill.33', 'password')");
+        db.execSQL("INSERT INTO " + OsuTourDbSchema.UserTable.NAME + " VALUES(2, 'Trambacher', 'Testing')");
 
         // CREATE Location Table
         db.execSQL("create table " + OsuTourDbSchema.LocationTable.NAME+ "(" + OsuTourDbSchema.LocationTable.Cols.ID +" integer primary key autoincrement, " +
