@@ -22,6 +22,7 @@ public class ListActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private List<ListItem> listItems;
     private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
+    private User user;
 
     // Stops the back button
     @Override
@@ -32,7 +33,7 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("TESTING","ON CREATE() FOR LIST");
         setContentView(R.layout.activity_list);
-        User user = (User) getIntent().getSerializableExtra("User");
+        user = (User) getIntent().getSerializableExtra("User");
 
         //Get username from log in activity
         //String userName = getIntent().getExtras().getString("User");
@@ -111,6 +112,7 @@ public class ListActivity extends AppCompatActivity {
             TextView TestView = (TextView) v.findViewById(R.id.textViewHead);
             Location location = mDatabaseHelper.getLocation(TestView.getText().toString());
             intent.putExtra("Location", location);
+            intent.putExtra("isUnlocked", mDatabaseHelper.locationIsUnlocked(user.getId(), location.getId()));
         }
         startActivity(intent);
     }
