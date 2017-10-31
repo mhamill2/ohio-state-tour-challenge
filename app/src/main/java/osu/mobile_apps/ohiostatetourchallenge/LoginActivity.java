@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("REQUIRED","OnCreate() Executed");
+        Log.d("REQUIRED",this.getClass().getSimpleName().toString() + " OnCreate() Executed");
         super.onCreate(savedInstanceState);
         mDatabaseWrite = new DatabaseHelper(this).getWritableDatabase();
         mDatabaseRead = new DatabaseHelper(this).getReadableDatabase();
@@ -142,37 +142,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
     @Override
     protected void onStart(){
-        Log.d("REQUIRED","OnStart() Executed");
+        Log.d("REQUIRED",this.getClass().getSimpleName().toString() + " OnStart() Executed");
         super.onStart();
     }
 
     @Override
     protected void onPause(){
-        Log.d("REQUIRED","OnPause() Executed");
+        Log.d("REQUIRED",this.getClass().getSimpleName().toString() + " OnPause() Executed");
         super.onPause();
     }
 
     @Override
     protected void onResume(){
-        Log.d("REQUIRED","OnResume() Executed");
+        Log.d("REQUIRED",this.getClass().getSimpleName().toString() + " OnResume() Executed");
         super.onResume();
     }
 
     @Override
     protected void onStop(){
-        Log.d("REQUIRED","OnStop() Executed");
+        Log.d("REQUIRED",this.getClass().getSimpleName().toString() + " OnStop() Executed");
         super.onStop();
     }
 
     @Override
     protected void onRestart(){
-        Log.d("REQUIRED","OnRestart() Executed");
+        Log.d("REQUIRED",this.getClass().getSimpleName().toString() + " OnRestart() Executed");
         super.onRestart();
     }
 
     @Override
     protected void onDestroy() {
-        Log.d("REQUIRED","OnDestroy() Executed");
+        Log.d("REQUIRED",this.getClass().getSimpleName().toString() + " OnDestroy() Executed");
         super.onDestroy();
     }
 
