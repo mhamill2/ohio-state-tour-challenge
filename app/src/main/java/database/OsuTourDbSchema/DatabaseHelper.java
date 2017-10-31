@@ -26,13 +26,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate (SQLiteDatabase db) {
         // CREATE User Table
-        db.execSQL("create table " + OsuTourDbSchema.UserTable.NAME + "(" + " _id integer primary key autoincrement, " +
+        db.execSQL("create table " + OsuTourDbSchema.UserTable.NAME + "(" + OsuTourDbSchema.UserTable.Cols.ID +" integer primary key autoincrement, " +
                 OsuTourDbSchema.UserTable.Cols.USER_NAME + " varchar(20) not null, " +
                 OsuTourDbSchema.UserTable.Cols.PASSWORD + " varchar(20) not null)"
         );
 
         // CREATE Location Table
-        db.execSQL("create table " + OsuTourDbSchema.LocationTable.NAME+ "(" + " _id integer primary key autoincrement, " +
+        db.execSQL("create table " + OsuTourDbSchema.LocationTable.NAME+ "(" + OsuTourDbSchema.LocationTable.Cols.ID +" integer primary key autoincrement, " +
                 OsuTourDbSchema.LocationTable.Cols.NAME + " varchar(50) not null, " +
                 OsuTourDbSchema.LocationTable.Cols.LATITUDE + " decimal(9, 6) not null, " +
                 OsuTourDbSchema.LocationTable.Cols.LONGITUDE + " decimal(9, 6) not null, " +
@@ -47,13 +47,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.LocationTable.NAME +" VALUES(7, 'Wexner Center for the Arts', 40.000691, -83.009297, 'The Wexner Center for the Arts is The Ohio State University’s \"multidisciplinary, international laboratory for the exploration and advancement of contemporary art\". The Wexner Center opened in November 1989, named in honor of the father of Limited Brands founder Leslie Wexner, who was a major donor to the Center. The Wexner Center is a lab and public gallery, but not a museum, as it does not collect art.')");
 
         // CREATE Question Table
-        db.execSQL("create table " + OsuTourDbSchema.QuestionTable.NAME+ "(" + " _id integer primary key autoincrement, " +
+        db.execSQL("create table " + OsuTourDbSchema.QuestionTable.NAME+ "(" + OsuTourDbSchema.QuestionTable.Cols.ID +" integer primary key autoincrement, " +
                 OsuTourDbSchema.QuestionTable.Cols.TEXT + " text)"
         );
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(1, 'Who is there a sculpture of outside of the Thompson Library?')");
 
         // CREATE Answer Table
-        db.execSQL("create table " + OsuTourDbSchema.AnswerTable.NAME+ "(" + " _id integer primary key autoincrement, " +
+        db.execSQL("create table " + OsuTourDbSchema.AnswerTable.NAME+ "(" + OsuTourDbSchema.AnswerTable.Cols.ID +" integer primary key autoincrement, " +
                 OsuTourDbSchema.AnswerTable.Cols.TEXT + " text not null)"
         );
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(1, 'William Oxley Thompson')");
@@ -62,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(4, 'Drake Henry Thompson')");
 
         // CREATE QuestionAnswer Table
-        db.execSQL("create table " + OsuTourDbSchema.QuestionAnswerTable.NAME+ "(" + " _id integer primary key autoincrement, " +
+        db.execSQL("create table " + OsuTourDbSchema.QuestionAnswerTable.NAME+ "(" + OsuTourDbSchema.QuestionAnswerTable.Cols.ID + " integer primary key autoincrement, " +
                 OsuTourDbSchema.QuestionAnswerTable.Cols.QUESTION_ID + " int not null, " +
                 OsuTourDbSchema.QuestionAnswerTable.Cols.ANSWER_ID + " int not null, " +
                 OsuTourDbSchema.QuestionAnswerTable.Cols.IS_CORRECT + " int not null)"
@@ -73,13 +73,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(4, 1, 1, 0)");
 
         // CREATE PlayerLocationsCompleted Table
-        db.execSQL("create table " + OsuTourDbSchema.PlayerLocationCompletedTable.NAME + "(" + " _id integer primary key autoincrement, " +
+        db.execSQL("create table " + OsuTourDbSchema.PlayerLocationCompletedTable.NAME + "(" + OsuTourDbSchema.PlayerLocationCompletedTable.Cols.ID +" integer primary key autoincrement, " +
                 OsuTourDbSchema.PlayerLocationCompletedTable.Cols.USER_ID + " int not null, " +
                 OsuTourDbSchema.PlayerLocationCompletedTable.Cols.LOCATION_ID + " int not null)"
         );
 
         // CREATE LocationQuestion Table
-        db.execSQL("create table " + OsuTourDbSchema.LocationQuestionTable.NAME+ "(" + " _id integer primary key autoincrement, " +
+        db.execSQL("create table " + OsuTourDbSchema.LocationQuestionTable.NAME+ "(" + OsuTourDbSchema.LocationQuestionTable.Cols.ID +" integer primary key autoincrement, " +
                 OsuTourDbSchema.LocationQuestionTable.Cols.LOCATION_ID + " int not null, " +
                 OsuTourDbSchema.LocationQuestionTable.Cols.QUESTION_ID + " int not null)"
         );
@@ -110,10 +110,34 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return user;
     }
 
+    public Location getLocation(Integer locatonId) {
+        Location loc = new Location();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {OsuTourDbSchema.LocationTable.Cols.ID,
+                OsuTourDbSchema.LocationTable.Cols.NAME,
+                OsuTourDbSchema.LocationTable.Cols.LATITUDE,
+                OsuTourDbSchema.LocationTable.Cols.LONGITUDE,
+                OsuTourDbSchema.LocationTable.Cols.HISTORY};
+        Cursor cursor =
+                db.query(OsuTourDbSchema.LocationTable.NAME, columns,
+                        OsuTourDbSchema.LocationTable.Cols.ID + " =?",
+                        new String[] {String.valueOf(locatonId)},
+                        null, null, null, null);
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            loc.setName(cursor.getString(0));
+            loc.setLatitude(cursor.getDouble(1));
+            loc.setLongitude(cursor.getDouble(2));
+            loc.setDescription(cursor.getString(3));
+        }
+        return loc;
+    }
+
     public Location getLocation(String name) {
         Location loc = new Location();
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns = {OsuTourDbSchema.LocationTable.Cols.NAME,
+        String[] columns = { OsuTourDbSchema.LocationTable.Cols.ID,
+                OsuTourDbSchema.LocationTable.Cols.NAME,
                 OsuTourDbSchema.LocationTable.Cols.LATITUDE,
                 OsuTourDbSchema.LocationTable.Cols.LONGITUDE,
                 OsuTourDbSchema.LocationTable.Cols.HISTORY};
@@ -124,10 +148,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                         null, null, null, null);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
-            loc.setName(cursor.getString(0));
-            loc.setLatitude(cursor.getDouble(1));
-            loc.setLongitude(cursor.getDouble(2));
-            loc.setDescription(cursor.getString(3));
+            loc.setId(cursor.getInt(0));
+            loc.setName(cursor.getString(1));
+            loc.setLatitude(cursor.getDouble(2));
+            loc.setLongitude(cursor.getDouble(3));
+            loc.setDescription(cursor.getString(4));
         }
         return loc;
     }
@@ -158,6 +183,47 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         }
         return locations;
+    }
+
+    public List<Location> getCompletedLocations(Integer userId) {
+        List<Location> locationsCompleted = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {OsuTourDbSchema.PlayerLocationCompletedTable.Cols.USER_ID,
+                OsuTourDbSchema.PlayerLocationCompletedTable.Cols.LOCATION_ID,};
+        Cursor cursor =
+                db.query(OsuTourDbSchema.PlayerLocationCompletedTable.NAME,
+                        columns,
+                        OsuTourDbSchema.PlayerLocationCompletedTable.Cols.USER_ID + " = ?",
+                        new String[] {String.valueOf(userId)},
+                        null, null, null, null);
+        if (cursor != null && cursor.getCount() > 0) {
+            while(cursor.moveToNext()) {
+                Location loc = getLocation(cursor.getInt(1));
+                if(loc != null) {
+                    locationsCompleted.add(loc);
+                }
+            }
+
+        }
+        return locationsCompleted;
+    }
+
+    public boolean locationIsUnlocked(Integer userId, Integer locationId) {
+        boolean locationUnlocked = false;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {OsuTourDbSchema.PlayerLocationCompletedTable.Cols.USER_ID,
+                OsuTourDbSchema.PlayerLocationCompletedTable.Cols.LOCATION_ID,};
+        Cursor cursor =
+                db.query(OsuTourDbSchema.PlayerLocationCompletedTable.NAME,
+                        columns,
+                        OsuTourDbSchema.PlayerLocationCompletedTable.Cols.USER_ID + " = ? AND " + OsuTourDbSchema.PlayerLocationCompletedTable.Cols.LOCATION_ID + " = ?",
+                        new String[] {String.valueOf(userId), String.valueOf(locationId)},
+                        null, null, null, null);
+        if (cursor != null && cursor.getCount() > 0) {
+            locationUnlocked = true;
+
+        }
+        return locationUnlocked;
     }
 
 }

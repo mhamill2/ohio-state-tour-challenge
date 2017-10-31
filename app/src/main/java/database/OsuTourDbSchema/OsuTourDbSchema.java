@@ -9,6 +9,7 @@ public class OsuTourDbSchema {
         public static final String NAME = "user";
 
         public static final class Cols {
+            public static final String ID = "id";
             public static final String USER_NAME = "user_name";
             public static final String PASSWORD = "password";
         }
@@ -18,6 +19,7 @@ public class OsuTourDbSchema {
         public static final String NAME = "location";
 
         public static final class Cols {
+            public static final String ID = "id";
             public static final String LATITUDE = "latitude";
             public static final String LONGITUDE = "longitude";
             public static final String NAME = "name";
@@ -29,6 +31,7 @@ public class OsuTourDbSchema {
         public static final String NAME = "question";
 
         public static final class Cols {
+            public static final String ID = "id";
             public static final String TEXT = "text";
         }
     }
@@ -37,6 +40,7 @@ public class OsuTourDbSchema {
         public static final String NAME = "answer";
 
         public static final class Cols {
+            public static final String ID = "id";
             public static final String TEXT = "text";
         }
     }
@@ -45,6 +49,7 @@ public class OsuTourDbSchema {
         public static final String NAME = "question_answer_xref";
 
         public static final class Cols {
+            public static final String ID = "id";
             public static final String QUESTION_ID = "question_id";
             public static final String ANSWER_ID = "answer_id";
             public static final String IS_CORRECT = "is_correct";
@@ -55,6 +60,7 @@ public class OsuTourDbSchema {
         public static final String NAME = "location_question_xref";
 
         public static final class Cols {
+            public static final String ID = "id";
             public static final String LOCATION_ID = "location_id";
             public static final String QUESTION_ID = "question_id";
         }
@@ -64,6 +70,7 @@ public class OsuTourDbSchema {
         public static final String NAME = "player_locations_completed";
 
         public static final class Cols {
+            public static final String ID = "id";
             public static final String USER_ID = "user_id";
             public static final String LOCATION_ID = "location_id";
         }

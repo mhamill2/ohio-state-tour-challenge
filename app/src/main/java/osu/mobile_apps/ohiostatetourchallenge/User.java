@@ -1,16 +1,18 @@
 package osu.mobile_apps.ohiostatetourchallenge;
 
-public class User {
+import java.io.Serializable;
 
-    private int id;
+public class User implements Serializable {
+
+    private Integer id;
     private String userName;
     private String password;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

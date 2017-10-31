@@ -6,10 +6,15 @@ import java.io.Serializable;
 
 
 public class Location implements Serializable {
+    private Integer id;
     private String name;
     private String description;
     private Double latitude;
     private Double longitude;
+
+    public Integer getId() { return id; }
+
+    public void setId(Integer id) { this.id = id; }
 
     public void setName(String name) {
         this.name = name;

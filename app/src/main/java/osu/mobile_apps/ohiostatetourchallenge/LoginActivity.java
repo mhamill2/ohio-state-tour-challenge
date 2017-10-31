@@ -234,7 +234,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (mAuthTask != null) {
             return;
         }
-
+        User user = new User();
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -263,7 +263,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             focusView = mEmailView;
             cancel = true;
         } else {
-            User user = mDatabaseHelper.getUser(email);
+            user = mDatabaseHelper.getUser(email);
             if (user.getPassword() != null) {
                 if (!user.getPassword().equals(password)) {
                     mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -285,7 +285,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
             Intent intent = new Intent(LoginActivity.this, ListActivity.class);
-            intent.putExtra("User", email);
+            intent.putExtra("User", user);
             startActivity(intent);
         }
     }
