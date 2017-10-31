@@ -21,7 +21,7 @@ public class InformationActivity extends AppCompatActivity {
     private SimpleLocation deviceLocation;
     private User user;
 
-    // Stops the back button
+    // back button returns to list of locations
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(InformationActivity.this, ListActivity.class);

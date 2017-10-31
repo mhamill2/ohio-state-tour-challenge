@@ -17,7 +17,7 @@ public class QuestionActivity extends AppCompatActivity {
     private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
     private User user;
 
-    // Stops the back button
+    // back button returns to list of locations
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(QuestionActivity.this, ListActivity.class);
