@@ -32,6 +32,7 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("TESTING","ON CREATE() FOR LIST");
         setContentView(R.layout.activity_list);
+        User user = (User) getIntent().getSerializableExtra("User");
 
         //Get username from log in activity
         //String userName = getIntent().getExtras().getString("User");
@@ -56,10 +57,14 @@ public class ListActivity extends AppCompatActivity {
         for(Location entry: locations) {
             description = entry.getDescription();
             //TODO Check if location is unlocked or not
-            if (description.length()>110){
-                smallDescription = description.substring(0,110) + "...";
+            if(mDatabaseHelper.locationIsUnlocked(user.getId(), entry.getId())) {
+                if (description.length() > 110) {
+                    smallDescription = description.substring(0, 110) + "...";
+                } else {
+                    smallDescription = description;
+                }
             } else {
-                smallDescription = description;
+                smallDescription = "???";
             }
             ListItem item = new ListItem(entry.getName(), smallDescription);
             listItems.add(item);

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 OsuTourDbSchema.UserTable.Cols.USER_NAME + " varchar(20) not null, " +
                 OsuTourDbSchema.UserTable.Cols.PASSWORD + " varchar(20) not null)"
         );
+        db.execSQL("INSERT INTO " + OsuTourDbSchema.UserTable.NAME + " VALUES(1, 'hamill.33', 'password')");
 
         // CREATE Location Table
         db.execSQL("create table " + OsuTourDbSchema.LocationTable.NAME+ "(" + OsuTourDbSchema.LocationTable.Cols.ID +" integer primary key autoincrement, " +
@@ -77,6 +79,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 OsuTourDbSchema.PlayerLocationCompletedTable.Cols.USER_ID + " int not null, " +
                 OsuTourDbSchema.PlayerLocationCompletedTable.Cols.LOCATION_ID + " int not null)"
         );
+        db.execSQL("INSERT INTO " + OsuTourDbSchema.PlayerLocationCompletedTable.NAME + " VALUES(1, 1, 1)");
 
         // CREATE LocationQuestion Table
         db.execSQL("create table " + OsuTourDbSchema.LocationQuestionTable.NAME+ "(" + OsuTourDbSchema.LocationQuestionTable.Cols.ID +" integer primary key autoincrement, " +
@@ -94,7 +97,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public User getUser(String userName) {
         User user = new User();
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns = {OsuTourDbSchema.UserTable.Cols.USER_NAME, OsuTourDbSchema.UserTable.Cols.PASSWORD};
+        String[] columns = {OsuTourDbSchema.UserTable.Cols.ID, OsuTourDbSchema.UserTable.Cols.USER_NAME, OsuTourDbSchema.UserTable.Cols.PASSWORD};
         Cursor cursor =
                 db.query(OsuTourDbSchema.UserTable.NAME,
                         columns,
@@ -103,8 +106,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                         null, null, null, null);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
-            user.setUserName(cursor.getString(0));
-            user.setPassword(cursor.getString(1));
+            user.setId(cursor.getInt(0));
+            user.setUserName(cursor.getString(1));
+            user.setPassword(cursor.getString(2));
         }
 
         return user;
@@ -125,6 +129,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                         null, null, null, null);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
+            loc.setId(locatonId);
             loc.setName(cursor.getString(0));
             loc.setLatitude(cursor.getDouble(1));
             loc.setLongitude(cursor.getDouble(2));
@@ -160,7 +165,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public List<Location> getLocations() {
         List<Location> locations = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns = {OsuTourDbSchema.LocationTable.Cols.NAME,
+        String[] columns = {OsuTourDbSchema.LocationTable.Cols.ID,
+                OsuTourDbSchema.LocationTable.Cols.NAME,
                 OsuTourDbSchema.LocationTable.Cols.HISTORY,
                 OsuTourDbSchema.LocationTable.Cols.LATITUDE,
                 OsuTourDbSchema.LocationTable.Cols.LONGITUDE};
@@ -174,10 +180,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         if (cursor != null && cursor.getCount() > 0) {
             while(cursor.moveToNext()) {
                 Location loc = new Location();
-                loc.setName(cursor.getString(0));
-                loc.setDescription(cursor.getString(1));
-                loc.setLatitude(cursor.getDouble(2));
-                loc.setLongitude(cursor.getDouble(3));
+                loc.setId(cursor.getInt(0));
+                loc.setName(cursor.getString(1));
+                loc.setDescription(cursor.getString(2));
+                loc.setLatitude(cursor.getDouble(3));
+                loc.setLongitude(cursor.getDouble(4));
                 locations.add(loc);
             }
 
@@ -210,6 +217,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public boolean locationIsUnlocked(Integer userId, Integer locationId) {
         boolean locationUnlocked = false;
+        Log.d("USERID: ", userId.toString());
+        Log.d("LOCATIONID: ", locationId.toString());
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {OsuTourDbSchema.PlayerLocationCompletedTable.Cols.USER_ID,
                 OsuTourDbSchema.PlayerLocationCompletedTable.Cols.LOCATION_ID,};
