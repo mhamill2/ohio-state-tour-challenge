@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class ListActivity extends AppCompatActivity {
 
         for(Location entry: locations) {
             description = entry.getDescription();
-            //TODO Check if location is unlocked or not
+            //Check if location is unlocked or not
             if(mDatabaseHelper.locationIsUnlocked(user.getId(), entry.getId())) {
                 if (description.length() > 110) {
                     smallDescription = description.substring(0, 110) + "...";
@@ -65,6 +66,7 @@ public class ListActivity extends AppCompatActivity {
                     smallDescription = description;
                 }
             } else {
+                //Locked location displays ??? as description
                 smallDescription = "???";
             }
             ListItem item = new ListItem(entry.getName(), smallDescription);
@@ -109,8 +111,8 @@ public class ListActivity extends AppCompatActivity {
     public void onClick(View v){
         Intent intent = new Intent(ListActivity.this, InformationActivity.class);
         if(v.getId()==R.id.textViewHead){
-            TextView TestView = (TextView) v.findViewById(R.id.textViewHead);
-            Location location = mDatabaseHelper.getLocation(TestView.getText().toString());
+            TextView TV = (TextView) v.findViewById(R.id.textViewHead);
+            Location location = mDatabaseHelper.getLocation(TV.getText().toString());
             intent.putExtra("Location", location);
             intent.putExtra("User", user);
             intent.putExtra("isUnlocked", mDatabaseHelper.locationIsUnlocked(user.getId(), location.getId()));

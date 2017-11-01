@@ -59,7 +59,6 @@ public class QuestionActivity extends AppCompatActivity {
         B3.setText("Set3");
         Button B4 = (Button) findViewById(R.id.Button4);
         B4.setText("Correct");
-
     }
 
     public void onClick(View v){
@@ -85,7 +84,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         }else{
             //If incorrect, display incorrect toast
-            Toast.makeText(getApplicationContext(), "That is not the correct answer.",
+            Toast.makeText(getApplicationContext(), "That is not the correct answer. Try again.",
                     Toast.LENGTH_SHORT).show();
         }
 

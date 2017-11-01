@@ -14,6 +14,7 @@
                 android:layout_height="wrap_content" >
 
                 <LinearLayout
+                    android:id="@+id/listItem"
                     xmlns:android="http://schemas.android.com/apk/res/android"
                     android:padding="@dimen/activity_horizontal_margin"
                     android:orientation="vertical"
