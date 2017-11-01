@@ -61,9 +61,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         //Thompson
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(1, 'Who is there a sculpture of outside of the Thompson Library?')");
         //Union
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(2, 'Union Question?')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(2, 'What is haning from the ceiling of the Great Hall in the Union?')");
         //RPAC
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(3, 'RPAC Question?')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(3, 'What is the name of the tinted bridge?')");
         //Hale
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(4, 'Hale Question?')");
         //Orton
@@ -75,9 +75,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         //Wilce
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(8, 'Wilce Question?')");
         //Scott
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(9, 'Scott Question?')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(9, 'How many floors does Traditions at Scott have?')");
         //Stadium
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(10, 'Stadium Question?')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(10, 'What are the colors of the flowers on the stadium?')");
 
 
         // CREATE Answer Table
@@ -90,15 +90,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(3, 'Drake Oxley Thompson')");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(4, 'Drake Henry Thompson')");
         //Union
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(5, 'A1')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(6, 'A2')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(7, 'A3')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(8, 'A4')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(5, 'Vines')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(6, 'Buckeye Leaves')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(7, 'Trapeze Artist')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(8, 'Streamers')");
         //RPAC
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(9, 'A1')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(10, 'A2')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(11, 'A3')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(12, 'A4')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(9, 'Scarlet Walkway')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(10, 'Red Bridge')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(11, 'Spooky Skyway')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(12, 'Scarlet Skyway')");
         //Hale
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(13, 'A1')");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(14, 'A2')");
@@ -125,15 +125,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(31, 'A3')");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(32, 'A4')");
         //Scott
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(33, 'A1')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(34, 'A2')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(35, 'A3')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(36, 'A4')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(33, '75')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(34, '2')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(35, '1')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(36, '3')");
         //Stadium
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(37, 'A1')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(38, 'A2')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(39, 'A3')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(40, 'A4')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(37, 'There are no flowers on the stadium')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(38, 'Maize and Blue')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(39, 'Rose Red')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(40, 'Scarlet and Gray')");
 
 
         // CREATE QuestionAnswer Table
@@ -154,14 +154,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         question = 2;
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(1+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(1+(4*(question-1)))+", 0)");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(2+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(2+(4*(question-1)))+", 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(3+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(3+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(3+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(3+(4*(question-1)))+",  " +correct+")");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(4+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(4+(4*(question-1)))+", 0)");
         //RPAC
         question = 3;
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(1+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(1+(4*(question-1)))+", 0)");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(2+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(2+(4*(question-1)))+", 0)");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(3+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(3+(4*(question-1)))+", 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(4+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(4+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(4+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(4+(4*(question-1)))+", " +correct+")");
 
         //Hale
         question = 4;
@@ -199,14 +199,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         //Scott
         question = 9;
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(1+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(1+(4*(question-1)))+", 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(2+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(2+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(2+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(2+(4*(question-1)))+", "+correct+")");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(3+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(3+(4*(question-1)))+", 0)");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(4+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(4+(4*(question-1)))+", 0)");
 
         //Stadium
         question = 10;
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(1+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(1+(4*(question-1)))+", 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(2+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(2+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(2+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(2+(4*(question-1)))+", "+correct+")");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(3+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(3+(4*(question-1)))+", 0)");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(4+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(4+(4*(question-1)))+", 0)");
 
