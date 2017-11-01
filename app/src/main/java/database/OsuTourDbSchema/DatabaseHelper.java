@@ -145,65 +145,71 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         //TODO Mark correct questions as correct
         //Thompson
         int question = 1;
-        int correct = 1;
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(1, question, 1, correct)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(2, question, 2, 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(3, question, 3, 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(4, question, 4, 0)");
+        String correct = "1";
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(1, " + Integer.toString(question) +", 1, "+correct+")");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(2, " + Integer.toString(question) +", 2, 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(3, " + Integer.toString(question) +", 3, 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(4, " + Integer.toString(question) +", 4, 0)");
         //Union
         question = 2;
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(1+(4*(question-1)), question, 1+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(2+(4*(question-1)), question, 2+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(3+(4*(question-1)), question, 3+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(4+(4*(question-1)), question, 4+(4*(question-1)), 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(1+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(1+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(2+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(2+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(3+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(3+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(4+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(4+(4*(question-1)))+", 0)");
         //RPAC
         question = 3;
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(1+(4*(question-1)), question, 1+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(2+(4*(question-1)), question, 2+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(3+(4*(question-1)), question, 3+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(4+(4*(question-1)), question, 4+(4*(question-1)), 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(1+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(1+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(2+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(2+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(3+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(3+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(4+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(4+(4*(question-1)))+", 0)");
+
         //Hale
         question = 4;
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(1+(4*(question-1)), question, 1+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(2+(4*(question-1)), question, 2+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(3+(4*(question-1)), question, 3+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(4+(4*(question-1)), question, 4+(4*(question-1)), 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(1+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(1+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(2+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(2+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(3+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(3+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(4+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(4+(4*(question-1)))+", 0)");
         //Orton
         question = 5;
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(1+(4*(question-1)), question, 1+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(2+(4*(question-1)), question, 2+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(3+(4*(question-1)), question, 3+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(4+(4*(question-1)), question, 4+(4*(question-1)), 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(1+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(1+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(2+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(2+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(3+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(3+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(4+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(4+(4*(question-1)))+", 0)");
         //University
         question = 6;
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(1+(4*(question-1)), question, 1+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(2+(4*(question-1)), question, 2+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(3+(4*(question-1)), question, 3+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(4+(4*(question-1)), question, 4+(4*(question-1)), 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(1+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(1+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(2+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(2+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(3+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(3+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(4+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(4+(4*(question-1)))+", 0)");
+
         //Wexner
         question = 7;
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(1+(4*(question-1)), question, 1+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(2+(4*(question-1)), question, 2+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(3+(4*(question-1)), question, 3+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(4+(4*(question-1)), question, 4+(4*(question-1)), 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(1+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(1+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(2+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(2+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(3+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(3+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(4+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(4+(4*(question-1)))+", 0)");
+
         //Wilce
         question = 8;
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(1+(4*(question-1)), question, 1+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(2+(4*(question-1)), question, 2+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(3+(4*(question-1)), question, 3+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(4+(4*(question-1)), question, 4+(4*(question-1)), 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(1+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(1+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(2+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(2+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(3+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(3+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(4+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(4+(4*(question-1)))+", 0)");
+
         //Scott
         question = 9;
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(1+(4*(question-1)), question, 1+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(2+(4*(question-1)), question, 2+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(3+(4*(question-1)), question, 3+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(4+(4*(question-1)), question, 4+(4*(question-1)), 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(1+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(1+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(2+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(2+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(3+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(3+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(4+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(4+(4*(question-1)))+", 0)");
+
         //Stadium
         question = 10;
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(1+(4*(question-1)), question, 1+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(2+(4*(question-1)), question, 2+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(3+(4*(question-1)), question, 3+(4*(question-1)), 0)");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(4+(4*(question-1)), question, 4+(4*(question-1)), 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(1+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(1+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(2+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(2+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(3+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(3+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(4+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(4+(4*(question-1)))+", 0)");
+
 
 
         // CREATE LocationQuestion Table
