@@ -18,7 +18,7 @@ import osu.mobile_apps.ohiostatetourchallenge.User;
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper{
-    private static final int VERSION = 2;
+    private static final int VERSION = 3;
     public static final String DATABASE_NAME = "osu_tour.db";
 
     public DatabaseHelper(Context context) {
