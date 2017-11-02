@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import osu.mobile_apps.ohiostatetourchallenge.Location;
+import osu.mobile_apps.ohiostatetourchallenge.Question;
+import osu.mobile_apps.ohiostatetourchallenge.QuestionAnswer;
 import osu.mobile_apps.ohiostatetourchallenge.User;
 
 /*
@@ -403,11 +405,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return locationUnlocked;
     }
 
-    public String getQuestion(Integer locationId) {
-        String question = "";
+    public Question getQuestion(Integer locationId) {
+        Question question = new Question();
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues c = new ContentValues();
         String[] columns = {OsuTourDbSchema.LocationQuestionTable.Cols.QUESTION_ID};
+        // First cursor gets the questionId from the LocationQuestionTable
         Cursor cursor = db.query(OsuTourDbSchema.LocationQuestionTable.NAME,
                 columns,
                 OsuTourDbSchema.LocationQuestionTable.Cols.LOCATION_ID + " = ?",
@@ -419,20 +422,66 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             cursor.moveToFirst();
             questionId = cursor.getInt(0);
             Log.d("Question ID", questionId.toString());
-            String[] columns2 = {OsuTourDbSchema.QuestionTable.Cols.TEXT};
+            String[] columns2 = {OsuTourDbSchema.QuestionTable.Cols.ID,
+                    OsuTourDbSchema.QuestionTable.Cols.TEXT};
+            // Second cursor gets the question text from the Question table
             Cursor cursor2 = db.query(OsuTourDbSchema.QuestionTable.NAME,
                     columns2,
                     OsuTourDbSchema.QuestionTable.Cols.ID + " = ?",
                     new String[] {String.valueOf(questionId)},
                     null, null, null, null);
-            if (cursor2 != null && cursor.getCount() > 0) {
+            if (cursor2 != null && cursor2.getCount() > 0) {
                 cursor2.moveToFirst();
-                question = cursor2.getString(0);
-                Log.d("Question: ", question);
+                question.setId(cursor2.getInt(0));
+                question.setText(cursor2.getString(1));
             }
         }
 
         return question;
+    }
+
+    public List<QuestionAnswer> getAnswers(Integer questionId){
+        List<QuestionAnswer> questionAnswers = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {OsuTourDbSchema.QuestionAnswerTable.Cols.ID,
+                OsuTourDbSchema.QuestionAnswerTable.Cols.QUESTION_ID,
+                OsuTourDbSchema.QuestionAnswerTable.Cols.ANSWER_ID,
+                OsuTourDbSchema.QuestionAnswerTable.Cols.IS_CORRECT};
+        Cursor cursor = db.query(OsuTourDbSchema.QuestionAnswerTable.NAME,
+                columns,
+                OsuTourDbSchema.QuestionAnswerTable.Cols.QUESTION_ID + " = ?",
+                new String[] {String.valueOf(questionId)},
+                null, null, null, null);
+        if (cursor != null && cursor.getCount() > 0) {
+            while(cursor.moveToNext()) {
+                QuestionAnswer qa = new QuestionAnswer();
+                qa.setId(cursor.getInt(0));
+                qa.setQuestionId(cursor.getInt(1));
+                qa.setAnswerId(cursor.getInt(2));
+                qa.setCorrect(cursor.getInt(3) != 0);
+                questionAnswers.add(qa);
+            }
+        }
+
+
+        return questionAnswers;
+    }
+
+    public String getAnswerText(Integer answerId) {
+        String answer = "";
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = {OsuTourDbSchema.AnswerTable.Cols.TEXT};
+        Cursor cursor = db.query(OsuTourDbSchema.AnswerTable.NAME,
+                columns,
+                OsuTourDbSchema.AnswerTable.Cols.ID + " = ?",
+                new String[] {String.valueOf(answerId)},
+                null, null, null, null);
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            answer = cursor.getString(0);
+        }
+        return answer;
     }
 
     public void completeLocation(Integer userId, Integer locationId) {
@@ -444,36 +493,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         if(newRowId < 0) {
             Log.d("ERROR", "In complete location: row not saved. ");
         }
-    }
-
-    //TODO return list of answer strings for location
-    public List<String> getAnswers(Integer locationId){
-        List<String> answers = new ArrayList<>();
-        int questionId;
-        int answerId;
-        //OsuTourDbSchema.LocationQuestionTable (ID, LocationID, QuestionID)
-        //questionId =
-
-        //OsuTourDbSchema.QuestionAnswerTable.NAME (ID, QuestionID, AnswerID, isCorrect)
-        //
-
-        //OsuTourDbSchema.AnswerTable (ID, answerText)
-        //answers.add()
-
-        return answers;
-    }
-
-    //TODO take location and answer string, return if correct
-    public boolean isCorrect(Integer locationId, String answerText){
-        boolean correct = false;
-
-        //OsuTourDbSchema.LocationQuestionTable (ID, LocationID, QuestionID)
-
-        //OsuTourDbSchema.AnswerTable (ID, answerText)
-
-        //OsuTourDbSchema.QuestionAnswerTable.NAME (ID, QuestionID, AnswerID, isCorrect)
-
-        return correct;
     }
 
 }

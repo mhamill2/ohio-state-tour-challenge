@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import database.OsuTourDbSchema.DatabaseHelper;
 
 public class QuestionActivity extends AppCompatActivity {
@@ -41,26 +43,25 @@ public class QuestionActivity extends AppCompatActivity {
         String locationImage = location.getName().toLowerCase().replace(" ", "").replace("(", "").replace(")", "");
         int resourceId = this.getResources().getIdentifier(locationImage, "drawable", "osu.mobile_apps.ohiostatetourchallenge");
         image.setImageResource(resourceId);
+        Question question = new Question();
         if (TV != null){
             TV.setText(location.getName());
         }
         TV = (TextView) findViewById(R.id.question);
         if (TV != null){
-            //TODO get location question
-            Log.d("BEFORE DATABASE CALL", "Here " + location.getId().toString());
-            String question = mDatabaseHelper.getQuestion(location.getId());
-            TV.setText(question);
+            question = mDatabaseHelper.getQuestion(location.getId());
+            TV.setText(question.getText());
         }
 
-        //TODO set answer buttons text
+        List<QuestionAnswer> questionAnswers = mDatabaseHelper.getAnswers(question.getId());
         Button B1 = (Button) findViewById(R.id.Button1);
-        B1.setText("Set1");
+        B1.setText(mDatabaseHelper.getAnswerText(questionAnswers.get(0).getAnswerId()));
         Button B2 = (Button) findViewById(R.id.Button2);
-        B2.setText("Set2");
+        B2.setText(mDatabaseHelper.getAnswerText(questionAnswers.get(1).getAnswerId()));
         Button B3 = (Button) findViewById(R.id.Button3);
-        B3.setText("Set3");
+        B3.setText(mDatabaseHelper.getAnswerText(questionAnswers.get(2).getAnswerId()));
         Button B4 = (Button) findViewById(R.id.Button4);
-        B4.setText("Correct");
+        B4.setText(mDatabaseHelper.getAnswerText(questionAnswers.get(3).getAnswerId()));
     }
 
     public void onClick(View v){
