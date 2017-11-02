@@ -270,6 +270,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     focusView = mPasswordView;
                     cancel = true;
                 }
+            } else if(!cancel){
+                ContentValues values = new ContentValues();
+                values.put(OsuTourDbSchema.UserTable.Cols.USER_NAME, email);
+                values.put(OsuTourDbSchema.UserTable.Cols.PASSWORD, password);
+                long newRowId = mDatabaseWrite.insert(OsuTourDbSchema.UserTable.NAME, null, values);
+                user = mDatabaseHelper.getUser(email);
             }
         }
 

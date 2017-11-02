@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.system.Os;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import osu.mobile_apps.ohiostatetourchallenge.User;
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper{
-    private static final int VERSION = 3;
+    private static final int VERSION = 8;
     public static final String DATABASE_NAME = "osu_tour.db";
 
     public DatabaseHelper(Context context) {
@@ -34,6 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         );
         db.execSQL("INSERT INTO " + OsuTourDbSchema.UserTable.NAME + " VALUES(1, 'hamill.33', 'password')");
         db.execSQL("INSERT INTO " + OsuTourDbSchema.UserTable.NAME + " VALUES(2, 'Trambacher', 'Testing')");
+        db.execSQL("INSERT INTO " + OsuTourDbSchema.UserTable.NAME + " VALUES(3, 'mhamill', 'password')");
 
         // CREATE Location Table
         db.execSQL("create table " + OsuTourDbSchema.LocationTable.NAME+ "(" + OsuTourDbSchema.LocationTable.Cols.ID +" integer primary key autoincrement, " +
@@ -61,7 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         //Thompson
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(1, 'Who is there a sculpture of outside of the Thompson Library?')");
         //Union
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(2, 'What is haning from the ceiling of the Great Hall in the Union?')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(2, 'What is hanging from the ceiling of the Great Hall in the Union?')");
         //RPAC
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(3, 'What is the name of the tinted bridge?')");
         //Hale
@@ -250,7 +252,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + OsuTourDbSchema.QuestionAnswerTable.NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + OsuTourDbSchema.LocationQuestionTable.NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + OsuTourDbSchema.PlayerLocationCompletedTable.NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + OsuTourDbSchema.AnswerTable.NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + OsuTourDbSchema.QuestionTable.NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + OsuTourDbSchema.LocationTable.NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + OsuTourDbSchema.UserTable.NAME);
+        onCreate(db);
     }
 
     public User getUser(String userName) {
@@ -394,6 +403,38 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return locationUnlocked;
     }
 
+    public String getQuestion(Integer locationId) {
+        String question = "";
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues c = new ContentValues();
+        String[] columns = {OsuTourDbSchema.LocationQuestionTable.Cols.QUESTION_ID};
+        Cursor cursor = db.query(OsuTourDbSchema.LocationQuestionTable.NAME,
+                columns,
+                OsuTourDbSchema.LocationQuestionTable.Cols.LOCATION_ID + " = ?",
+                new String[] {String.valueOf(locationId)},
+                null, null, null, null);
+        Integer questionId = 0;
+        Log.d("BEFORE CURSOR CHECK", "");
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            questionId = cursor.getInt(0);
+            Log.d("Question ID", questionId.toString());
+            String[] columns2 = {OsuTourDbSchema.QuestionTable.Cols.TEXT};
+            Cursor cursor2 = db.query(OsuTourDbSchema.QuestionTable.NAME,
+                    columns2,
+                    OsuTourDbSchema.QuestionTable.Cols.ID + " = ?",
+                    new String[] {String.valueOf(questionId)},
+                    null, null, null, null);
+            if (cursor2 != null && cursor.getCount() > 0) {
+                cursor2.moveToFirst();
+                question = cursor2.getString(0);
+                Log.d("Question: ", question);
+            }
+        }
+
+        return question;
+    }
+
     public void completeLocation(Integer userId, Integer locationId) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues c = new ContentValues();
@@ -403,20 +444,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         if(newRowId < 0) {
             Log.d("ERROR", "In complete location: row not saved. ");
         }
-    }
-
-    //TODO get question for location
-    public String getQuestion(Integer locationId) {
-        String question = "";
-        int questionId;
-
-        //OsuTourDbSchema.LocationQuestionTable (ID, LocationID, QuestionID)
-        //questionId =
-
-        //OsuTourDbSchema.QuestionTable (ID, QuestionText)
-        //question =
-
-        return question;
     }
 
     //TODO return list of answer strings for location

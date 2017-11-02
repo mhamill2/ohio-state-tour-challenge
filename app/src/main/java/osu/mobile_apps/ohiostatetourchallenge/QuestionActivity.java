@@ -47,7 +47,9 @@ public class QuestionActivity extends AppCompatActivity {
         TV = (TextView) findViewById(R.id.question);
         if (TV != null){
             //TODO get location question
-            TV.setText("Select Correct to answer correctly");
+            Log.d("BEFORE DATABASE CALL", "Here " + location.getId().toString());
+            String question = mDatabaseHelper.getQuestion(location.getId());
+            TV.setText(question);
         }
 
         //TODO set answer buttons text
