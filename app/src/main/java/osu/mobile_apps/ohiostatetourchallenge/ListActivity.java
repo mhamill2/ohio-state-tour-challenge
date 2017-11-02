@@ -100,6 +100,7 @@ public class ListActivity extends AppCompatActivity {
 
             case R.id.logout:
                 // Logout
+                // TODO: Logout does not always return to the login screen
                 this.finish();
                 return true;
 
