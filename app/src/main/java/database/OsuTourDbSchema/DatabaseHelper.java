@@ -11,6 +11,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import osu.mobile_apps.ohiostatetourchallenge.Answer;
 import osu.mobile_apps.ohiostatetourchallenge.Location;
 import osu.mobile_apps.ohiostatetourchallenge.Question;
 import osu.mobile_apps.ohiostatetourchallenge.QuestionAnswer;

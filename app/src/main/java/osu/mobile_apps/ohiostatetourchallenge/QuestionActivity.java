@@ -53,23 +53,37 @@ public class QuestionActivity extends AppCompatActivity {
             TV.setText(question.getText());
         }
 
+        /*
+         * Set a tag for each button to determine if the answer is correct or not. We can retrieve
+         * the tag in the onClick method.
+         */
         List<QuestionAnswer> questionAnswers = mDatabaseHelper.getAnswers(question.getId());
         Button B1 = (Button) findViewById(R.id.Button1);
         B1.setText(mDatabaseHelper.getAnswerText(questionAnswers.get(0).getAnswerId()));
+        setCorrectTag(B1, questionAnswers.get(0).isCorrect());
         Button B2 = (Button) findViewById(R.id.Button2);
         B2.setText(mDatabaseHelper.getAnswerText(questionAnswers.get(1).getAnswerId()));
+        setCorrectTag(B2, questionAnswers.get(1).isCorrect());
         Button B3 = (Button) findViewById(R.id.Button3);
         B3.setText(mDatabaseHelper.getAnswerText(questionAnswers.get(2).getAnswerId()));
+        setCorrectTag(B3, questionAnswers.get(2).isCorrect());
         Button B4 = (Button) findViewById(R.id.Button4);
         B4.setText(mDatabaseHelper.getAnswerText(questionAnswers.get(3).getAnswerId()));
+        setCorrectTag(B4, questionAnswers.get(3).isCorrect());
     }
 
     public void onClick(View v){
         Button selected = findViewById(v.getId());
         String answer = (String) selected.getText();
-
-        //TODO check if selected button was correct
-        if(selected.getText().toString().equals("Correct")){
+        // The tag is an Object, so we need to convert it to String and parse the Boolean
+        String buttonTag = selected.getTag().toString();
+        boolean correct = false;
+        try {
+            correct = Boolean.parseBoolean(buttonTag);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(correct){
 
             //If correct unlock location and go to location information
             Toast.makeText(getApplicationContext(), "That is the correct answer!!",
@@ -127,6 +141,14 @@ public class QuestionActivity extends AppCompatActivity {
     protected void onDestroy() {
         Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnDestroy() Executed");
         super.onDestroy();
+    }
+
+    public void setCorrectTag(Button b, boolean correct) {
+        if(correct) {
+            b.setTag(true);
+        } else {
+            b.setTag(false);
+        }
     }
 
 }
