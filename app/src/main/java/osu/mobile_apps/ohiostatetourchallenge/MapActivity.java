@@ -68,6 +68,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             if (mLocationPermissionGranted == PackageManager.PERMISSION_GRANTED) {
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                mMap.getUiSettings().setCompassEnabled(true);
+                mMap.setMinZoomPreference(15);
                 getDeviceLocation();
 
                 // Add a marker in current location
