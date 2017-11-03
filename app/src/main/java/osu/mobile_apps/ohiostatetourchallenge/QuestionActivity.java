@@ -101,7 +101,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         }else{
             //If incorrect, display incorrect toast
-            Toast.makeText(getApplicationContext(), "That is not the correct answer. Try again.",
+            Toast.makeText(getApplicationContext(), "That is not the correct answer. Try again!",
                     Toast.LENGTH_SHORT).show();
         }
 
