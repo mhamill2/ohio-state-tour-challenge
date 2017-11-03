@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by trevo on 10/18/2017.
+ * Created by trevor on 10/18/2017.
  */
 
 public class myAdpater extends RecyclerView.Adapter<myAdpater.ViewHolder> {
