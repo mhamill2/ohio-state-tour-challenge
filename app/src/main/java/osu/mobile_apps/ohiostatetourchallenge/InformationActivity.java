@@ -59,7 +59,7 @@ public class InformationActivity extends AppCompatActivity {
 
         double distance = deviceLocation.calculateDistance(myCoords, targetCoords);
         Log.d("TESTING", "Distance: " + distance + " meters");
-            if (distance > 100) {
+            if (distance > 1000) {
                 //Say too far away
                 TV = (TextView) findViewById(R.id.description);
                 if (TV != null) {

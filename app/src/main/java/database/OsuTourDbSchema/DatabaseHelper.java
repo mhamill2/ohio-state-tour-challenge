@@ -388,8 +388,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public boolean locationIsUnlocked(Integer userId, Integer locationId) {
         boolean locationUnlocked = false;
-        Log.d("USERID: ", userId.toString());
-        Log.d("LOCATIONID: ", locationId.toString());
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {OsuTourDbSchema.PlayerLocationCompletedTable.Cols.USER_ID,
                 OsuTourDbSchema.PlayerLocationCompletedTable.Cols.LOCATION_ID,};
@@ -418,11 +416,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 new String[] {String.valueOf(locationId)},
                 null, null, null, null);
         Integer questionId = 0;
-        Log.d("BEFORE CURSOR CHECK", "");
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             questionId = cursor.getInt(0);
-            Log.d("Question ID", questionId.toString());
             String[] columns2 = {OsuTourDbSchema.QuestionTable.Cols.ID,
                     OsuTourDbSchema.QuestionTable.Cols.TEXT};
             // Second cursor gets the question text from the Question table
@@ -492,7 +488,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         c.put(OsuTourDbSchema.PlayerLocationCompletedTable.Cols.USER_ID, userId);
         long newRowId = db.insert(OsuTourDbSchema.PlayerLocationCompletedTable.NAME, null, c);
         if(newRowId < 0) {
-            Log.d("ERROR", "In complete location: row not saved. ");
+            Log.d("ERROR", "Incomplete location: row not saved. ");
         }
     }
 
