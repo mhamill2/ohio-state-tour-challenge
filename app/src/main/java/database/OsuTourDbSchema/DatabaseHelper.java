@@ -22,7 +22,7 @@ import osu.mobile_apps.ohiostatetourchallenge.User;
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper{
-    private static final int VERSION = 8;
+    private static final int VERSION = 9;
     public static final String DATABASE_NAME = "osu_tour.db";
 
     public DatabaseHelper(Context context) {
@@ -110,15 +110,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(15, 'Frank W. Hale, Jr. Civil Rights Library')");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(16, 'Hale Hall Library')");
         //Orton
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(17, 'state')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(18, 'country')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(19, 'world')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(20, 'midwest')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(17, 'State')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(18, 'Country')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(19, 'World')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(20, 'Midwest')");
         //University
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(21, 'tower clock, hall entrance, and pillars')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(22, 'tower clock, bells, and pillars')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(23, 'bells, pillars, and statues')");
-        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(24, 'hall entrance, stained glass windows, and false ceiling')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(21, 'Tower clock, hall entrance, and pillars')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(22, 'Tower clock, bells, and pillars')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(23, 'Bells, pillars, and statues')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(24, 'Hall entrance, stained glass windows, and false ceiling')");
         //Wexner
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(25, 'Mershon Auditorium')");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(26, 'Weigel Auditorium')");
