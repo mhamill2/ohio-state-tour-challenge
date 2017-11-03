@@ -6,8 +6,10 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -36,6 +38,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -43,6 +46,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,12 +139,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .addApi(Auth.GOOGLE_SIGN_IN_API, mGoogleSignInOptions)
                 .build();
 
-        // Set the dimensions of the sign-in button.
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean login = prefs.getBoolean("Login", false);
+
+        if (!login) {
+            setSignInButton();
+        } else {
+            setSignOutButton();
+        }
+    }
+
+    private void setSignInButton() {
+        // Set sign-in button.
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_WIDE);
         signInButton.setColorScheme(SignInButton.COLOR_DARK);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
+        findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
     }
+
+    private void setSignOutButton() {
+        // Set sign out button
+        findViewById(R.id.sign_out_button).setOnClickListener(this);
+        findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+        findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
+    }
+
     @Override
     protected void onStart(){
         Log.d("REQUIRED",this.getClass().getSimpleName().toString() + " OnStart() Executed");
@@ -397,13 +422,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.sign_in_button:
                 signIn();
                 break;
-            // ...
+            case R.id.sign_out_button:
+                signOut();
+                break;
         }
     }
 
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void signOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        updateUI(false);
+                    }
+                });
+        revokeAccess();
+    }
+
+    private void revokeAccess() {
+        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                    }
+                });
     }
 
     @Override
@@ -427,10 +474,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void updateUI(boolean signedIn) {
         if (signedIn) {
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+            setSignOutButton();
             if(mGoogleApiClient.isConnected()) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                prefs.edit().putBoolean("Login", true).apply();
+                ContentValues values = new ContentValues();
+                values.put(OsuTourDbSchema.UserTable.Cols.USER_NAME, mGoogleSignInAccount.getEmail());
+                long newRowId = mDatabaseWrite.insert(OsuTourDbSchema.UserTable.NAME, null, values);
+                user = mDatabaseHelper.getUser(mGoogleSignInAccount.getEmail());
+                Log.d("USER: ", user.getUserName());
                 Intent intent = new Intent(LoginActivity.this, ListActivity.class);
+                intent.putExtra("User", user);
                 startActivity(intent);
             }
+        } else {
+            setSignInButton();
+            findViewById(R.id.sign_out_button).setVisibility(View.GONE);
+            Toast.makeText(getApplicationContext(), "Successfully signed out!",
+                    Toast.LENGTH_SHORT).show();
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            prefs.edit().putBoolean("Login", false).apply();
         }
     }
 

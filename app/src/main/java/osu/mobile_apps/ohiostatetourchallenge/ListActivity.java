@@ -94,14 +94,14 @@ public class ListActivity extends AppCompatActivity {
 
             case R.id.about:
                 //Start about activity
-                Intent intent = new Intent(ListActivity.this, AboutActivity.class);
-                startActivity(intent);
+                Intent aboutIntent = new Intent(ListActivity.this, AboutActivity.class);
+                startActivity(aboutIntent);
                 return true;
 
             case R.id.logout:
                 // Logout
-                // TODO: Logout does not always return to the login screen
-                this.finish();
+                Intent logoutIntent = new Intent(ListActivity.this, LoginActivity.class);
+                startActivity(logoutIntent);
                 return true;
 
         }

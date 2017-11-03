@@ -52,15 +52,14 @@ public class InformationActivity extends AppCompatActivity {
 
         Log.d("TESTING", "Target: " + location.getLatitude() + ", " + location.getLongitude());
         Log.d("TESTING", "Device: " + deviceLocation.getLatitude() + ", " + deviceLocation.getLongitude());
-        //TODO Highlighting Trevor's location testing lines
-        //SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
-            //Testing point
-            SimpleLocation.Point myCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
+        SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
+        // Testing point
+        // SimpleLocation.Point myCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
         SimpleLocation.Point targetCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
 
         double distance = deviceLocation.calculateDistance(myCoords, targetCoords);
         Log.d("TESTING", "Distance: " + distance + " meters");
-            if (distance > 10) {
+            if (distance > 100) {
                 //Say too far away
                 TV = (TextView) findViewById(R.id.description);
                 if (TV != null) {
