@@ -85,6 +85,12 @@
         android:layout_height="wrap_content"
         android:text="@string/sign_out"
         android:theme="@style/AppTheme"
-        android:visibility="invisible"
+        android:visibility="gone"
         />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/fb_login_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

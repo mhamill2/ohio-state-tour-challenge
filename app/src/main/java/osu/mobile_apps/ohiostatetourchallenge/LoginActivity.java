@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphRequestAsyncTask;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -49,7 +60,13 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import database.OsuTourDbSchema.DatabaseHelper;
@@ -94,6 +111,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private CallbackManager callbackManager;
     private static final int RC_SIGN_IN = 9001;
 
     @Override
@@ -106,6 +124,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
+
+        callbackManager = CallbackManager.Factory.create();
+        LoginButton loginButton = (LoginButton) findViewById(R.id.fb_login_button);
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                final AccessToken accessToken = loginResult.getAccessToken();
+                GraphRequestAsyncTask request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject user, GraphResponse graphResponse) {
+                        ContentValues values = new ContentValues();
+                        values.put(OsuTourDbSchema.UserTable.Cols.USER_NAME, user.optString("email"));
+                        long newRowId = mDatabaseWrite.insert(OsuTourDbSchema.UserTable.NAME, null, values);
+                        User osuTourUser = mDatabaseHelper.getUser(user.optString("email"));
+                        Intent intent = new Intent(LoginActivity.this, ListActivity.class);
+                        intent.putExtra("User", osuTourUser);
+                        startActivity(intent);
+                    }
+                }).executeAsync();
+            }
+
+            @Override
+            public void onCancel() {
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+            }
+        });
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -461,6 +508,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (requestCode == RC_SIGN_IN) {
             mGoogleSignInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(mGoogleSignInResult);
+        } else {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -570,6 +619,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             mAuthTask = null;
             showProgress(false);
         }
+
     }
 }
 
