@@ -2,6 +2,7 @@ package osu.mobile_apps.ohiostatetourchallenge;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -25,9 +26,10 @@ import im.delight.android.location.SimpleLocation;
 import static im.delight.android.location.SimpleLocation.calculateDistance;
 import static java.lang.Math.round;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
+    private User user;
     private int mLocationPermissionGranted;
     private SimpleLocation myLocation;
     private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
@@ -35,15 +37,22 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private List<Location> mCompletedLocations;
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ListActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnCreate() Executed");
         setContentView(R.layout.activity_map);
 
+        user = mDatabaseHelper.getUser(this.getIntent().getStringExtra("UserName"));
+
         // Get locations and completed locations.
         mLocations = mDatabaseHelper.getLocations();
-        mCompletedLocations = mDatabaseHelper.getCompletedLocations(this.getIntent()
-                .getIntExtra("UserID", 0));
+        mCompletedLocations = mDatabaseHelper.getCompletedLocations(user.getId());
 
         mLocationPermissionGranted = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
@@ -59,6 +68,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         // Turn on the My Location layer and the related control on the map.
         updateLocationUI();
+        mMap.setOnInfoWindowClickListener(this);
     }
 
     public void getDeviceLocation() {
@@ -129,7 +139,24 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         }
     }
 
-    // TODO - add pictures to info window (maybe?)
+    // TODO - go from location marker to information activity
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+//        Location loc = new Location();
+//        loc.setLatitude(marker.getPosition().latitude);
+//        loc.setLongitude(marker.getPosition().longitude);
+//        loc.setName(marker.getTitle());
+//        loc.setId(Integer.parseInt(marker.getId()));
+
+        Location loc = mDatabaseHelper.getLocation(marker.getTitle());
+
+        Intent intent = new Intent(this, InformationActivity.class);
+        intent.putExtra("caller", "MapActivity");
+        intent.putExtra("Location", loc);
+        intent.putExtra("User", user);
+        startActivity(intent);
+    }
+
 
     @Override
     protected void onStart(){
@@ -166,5 +193,4 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnDestroy() Executed");
         super.onDestroy();
     }
-    
 }

@@ -61,8 +61,8 @@ public class InformationActivity extends AppCompatActivity {
             SimpleLocation.openSettings(this);
         }
 
-        Log.d("TESTING", "Target: " + location.getLatitude() + ", " + location.getLongitude());
-        Log.d("TESTING", "Device: " + deviceLocation.getLatitude() + ", " + deviceLocation.getLongitude());
+        //Log.d("TESTING", "Target: " + location.getLatitude() + ", " + location.getLongitude());
+        //Log.d("TESTING", "Device: " + deviceLocation.getLatitude() + ", " + deviceLocation.getLongitude());
         SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
         // Testing point
         //SimpleLocation.Point myCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
