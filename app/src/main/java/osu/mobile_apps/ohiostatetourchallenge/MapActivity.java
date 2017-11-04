@@ -1,6 +1,5 @@
 package osu.mobile_apps.ohiostatetourchallenge;
 
-import android.*;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -13,22 +12,39 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
+import database.OsuTourDbSchema.DatabaseHelper;
 import im.delight.android.location.SimpleLocation;
+
+import static im.delight.android.location.SimpleLocation.calculateDistance;
+import static java.lang.Math.round;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private int mLocationPermissionGranted;
-    private SimpleLocation location;
+    private SimpleLocation myLocation;
+    private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
+    private List<Location> mLocations;
+    private List<Location> mCompletedLocations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnCreate() Executed");
         setContentView(R.layout.activity_map);
+
+        // Get locations and completed locations.
+        mLocations = mDatabaseHelper.getLocations();
+        mCompletedLocations = mDatabaseHelper.getCompletedLocations(this.getIntent()
+                .getIntExtra("UserID", 0));
+
         mLocationPermissionGranted = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -36,10 +52,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
-    // TODO - Markers for all locations
-
-    // TODO - update/remove methods for markers
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -51,7 +63,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     public void getDeviceLocation() {
         Context context = this;
-        location = new SimpleLocation(context, false);
+        myLocation = new SimpleLocation(context, false);
     }
 
     private void updateLocationUI() {
@@ -62,14 +74,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             if (mLocationPermissionGranted == PackageManager.PERMISSION_GRANTED) {
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().setMyLocationButtonEnabled(true);
-                mMap.getUiSettings().setCompassEnabled(true);
-                mMap.setMinZoomPreference(15);
+                mMap.setMinZoomPreference(0);
+                mMap.setMaxZoomPreference(20);
                 getDeviceLocation();
-
-                // Add a marker in current location
-                LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(myLocation).title("Marker in current location"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
+                LatLng currentLocation = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+                createMarkers();
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
             } else {
                 mMap.setMyLocationEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -83,6 +93,43 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             Log.e("Exception: %s", e.getMessage());
         }
     }
+
+    private void createMarkers() {
+        for (int i = 0; i < mLocations.size(); i++) {
+            // Add markers for each location
+            Marker m;
+            m = mMap.addMarker(new MarkerOptions().position(new LatLng(mLocations.get(i).getLatitude(),
+                    mLocations.get(i).getLongitude())).title(mLocations.get(i).getName()));
+            m.setTag("Incomplete");
+
+            // Change each completed location marker to green
+            for (int j = 0; j < mCompletedLocations.size(); j++) {
+                if (m.getTitle().equalsIgnoreCase(mCompletedLocations.get(j).getName())) {
+                    m.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                    m.setTag("Complete");
+                }
+            }
+            // TODO - remove if block after testing
+            if (i == 1) {
+                m.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                m.setTag("Complete");
+            }
+            createInfoWindow(m);
+        }
+    }
+
+    private void createInfoWindow(Marker marker) {
+        if (marker.getTag().equals("Complete")) {
+            marker.setSnippet("Location Visited!");
+        } else {
+            marker.setSnippet("Location not visited! Distance to location = " +
+                    round(calculateDistance(marker.getPosition().latitude,
+                            marker.getPosition().longitude, myLocation.getLatitude(),
+                            myLocation.getLongitude())) + " m");
+        }
+    }
+
+    // TODO - add pictures to info window (maybe?)
 
     @Override
     protected void onStart(){
