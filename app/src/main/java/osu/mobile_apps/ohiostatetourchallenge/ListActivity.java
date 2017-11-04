@@ -167,7 +167,8 @@ public class ListActivity extends AppCompatActivity {
             intent.putExtra("Location", location);
             intent.putExtra("User", user);
             intent.putExtra("isUnlocked", mDatabaseHelper.locationIsUnlocked(user.getId(), location.getId()));
-        } else {
+            startActivity(intent);
+        } else if (v.getId() == R.id.locationButton){
             if (!completed) {
                 intent = new Intent(ListActivity.this, ListActivity.class);
                 if (target.equals("Locked")) {
