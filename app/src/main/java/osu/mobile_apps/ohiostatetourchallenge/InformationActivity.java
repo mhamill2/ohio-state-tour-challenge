@@ -26,6 +26,9 @@ public class InformationActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent;
         String caller = getIntent().getStringExtra("caller");
+        if(caller == null ) {
+            caller = "ListActivity";
+        }
         try {
             Class callerClass = Class.forName(caller);
             intent = new Intent(InformationActivity.this, callerClass);
