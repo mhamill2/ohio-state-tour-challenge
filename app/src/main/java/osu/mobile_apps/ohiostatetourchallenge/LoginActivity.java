@@ -358,6 +358,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(LoginActivity.this, ListActivity.class);
             Log.d("USER: ", user.getUserName());
             intent.putExtra("User", user);
+            intent.putExtra("Target", "Locked");
             startActivity(intent);
         }
     }

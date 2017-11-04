@@ -24,6 +24,7 @@ public class QuestionActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(QuestionActivity.this, ListActivity.class);
         intent.putExtra("User", user);
+        intent.putExtra("Target", "Locked");
         startActivity(intent);
     }
 
