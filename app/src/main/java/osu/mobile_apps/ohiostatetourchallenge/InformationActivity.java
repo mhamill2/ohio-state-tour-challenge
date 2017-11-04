@@ -20,27 +20,20 @@ import im.delight.android.location.SimpleLocation;
 public class InformationActivity extends AppCompatActivity {
     private SimpleLocation deviceLocation;
     private User user;
+    private boolean backToMap;
 
     // back button returns to list of locations
     @Override
     public void onBackPressed() {
         Intent intent;
-        String caller = getIntent().getStringExtra("caller");
-        if(caller == null ) {
-            caller = "ListActivity";
+        if (backToMap) {
+            intent = new Intent(this, MapActivity.class);
+        } else {
+            intent = new Intent(this, ListActivity.class);
         }
-        try {
-            Class callerClass = Class.forName(caller);
-            intent = new Intent(InformationActivity.this, callerClass);
-            intent.putExtra("User", user);
-            intent.putExtra("Target", "Locked");
-            startActivity(intent);
-        } catch(ClassNotFoundException e) {
-            intent = new Intent(InformationActivity.this, ListActivity.class);
-            intent.putExtra("User", user);
-            intent.putExtra("Target", "Locked");
-            startActivity(intent);
-        }
+        intent.putExtra("User", user);
+        intent.putExtra("Target", "Locked");
+        startActivity(intent);
     }
 
     @Override
@@ -83,6 +76,7 @@ public class InformationActivity extends AppCompatActivity {
                     ImageView image = findViewById(R.id.image);
                     int resourceId = this.getResources().getIdentifier("questionmark", "drawable", "osu.mobile_apps.ohiostatetourchallenge");
                     image.setImageResource(resourceId);
+                    backToMap = true;
                 }
             } else {
                 //Show challenge question
