@@ -89,6 +89,8 @@ public class ListActivity extends AppCompatActivity {
             targetLocations = unlocked;
         }
 
+        Collections.sort(targetLocations, Location.LocationNameComparator);
+
         //Set text of header and switch button based on target locations
         TextView locationOption = (TextView) findViewById(R.id.header);
         if(target.equals("Locked")){
