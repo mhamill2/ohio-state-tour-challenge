@@ -65,31 +65,31 @@ public class ListActivity extends AppCompatActivity {
             }
         }
         Collections.sort(locations, Location.LocationNameComparator);
-        listItems = new ArrayList<>();
 
-        String description;
-        String smallDescription;
-
+        //Button used to change target views
         Button switchButton = (Button) findViewById(R.id.locationButton);
 
         List<Location> targetLocations = new ArrayList<>();
         target = (String) getIntent().getSerializableExtra("Target");
+        //If the target is null then make the locked locations
         if(target == null){
             target = "Locked";
         }
 
+        //If everything is unlocked then just display the unlocked locations and mark complete
         if(locations.size() == unlocked.size()){
             target = "Unlocked";
             completed = true;
         }
 
+        //Get the correct list as the target list
         if(target.equals("Locked")){
             targetLocations = locked;
         }else{
             targetLocations = unlocked;
         }
 
-
+        //Set text of header and switch button based on target locations
         TextView locationOption = (TextView) findViewById(R.id.header);
         if(target.equals("Locked")){
             switchButton.setText("Unlocked Locations");
@@ -99,6 +99,11 @@ public class ListActivity extends AppCompatActivity {
             locationOption.setText("Your Unlocked Locations");
         }
 
+
+        //Display locations
+        listItems = new ArrayList<>();
+        String description;
+        String smallDescription;
         for(Location entry: targetLocations) {
             description = entry.getDescription();
             //Check if location is unlocked or not
