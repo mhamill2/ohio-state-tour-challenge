@@ -20,7 +20,7 @@ import osu.mobile_apps.ohiostatetourchallenge.User;
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper{
-    private static final int VERSION = 9;
+    private static final int VERSION = 10;
     public static final String DATABASE_NAME = "osu_tour.db";
 
     public DatabaseHelper(Context context) {
@@ -56,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.LocationTable.NAME +" VALUES(8, 'Wilce Student Health Center', 39.9996, -83.0164, 'The Wilce Student Health Center is an on campus accredited outpatient facility as well as a pharmacy. Appointments can be made through BuckMD for a variety of reasons. All students enrolled at the Ohio State University are eligible to use Student Life Student Health Services (SLSHS), regardless of health insurance coverage. Students are responsible for their deductibles, according to their individual insurance plans.')");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.LocationTable.NAME +" VALUES(9, 'Traditions at Scott', 40.00415, -83.0134, 'Traditions at Scott is a 1,000-seat, all-you-care-to-eat dining operation with kitchens covering two floors. Scott features a wide variety of food choices as well as a \"Solutions\" station that offers gluten free, vegan and other options for dietary restriction. Ask to talk to a chef if you have any dietary concerns. It is the largest of three Traditions locations on campus. Kennedy and Morril commons are the other two.')");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.LocationTable.NAME +" VALUES(10, 'Ohio Stadium', 40.002936, -83.019555, 'The Ohio Stadium, also known as the horseshoe due to its distincitve shape, was built in 1922 and now has 104,944 seats. You can look forward to joining other students on Saturdays to watch the Buckeyes play football. Arrive early to watch the band script Ohio and stay till the end to sing Carmen. Ticket information is sent out via email.')");
-
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.LocationTable.NAME +" VALUES(11, 'Caldwell Laboratory', 40.002454, -83.014992, 'Caldwell lab is home to the largest open lab for Computer Science and Engineering students, and labs for Electrical Computer Engineering students.')");
         // CREATE Question Table
         db.execSQL("create table " + OsuTourDbSchema.QuestionTable.NAME+ "(" + OsuTourDbSchema.QuestionTable.Cols.ID +" integer primary key autoincrement, " +
                 OsuTourDbSchema.QuestionTable.Cols.TEXT + " text)"
@@ -81,6 +81,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(9, 'How many floors does Traditions at Scott have?')");
         //Stadium
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(10, 'What are the colors of the flowers on the stadium?')");
+        // Caldwell
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionTable.NAME +" VALUES(11, 'What is the hand above the main door of Caldwell holding?')");
 
 
         // CREATE Answer Table
@@ -137,7 +139,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(38, 'Maize and Blue')");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(39, 'Rose Red')");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(40, 'Scarlet and Gray')");
-
+        //Caldwell
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(41, 'Nothing')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(42, 'Buckeyes')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(43, 'Lighting Bolts')");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.AnswerTable.NAME +" VALUES(44, 'Wires')");
 
         // CREATE QuestionAnswer Table
         db.execSQL("create table " + OsuTourDbSchema.QuestionAnswerTable.NAME+ "(" + OsuTourDbSchema.QuestionAnswerTable.Cols.ID + " integer primary key autoincrement, " +
@@ -213,6 +219,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(3+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(3+(4*(question-1)))+", 0)");
         db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(4+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(4+(4*(question-1)))+", 0)");
 
+        //Caldwell
+        question = 11;
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(1+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(1+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(2+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(2+(4*(question-1)))+", 0)");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(3+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(3+(4*(question-1)))+", "+correct+")");
+        db.execSQL("INSERT INTO "+ OsuTourDbSchema.QuestionAnswerTable.NAME +" VALUES(" + Integer.toString(4+(4*(question-1)))+", "+ Integer.toString(question) +", " + Integer.toString(4+(4*(question-1)))+", 0)");
 
 
         // CREATE LocationQuestion Table
@@ -240,6 +252,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("INSERT INTO " + OsuTourDbSchema.LocationQuestionTable.NAME + " VALUES(9, 9, 9)");
         //Stadium
         db.execSQL("INSERT INTO " + OsuTourDbSchema.LocationQuestionTable.NAME + " VALUES(10, 10, 10)");
+        //Caldwell
+        db.execSQL("INSERT INTO " + OsuTourDbSchema.LocationQuestionTable.NAME + " VALUES(11, 11, 11)");
 
         // CREATE PlayerLocationsCompleted Table
         db.execSQL("create table " + OsuTourDbSchema.PlayerLocationCompletedTable.NAME + "(" + OsuTourDbSchema.PlayerLocationCompletedTable.Cols.ID +" integer primary key autoincrement, " +
