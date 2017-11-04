@@ -26,12 +26,18 @@ public class QuestionActivity extends AppCompatActivity {
         String caller = getIntent().getStringExtra("caller");
         try {
             Class callerClass = Class.forName(caller);
+            intent = new Intent(QuestionActivity.this, callerClass);
+            intent.putExtra("User", user);
+            intent.putExtra("Target", "Locked");
+            startActivity(intent);
         } catch(ClassNotFoundException e) {
             intent = new Intent(QuestionActivity.this, ListActivity.class);
             intent.putExtra("User", user);
             intent.putExtra("Target", "Locked");
             startActivity(intent);
         }
+
+
     }
 
     @Override
