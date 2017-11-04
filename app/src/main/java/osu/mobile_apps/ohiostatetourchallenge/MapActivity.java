@@ -1,6 +1,5 @@
 package osu.mobile_apps.ohiostatetourchallenge;
 
-import android.*;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -13,9 +12,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
+import database.OsuTourDbSchema.DatabaseHelper;
 import im.delight.android.location.SimpleLocation;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -23,12 +27,15 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private GoogleMap mMap;
     private int mLocationPermissionGranted;
     private SimpleLocation location;
+    private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
+    private List<Location> mLocations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnCreate() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnCreate() Executed");
         setContentView(R.layout.activity_map);
+        mLocations = mDatabaseHelper.getLocations();
         mLocationPermissionGranted = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -36,10 +43,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
-    // TODO - Markers for all locations
-
-    // TODO - update/remove methods for markers
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -63,12 +66,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().setMyLocationButtonEnabled(true);
                 mMap.getUiSettings().setCompassEnabled(true);
-                mMap.setMinZoomPreference(15);
+                mMap.setMinZoomPreference(0);
+                mMap.setMaxZoomPreference(20);
                 getDeviceLocation();
 
                 // Add a marker in current location
                 LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(myLocation).title("Marker in current location"));
+                Marker currentPosition;
+                currentPosition = mMap.addMarker(new MarkerOptions().position(myLocation).title("Marker in current location"));
+                createMarkers();
+                currentPosition.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
             } else {
                 mMap.setMyLocationEnabled(false);
@@ -84,39 +91,47 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         }
     }
 
+    private void createMarkers() {
+        // TODO - Markers for all locations
+        for (int i = 0; i < mLocations.size(); i++) {
+            mMap.addMarker(new MarkerOptions().position(new LatLng(mLocations.get(i).getLatitude(),
+                    mLocations.get(i).getLongitude())).title(mLocations.get(i).getName()));
+        }
+    }
+
     @Override
     protected void onStart(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnStart() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnStart() Executed");
         super.onStart();
     }
 
     @Override
     protected void onPause(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnPause() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnPause() Executed");
         super.onPause();
     }
 
     @Override
     protected void onResume(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnResume() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnResume() Executed");
         super.onResume();
     }
 
     @Override
     protected void onStop(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnStop() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnStop() Executed");
         super.onStop();
     }
 
     @Override
     protected void onRestart(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnRestart() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnRestart() Executed");
         super.onRestart();
     }
 
     @Override
     protected void onDestroy() {
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnDestroy() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnDestroy() Executed");
         super.onDestroy();
     }
     
