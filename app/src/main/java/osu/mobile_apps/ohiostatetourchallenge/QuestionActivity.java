@@ -22,10 +22,16 @@ public class QuestionActivity extends AppCompatActivity {
     // back button returns to list of locations
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(QuestionActivity.this, ListActivity.class);
-        intent.putExtra("User", user);
-        intent.putExtra("Target", "Locked");
-        startActivity(intent);
+        Intent intent;
+        String caller = getIntent().getStringExtra("caller");
+        try {
+            Class callerClass = Class.forName(caller);
+        } catch(ClassNotFoundException e) {
+            intent = new Intent(QuestionActivity.this, ListActivity.class);
+            intent.putExtra("User", user);
+            intent.putExtra("Target", "Locked");
+            startActivity(intent);
+        }
     }
 
     @Override
