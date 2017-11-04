@@ -50,7 +50,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnCreate() Executed");
         setContentView(R.layout.activity_map);
 
-        user = mDatabaseHelper.getUser(this.getIntent().getStringExtra("UserName"));
+        user = (User) this.getIntent().getSerializableExtra("User");
 
         // Get locations and completed locations.
         mLocations = mDatabaseHelper.getLocations();
@@ -97,7 +97,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             if (mLocationPermissionGranted == PackageManager.PERMISSION_GRANTED) {
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().setMyLocationButtonEnabled(true);
-                mMap.setMinZoomPreference(0);
+                mMap.setMinZoomPreference(15);
                 mMap.setMaxZoomPreference(20);
                 getDeviceLocation();
                 LatLng currentLocation = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());

@@ -44,7 +44,6 @@ public class InformationActivity extends AppCompatActivity {
 
         TextView TV;
         user = (User) getIntent().getSerializableExtra("User");
-        backToMap = this.getIntent().getBooleanExtra("fromMap", false);
 
         boolean isUnlocked = getIntent().getBooleanExtra("isUnlocked", false);
         Location location = (Location) getIntent().getSerializableExtra("Location");
@@ -77,6 +76,9 @@ public class InformationActivity extends AppCompatActivity {
                     ImageView image = findViewById(R.id.image);
                     int resourceId = this.getResources().getIdentifier("questionmark", "drawable", "osu.mobile_apps.ohiostatetourchallenge");
                     image.setImageResource(resourceId);
+                    if (this.getIntent().getBooleanExtra("fromMap", false)) {
+                        backToMap = true;
+                    }
                 }
             } else {
                 //Show challenge question
@@ -105,6 +107,9 @@ public class InformationActivity extends AppCompatActivity {
                 TV.setText(location.getDescription());
             }
             Log.d("TESTING", "Data = " + location.getName());
+            if (this.getIntent().getBooleanExtra("fromMap", false)) {
+                backToMap = true;
+            }
         }
     }
 

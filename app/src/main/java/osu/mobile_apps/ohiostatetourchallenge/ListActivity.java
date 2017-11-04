@@ -140,7 +140,7 @@ public class ListActivity extends AppCompatActivity {
             case R.id.map:
                 //Start map activity
                 Intent mapIntent = new Intent(ListActivity.this, MapActivity.class);
-                mapIntent.putExtra("UserName", user.getUserName());
+                mapIntent.putExtra("User", user);
                 startActivity(mapIntent);
                 return true;
 
@@ -187,6 +187,8 @@ public class ListActivity extends AppCompatActivity {
             }
         }
     }
+
+    // TODO - go back from unlocked location to unlocked list and vice versa
 
     @Override
     protected void onStart(){
