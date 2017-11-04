@@ -87,6 +87,11 @@ public class InformationActivity extends AppCompatActivity {
             } else {
                 //Show challenge question
                 Intent intent = new Intent(InformationActivity.this, QuestionActivity.class);
+                String caller = getIntent().getStringExtra("caller");
+                if(caller == null ) {
+                    caller = "ListActivity";
+                }
+                intent.putExtra("caller", caller);
                 intent.putExtra("Location", location);
                 intent.putExtra("User", user);
                 startActivity(intent);
