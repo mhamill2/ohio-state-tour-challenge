@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:onClick="onClick"
-            android:text="Button4"/>
+            android:text="Button4" />
 
 
     </LinearLayout>

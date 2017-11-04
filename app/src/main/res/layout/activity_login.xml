@@ -85,6 +85,16 @@
         android:layout_height="wrap_content"
         android:text="@string/sign_out"
         android:theme="@style/AppTheme"
-        android:visibility="invisible"
+        android:visibility="gone"
         />
+
+    <com.facebook.login.widget.LoginButton
+        xmlns:facebook="http://schemas.android.com/apk/res-auto"
+        facebook:com_facebook_login_text="Sign in with Facebook"
+        facebook:com_facebook_logout_text="Sign out"
+        android:id="@+id/fb_login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:theme="@style/AppTheme"/>
 </LinearLayout>

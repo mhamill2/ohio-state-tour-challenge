@@ -26,6 +26,7 @@ public class InformationActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(InformationActivity.this, ListActivity.class);
         intent.putExtra("User", user);
+        intent.putExtra("Target", "Locked");
         startActivity(intent);
     }
 
@@ -52,14 +53,14 @@ public class InformationActivity extends AppCompatActivity {
 
         Log.d("TESTING", "Target: " + location.getLatitude() + ", " + location.getLongitude());
         Log.d("TESTING", "Device: " + deviceLocation.getLatitude() + ", " + deviceLocation.getLongitude());
-        SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
+        //SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
         // Testing point
-        // SimpleLocation.Point myCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
+        SimpleLocation.Point myCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
         SimpleLocation.Point targetCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
 
         double distance = deviceLocation.calculateDistance(myCoords, targetCoords);
         Log.d("TESTING", "Distance: " + distance + " meters");
-            if (distance > 100) {
+            if (distance > 1000) {
                 //Say too far away
                 TV = (TextView) findViewById(R.id.description);
                 if (TV != null) {

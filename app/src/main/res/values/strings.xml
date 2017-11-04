@@ -27,4 +27,6 @@
     <string name="title_activity_map">Map</string>
     <string name="google_services">3.0.0</string>
     <string name="sign_out">Sign Out</string>
+    <string name="facebook_app_id">1535322139909118</string>
+    <string name="fb_login_protocol_scheme">fb1535322139909118</string>
 </resources>

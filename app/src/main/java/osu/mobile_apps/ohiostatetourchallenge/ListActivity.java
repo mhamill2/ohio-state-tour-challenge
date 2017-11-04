@@ -9,7 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +26,8 @@ public class ListActivity extends AppCompatActivity {
     private List<ListItem> listItems;
     private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
     private User user;
+    private String target;
+    private boolean completed = false;
 
     // Stops the back button
     @Override
@@ -49,13 +53,53 @@ public class ListActivity extends AppCompatActivity {
         //Create location list
         mlocations.setLayoutManager(new LinearLayoutManager(this));
         List<Location> locations = mDatabaseHelper.getLocations();
+
+        //Get list of locked and unlocked locations
+        List<Location> unlocked = new ArrayList<>();
+        List<Location> locked = new ArrayList<>();
+        for(Location place: locations){
+            if(mDatabaseHelper.locationIsUnlocked(user.getId(), place.getId())){
+                unlocked.add(place);
+            }else{
+                locked.add(place);
+            }
+        }
         Collections.sort(locations, Location.LocationNameComparator);
         listItems = new ArrayList<>();
 
         String description;
         String smallDescription;
 
-        for(Location entry: locations) {
+        Button switchButton = (Button) findViewById(R.id.locationButton);
+
+        List<Location> targetLocations = new ArrayList<>();
+        target = (String) getIntent().getSerializableExtra("Target");
+        if(target == null){
+            target = "Locked";
+        }
+
+        if(locations.size() == unlocked.size()){
+            target = "Unlocked";
+            completed = true;
+        }
+
+        if(target.equals("Locked")){
+            targetLocations = locked;
+        }else{
+            targetLocations = unlocked;
+        }
+
+
+        TextView locationOption = (TextView) findViewById(R.id.header);
+        if(target.equals("Locked")){
+            switchButton.setText("Unlocked Locations");
+            locationOption.setText("Your Locked Locations");
+        }else{
+            switchButton.setText("Locked Locations");
+            locationOption.setText("Your Unlocked Locations");
+        }
+
+        for(Location entry: targetLocations) {
             description = entry.getDescription();
             //Check if location is unlocked or not
             if(mDatabaseHelper.locationIsUnlocked(user.getId(), entry.getId())) {
@@ -108,16 +152,31 @@ public class ListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onClick(View v){
-        Intent intent = new Intent(ListActivity.this, InformationActivity.class);
-        if(v.getId()==R.id.textViewHead){
+    public void onClick(View v) {
+        Intent intent;
+        if (v.getId() == R.id.textViewHead) {
+            intent = new Intent(ListActivity.this, InformationActivity.class);
             TextView TV = (TextView) v.findViewById(R.id.textViewHead);
             Location location = mDatabaseHelper.getLocation(TV.getText().toString());
             intent.putExtra("Location", location);
             intent.putExtra("User", user);
             intent.putExtra("isUnlocked", mDatabaseHelper.locationIsUnlocked(user.getId(), location.getId()));
+        } else {
+            if (!completed) {
+                intent = new Intent(ListActivity.this, ListActivity.class);
+                if (target.equals("Locked")) {
+                    intent.putExtra("User", user);
+                    intent.putExtra("Target", "Unlocked");
+                } else {
+                    intent.putExtra("User", user);
+                    intent.putExtra("Target", "Locked");
+                }
+                startActivity(intent);
+            }else{
+                Toast.makeText(getApplicationContext(), "All locations completed. Good job!!",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
-        startActivity(intent);
     }
 
     @Override

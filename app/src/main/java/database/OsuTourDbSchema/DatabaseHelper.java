@@ -5,13 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.system.Os;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import osu.mobile_apps.ohiostatetourchallenge.Answer;
 import osu.mobile_apps.ohiostatetourchallenge.Location;
 import osu.mobile_apps.ohiostatetourchallenge.Question;
 import osu.mobile_apps.ohiostatetourchallenge.QuestionAnswer;
@@ -280,6 +278,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             user.setId(cursor.getInt(0));
             user.setUserName(cursor.getString(1));
             user.setPassword(cursor.getString(2));
+            cursor.close();
         }
 
         return user;
@@ -305,6 +304,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             loc.setLatitude(cursor.getDouble(1));
             loc.setLongitude(cursor.getDouble(2));
             loc.setDescription(cursor.getString(3));
+            cursor.close();
         }
         return loc;
     }
@@ -329,6 +329,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             loc.setLatitude(cursor.getDouble(2));
             loc.setLongitude(cursor.getDouble(3));
             loc.setDescription(cursor.getString(4));
+            cursor.close();
         }
         return loc;
     }
@@ -358,6 +359,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 loc.setLongitude(cursor.getDouble(4));
                 locations.add(loc);
             }
+            cursor.close();
 
         }
         return locations;
@@ -381,15 +383,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                     locationsCompleted.add(loc);
                 }
             }
-
+            cursor.close();
         }
         return locationsCompleted;
     }
 
     public boolean locationIsUnlocked(Integer userId, Integer locationId) {
         boolean locationUnlocked = false;
-        Log.d("USERID: ", userId.toString());
-        Log.d("LOCATIONID: ", locationId.toString());
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {OsuTourDbSchema.PlayerLocationCompletedTable.Cols.USER_ID,
                 OsuTourDbSchema.PlayerLocationCompletedTable.Cols.LOCATION_ID,};
@@ -401,7 +401,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                         null, null, null, null);
         if (cursor != null && cursor.getCount() > 0) {
             locationUnlocked = true;
-
+            cursor.close();
         }
         return locationUnlocked;
     }
@@ -409,7 +409,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public Question getQuestion(Integer locationId) {
         Question question = new Question();
         SQLiteDatabase db = this.getReadableDatabase();
-        ContentValues c = new ContentValues();
         String[] columns = {OsuTourDbSchema.LocationQuestionTable.Cols.QUESTION_ID};
         // First cursor gets the questionId from the LocationQuestionTable
         Cursor cursor = db.query(OsuTourDbSchema.LocationQuestionTable.NAME,
@@ -417,12 +416,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 OsuTourDbSchema.LocationQuestionTable.Cols.LOCATION_ID + " = ?",
                 new String[] {String.valueOf(locationId)},
                 null, null, null, null);
-        Integer questionId = 0;
-        Log.d("BEFORE CURSOR CHECK", "");
+        Integer questionId;
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             questionId = cursor.getInt(0);
-            Log.d("Question ID", questionId.toString());
             String[] columns2 = {OsuTourDbSchema.QuestionTable.Cols.ID,
                     OsuTourDbSchema.QuestionTable.Cols.TEXT};
             // Second cursor gets the question text from the Question table
@@ -435,7 +432,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 cursor2.moveToFirst();
                 question.setId(cursor2.getInt(0));
                 question.setText(cursor2.getString(1));
+                cursor2.close();
             }
+            cursor.close();
         }
 
         return question;
@@ -463,6 +462,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 qa.setCorrect(cursor.getInt(3) != 0);
                 questionAnswers.add(qa);
             }
+            cursor.close();
         }
 
 
@@ -481,6 +481,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             answer = cursor.getString(0);
+            cursor.close();
         }
         return answer;
     }
@@ -492,7 +493,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         c.put(OsuTourDbSchema.PlayerLocationCompletedTable.Cols.USER_ID, userId);
         long newRowId = db.insert(OsuTourDbSchema.PlayerLocationCompletedTable.NAME, null, c);
         if(newRowId < 0) {
-            Log.d("ERROR", "In complete location: row not saved. ");
+            Log.d("ERROR", "Incomplete location: row not saved. ");
         }
     }
 

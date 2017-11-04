@@ -12,12 +12,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
@@ -40,6 +36,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphRequestAsyncTask;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -49,13 +54,14 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import database.OsuTourDbSchema.DatabaseHelper;
 import database.OsuTourDbSchema.OsuTourDbSchema;
 
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.READ_CONTACTS;
 import static osu.mobile_apps.ohiostatetourchallenge.Login.mGoogleApiClient;
 import static osu.mobile_apps.ohiostatetourchallenge.Login.mGoogleSignInAccount;
@@ -68,7 +74,6 @@ import static osu.mobile_apps.ohiostatetourchallenge.Login.mGoogleSignInResult;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoaderCallbacks<Cursor>, GoogleApiClient.OnConnectionFailedListener {
 
     private SQLiteDatabase mDatabaseWrite;
-    private SQLiteDatabase mDatabaseRead;
     private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
     private User user;
 
@@ -79,7 +84,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     /**
      * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
@@ -94,20 +98,52 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private CallbackManager callbackManager;
     private static final int RC_SIGN_IN = 9001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("REQUIRED",this.getClass().getSimpleName().toString() + " OnCreate() Executed");
+        Log.d("REQUIRED",this.getClass().getSimpleName() + " OnCreate() Executed");
         super.onCreate(savedInstanceState);
         mDatabaseWrite = new DatabaseHelper(this).getWritableDatabase();
-        mDatabaseRead = new DatabaseHelper(this).getReadableDatabase();
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = findViewById(R.id.email);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+        callbackManager = CallbackManager.Factory.create();
+        LoginButton loginButton = findViewById(R.id.fb_login_button);
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                final AccessToken accessToken = loginResult.getAccessToken();
+                GraphRequestAsyncTask request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject user, GraphResponse graphResponse) {
+                        ContentValues values = new ContentValues();
+                        values.put(OsuTourDbSchema.UserTable.Cols.USER_NAME, user.optString("email"));
+                        long newRowId = mDatabaseWrite.insert(OsuTourDbSchema.UserTable.NAME, null, values);
+                        if(newRowId < 0) {
+                            Log.d("ERROR", "User not saved in LoginActivity");
+                        }
+                        User osuTourUser = mDatabaseHelper.getUser(user.optString("email"));
+                        Intent intent = new Intent(LoginActivity.this, ListActivity.class);
+                        intent.putExtra("User", osuTourUser);
+                        startActivity(intent);
+                    }
+                }).executeAsync();
+            }
+
+            @Override
+            public void onCancel() {
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+            }
+        });
+
+        mPasswordView = findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -121,6 +157,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
+            @Override
             public void onClick(View view) {
                 attemptLogin();
             }
@@ -151,7 +188,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void setSignInButton() {
         // Set sign-in button.
-        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        SignInButton signInButton = findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_WIDE);
         signInButton.setColorScheme(SignInButton.COLOR_DARK);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
@@ -167,37 +204,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onStart(){
-        Log.d("REQUIRED",this.getClass().getSimpleName().toString() + " OnStart() Executed");
+        Log.d("REQUIRED",this.getClass().getSimpleName() + " OnStart() Executed");
         super.onStart();
     }
 
     @Override
     protected void onPause(){
-        Log.d("REQUIRED",this.getClass().getSimpleName().toString() + " OnPause() Executed");
+        Log.d("REQUIRED",this.getClass().getSimpleName() + " OnPause() Executed");
         super.onPause();
     }
 
     @Override
     protected void onResume(){
-        Log.d("REQUIRED",this.getClass().getSimpleName().toString() + " OnResume() Executed");
+        Log.d("REQUIRED",this.getClass().getSimpleName() + " OnResume() Executed");
         super.onResume();
     }
 
     @Override
     protected void onStop(){
-        Log.d("REQUIRED",this.getClass().getSimpleName().toString() + " OnStop() Executed");
+        Log.d("REQUIRED",this.getClass().getSimpleName() + " OnStop() Executed");
         super.onStop();
     }
 
     @Override
     protected void onRestart(){
-        Log.d("REQUIRED",this.getClass().getSimpleName().toString() + " OnRestart() Executed");
+        Log.d("REQUIRED",this.getClass().getSimpleName() + " OnRestart() Executed");
         super.onRestart();
     }
 
     @Override
     protected void onDestroy() {
-        Log.d("REQUIRED",this.getClass().getSimpleName().toString() + " OnDestroy() Executed");
+        Log.d("REQUIRED",this.getClass().getSimpleName() + " OnDestroy() Executed");
         super.onDestroy();
     }
 
@@ -300,6 +337,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 values.put(OsuTourDbSchema.UserTable.Cols.USER_NAME, email);
                 values.put(OsuTourDbSchema.UserTable.Cols.PASSWORD, password);
                 long newRowId = mDatabaseWrite.insert(OsuTourDbSchema.UserTable.NAME, null, values);
+                if(newRowId < 0) {
+                    Log.d("ERROR", "User not saved in LoginActivity");
+                }
                 user = mDatabaseHelper.getUser(email);
             }
         }
@@ -318,17 +358,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Intent intent = new Intent(LoginActivity.this, ListActivity.class);
             Log.d("USER: ", user.getUserName());
             intent.putExtra("User", user);
+            intent.putExtra("Target", "Locked");
             startActivity(intent);
         }
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.length() > 5;
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 6;
     }
 
@@ -461,6 +500,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (requestCode == RC_SIGN_IN) {
             mGoogleSignInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(mGoogleSignInResult);
+        } else {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -481,6 +522,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 ContentValues values = new ContentValues();
                 values.put(OsuTourDbSchema.UserTable.Cols.USER_NAME, mGoogleSignInAccount.getEmail());
                 long newRowId = mDatabaseWrite.insert(OsuTourDbSchema.UserTable.NAME, null, values);
+                if(newRowId < 0) {
+                    Log.d("ERROR", "User not saved in LoginActivity");
+                }
                 user = mDatabaseHelper.getUser(mGoogleSignInAccount.getEmail());
                 Log.d("USER: ", user.getUserName());
                 Intent intent = new Intent(LoginActivity.this, ListActivity.class);
@@ -505,7 +549,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         };
 
         int ADDRESS = 0;
-        int IS_PRIMARY = 1;
     }
 
     /**
@@ -525,7 +568,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
             try {
                 // Simulate network access.
@@ -542,11 +584,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
 
-            // TODO: register the new account here.
             ContentValues values = new ContentValues();
             values.put(OsuTourDbSchema.UserTable.Cols.USER_NAME, mEmail);
             values.put(OsuTourDbSchema.UserTable.Cols.PASSWORD, mPassword);
             long newRowId = mDatabaseWrite.insert(OsuTourDbSchema.UserTable.NAME, null, values);
+            if(newRowId < 0) {
+                Log.d("ERROR", "User not saved in LoginActivity");
+            }
             user = mDatabaseHelper.getUser(mEmail);
 
             return true;
@@ -570,6 +614,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             mAuthTask = null;
             showProgress(false);
         }
+
     }
 }
 
