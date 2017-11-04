@@ -133,6 +133,7 @@ public class ListActivity extends AppCompatActivity {
             case R.id.map:
                 //Start map activity
                 Intent mapIntent = new Intent(ListActivity.this, MapActivity.class);
+                mapIntent.putExtra("UserID", user.getId());
                 startActivity(mapIntent);
                 return true;
 
