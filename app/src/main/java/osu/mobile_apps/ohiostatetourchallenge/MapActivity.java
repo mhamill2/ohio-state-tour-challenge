@@ -22,11 +22,14 @@ import java.util.List;
 import database.OsuTourDbSchema.DatabaseHelper;
 import im.delight.android.location.SimpleLocation;
 
+import static im.delight.android.location.SimpleLocation.calculateDistance;
+import static java.lang.Math.round;
+
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private int mLocationPermissionGranted;
-    private SimpleLocation location;
+    private SimpleLocation myLocation;
     private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
     private List<Location> mLocations;
     private List<Location> mCompletedLocations;
@@ -60,7 +63,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     public void getDeviceLocation() {
         Context context = this;
-        location = new SimpleLocation(context, false);
+        myLocation = new SimpleLocation(context, false);
     }
 
     private void updateLocationUI() {
@@ -74,9 +77,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 mMap.setMinZoomPreference(0);
                 mMap.setMaxZoomPreference(20);
                 getDeviceLocation();
-                LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                LatLng currentLocation = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
                 createMarkers();
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
             } else {
                 mMap.setMyLocationEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -97,13 +100,31 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             Marker m;
             m = mMap.addMarker(new MarkerOptions().position(new LatLng(mLocations.get(i).getLatitude(),
                     mLocations.get(i).getLongitude())).title(mLocations.get(i).getName()));
+            m.setTag("Incomplete");
 
             // Change each completed location marker to green
             for (int j = 0; j < mCompletedLocations.size(); j++) {
                 if (m.getTitle().equalsIgnoreCase(mCompletedLocations.get(j).getName())) {
                     m.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                    m.setTag("Complete");
                 }
             }
+            if (i == 1) {
+                m.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                m.setTag("Complete");
+            }
+            createInfoWindow(m);
+        }
+    }
+
+    private void createInfoWindow(Marker marker) {
+        if (marker.getTag().equals("Complete")) {
+            marker.setSnippet("Location Visited!");
+        } else {
+            marker.setSnippet("Location not visited! Distance to location = " +
+                    round(calculateDistance(marker.getPosition().latitude,
+                            marker.getPosition().longitude, myLocation.getLatitude(),
+                            myLocation.getLongitude())) + " m");
         }
     }
 
