@@ -337,6 +337,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 values.put(OsuTourDbSchema.UserTable.Cols.USER_NAME, email);
                 values.put(OsuTourDbSchema.UserTable.Cols.PASSWORD, password);
                 long newRowId = mDatabaseWrite.insert(OsuTourDbSchema.UserTable.NAME, null, values);
+                Toast.makeText(this, "New Account Created!", Toast.LENGTH_SHORT).show();
                 if(newRowId < 0) {
                     Log.d("ERROR", "User not saved in LoginActivity");
                 }
