@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import database.OsuTourDbSchema.DatabaseHelper;
@@ -34,11 +35,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private SimpleLocation myLocation;
     private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
     private List<Location> mLocations;
-    private List<Location> mCompletedLocations;
+    private List<Location> unlocked;
 
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, ListActivity.class);
+        intent.putExtra("User", user);
         startActivity(intent);
     }
 
@@ -52,7 +54,18 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
         // Get locations and completed locations.
         mLocations = mDatabaseHelper.getLocations();
-        mCompletedLocations = mDatabaseHelper.getCompletedLocations(user.getId());
+        //mCompletedLocations = mDatabaseHelper.getCompletedLocations(user.getId());
+
+        //Get list of locked and unlocked locations
+        unlocked = new ArrayList<>();
+        List<Location> locked = new ArrayList<>();
+        for(Location place: mLocations){
+            if(mDatabaseHelper.locationIsUnlocked(user.getId(), place.getId())){
+                unlocked.add(place);
+            }else{
+                locked.add(place);
+            }
+        }
 
         mLocationPermissionGranted = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
@@ -113,16 +126,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             m.setTag("Incomplete");
 
             // Change each completed location marker to green
-            for (int j = 0; j < mCompletedLocations.size(); j++) {
-                if (m.getTitle().equalsIgnoreCase(mCompletedLocations.get(j).getName())) {
+            for (int j = 0; j < unlocked.size(); j++) {
+                if (m.getTitle().equalsIgnoreCase(unlocked.get(j).getName())) {
                     m.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                     m.setTag("Complete");
                 }
-            }
-            // TODO - remove if block after testing
-            if (i == 1) {
-                m.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                m.setTag("Complete");
             }
             createInfoWindow(m);
         }
@@ -139,18 +147,17 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         }
     }
 
-    // TODO - go from location marker to information activity
     @Override
     public void onInfoWindowClick(Marker marker) {
-//        Location loc = new Location();
-//        loc.setLatitude(marker.getPosition().latitude);
-//        loc.setLongitude(marker.getPosition().longitude);
-//        loc.setName(marker.getTitle());
-//        loc.setId(Integer.parseInt(marker.getId()));
-
         Location loc = mDatabaseHelper.getLocation(marker.getTitle());
 
         Intent intent = new Intent(this, InformationActivity.class);
+        if (marker.getTag().equals("Complete")) {
+            intent.putExtra("isUnlocked", true);
+        } else {
+            intent.putExtra("isUnlocked", false);
+        }
+        intent.putExtra("fromMap", true);
         intent.putExtra("caller", "MapActivity");
         intent.putExtra("Location", loc);
         intent.putExtra("User", user);

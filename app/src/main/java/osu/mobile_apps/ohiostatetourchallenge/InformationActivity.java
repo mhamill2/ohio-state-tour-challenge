@@ -44,6 +44,7 @@ public class InformationActivity extends AppCompatActivity {
 
         TextView TV;
         user = (User) getIntent().getSerializableExtra("User");
+        backToMap = this.getIntent().getBooleanExtra("fromMap", false);
 
         boolean isUnlocked = getIntent().getBooleanExtra("isUnlocked", false);
         Location location = (Location) getIntent().getSerializableExtra("Location");
@@ -66,7 +67,7 @@ public class InformationActivity extends AppCompatActivity {
 
         double distance = deviceLocation.calculateDistance(myCoords, targetCoords);
         Log.d("TESTING", "Distance: " + distance + " meters");
-            if (distance > 50) {
+            if (distance > 250) {
                 //Say too far away
                 TV = (TextView) findViewById(R.id.description);
                 if (TV != null) {
@@ -76,7 +77,6 @@ public class InformationActivity extends AppCompatActivity {
                     ImageView image = findViewById(R.id.image);
                     int resourceId = this.getResources().getIdentifier("questionmark", "drawable", "osu.mobile_apps.ohiostatetourchallenge");
                     image.setImageResource(resourceId);
-                    backToMap = true;
                 }
             } else {
                 //Show challenge question
