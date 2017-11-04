@@ -109,6 +109,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                     m.setTag("Complete");
                 }
             }
+            // TODO - remove if block after testing
             if (i == 1) {
                 m.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                 m.setTag("Complete");
@@ -127,6 +128,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                             myLocation.getLongitude())) + " m");
         }
     }
+
+    // TODO - add pictures to info window (maybe?)
 
     @Override
     protected void onStart(){
