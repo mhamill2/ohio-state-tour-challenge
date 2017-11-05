@@ -49,4 +49,7 @@
     <string name="button4">Button4</string>
     <string name="heading">Heading</string>
     <string name="description">Description</string>
+    <string name="map">Map</string>
+    <string name="about">About</string>
+    <string name="logout">Logout</string>
 </resources>
