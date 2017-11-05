@@ -16,7 +16,7 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getUserName() {
+    String getUserName() {
         return userName;
     }
 
@@ -24,7 +24,7 @@ public class User implements Serializable {
         this.userName = userName;
     }
 
-    public String getPassword() {
+    String getPassword() {
         return password;
     }
 

@@ -1,10 +1,6 @@
 package osu.mobile_apps.ohiostatetourchallenge;
 
-import android.*;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,13 +8,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-
 import im.delight.android.location.SimpleLocation;
 
 public class InformationActivity extends AppCompatActivity {
-    private SimpleLocation deviceLocation;
     private User user;
     private boolean backToMap;
 
@@ -45,7 +37,7 @@ public class InformationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnCreate() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnCreate() Executed");
         setContentView(R.layout.activity_information);
 
         TextView TV;
@@ -56,28 +48,24 @@ public class InformationActivity extends AppCompatActivity {
 
         if (!isUnlocked) {
         //get distance to location, check if close enough within 100 meters
-        deviceLocation = new SimpleLocation(this);
+            SimpleLocation deviceLocation = new SimpleLocation(this);
         // if we can't access the location yet
         if (!deviceLocation.hasLocationEnabled()) {
             // ask the user to enable location access
             SimpleLocation.openSettings(this);
         }
 
-        //Log.d("TESTING", "Target: " + location.getLatitude() + ", " + location.getLongitude());
-        //Log.d("TESTING", "Device: " + deviceLocation.getLatitude() + ", " + deviceLocation.getLongitude());
         SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
-        // Testing point
-        //SimpleLocation.Point myCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
         SimpleLocation.Point targetCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
 
-        double distance = deviceLocation.calculateDistance(myCoords, targetCoords);
+        double distance = SimpleLocation.calculateDistance(myCoords, targetCoords);
         Log.d("TESTING", "Distance: " + distance + " meters");
             if (distance > 250) {
                 //Say too far away
-                TV = (TextView) findViewById(R.id.description);
+                TV = findViewById(R.id.description);
                 if (TV != null) {
-                    TV.setText("Go to this location to unlock the challenge question!");
-                    TV = (TextView) findViewById(R.id.textView);
+                    TV.setText(R.string.location_too_far_text);
+                    TV = findViewById(R.id.textView);
                     TV.setText(location.getName());
                     ImageView image = findViewById(R.id.image);
                     int resourceId = this.getResources().getIdentifier("questionmark", "drawable", "osu.mobile_apps.ohiostatetourchallenge");
@@ -100,7 +88,7 @@ public class InformationActivity extends AppCompatActivity {
             }
         } else {
             //Display everything, since location is unlocked and viewable from anywhere
-            TV = (TextView) findViewById(R.id.textView);
+            TV = findViewById(R.id.textView);
             ImageView image = findViewById(R.id.image);
             String locationImage = location.getName().toLowerCase().replace(" ", "").replace("(", "").replace(")", "");
             int resourceId = this.getResources().getIdentifier(locationImage, "drawable", "osu.mobile_apps.ohiostatetourchallenge");
@@ -108,7 +96,7 @@ public class InformationActivity extends AppCompatActivity {
             if (TV != null) {
                 TV.setText(location.getName());
             }
-            TV = (TextView) findViewById(R.id.description);
+            TV = findViewById(R.id.description);
             if (TV != null) {
                 TV.setText(location.getDescription());
             }
@@ -127,37 +115,37 @@ public class InformationActivity extends AppCompatActivity {
 
     @Override
     protected void onStart(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnStart() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnStart() Executed");
         super.onStart();
     }
 
     @Override
     protected void onPause(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnPause() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnPause() Executed");
         super.onPause();
     }
 
     @Override
     protected void onResume(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnResume() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnResume() Executed");
         super.onResume();
     }
 
     @Override
     protected void onStop(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnStop() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnStop() Executed");
         super.onStop();
     }
 
     @Override
     protected void onRestart(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnRestart() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnRestart() Executed");
         super.onRestart();
     }
 
     @Override
     protected void onDestroy() {
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnDestroy() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnDestroy() Executed");
         super.onDestroy();
     }
 

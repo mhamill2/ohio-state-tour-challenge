@@ -44,12 +44,12 @@ public class QuestionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnCreate() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnCreate() Executed");
         setContentView(R.layout.activity_question);
 
         user = (User) getIntent().getSerializableExtra("User");
         location = (Location) getIntent().getSerializableExtra("Location");
-        TextView TV = (TextView) findViewById(R.id.textView);
+        TextView TV = findViewById(R.id.textView);
         ImageView image = findViewById(R.id.image);
 
         //Display everything, since location is unlocked and viewable from anywhere
@@ -60,7 +60,7 @@ public class QuestionActivity extends AppCompatActivity {
         if (TV != null){
             TV.setText(location.getName());
         }
-        TV = (TextView) findViewById(R.id.question);
+        TV = findViewById(R.id.question);
         if (TV != null){
             question = mDatabaseHelper.getQuestion(location.getId());
             TV.setText(question.getText());
@@ -71,23 +71,22 @@ public class QuestionActivity extends AppCompatActivity {
          * the tag in the onClick method.
          */
         List<QuestionAnswer> questionAnswers = mDatabaseHelper.getAnswers(question.getId());
-        Button B1 = (Button) findViewById(R.id.Button1);
+        Button B1 = findViewById(R.id.Button1);
         B1.setText(mDatabaseHelper.getAnswerText(questionAnswers.get(0).getAnswerId()));
         setCorrectTag(B1, questionAnswers.get(0).isCorrect());
-        Button B2 = (Button) findViewById(R.id.Button2);
+        Button B2 = findViewById(R.id.Button2);
         B2.setText(mDatabaseHelper.getAnswerText(questionAnswers.get(1).getAnswerId()));
         setCorrectTag(B2, questionAnswers.get(1).isCorrect());
-        Button B3 = (Button) findViewById(R.id.Button3);
+        Button B3 = findViewById(R.id.Button3);
         B3.setText(mDatabaseHelper.getAnswerText(questionAnswers.get(2).getAnswerId()));
         setCorrectTag(B3, questionAnswers.get(2).isCorrect());
-        Button B4 = (Button) findViewById(R.id.Button4);
+        Button B4 = findViewById(R.id.Button4);
         B4.setText(mDatabaseHelper.getAnswerText(questionAnswers.get(3).getAnswerId()));
         setCorrectTag(B4, questionAnswers.get(3).isCorrect());
     }
 
     public void onClick(View v){
         Button selected = findViewById(v.getId());
-        String answer = (String) selected.getText();
         // The tag is an Object, so we need to convert it to String and parse the Boolean
         String buttonTag = selected.getTag().toString();
         boolean correct = false;
@@ -122,37 +121,37 @@ public class QuestionActivity extends AppCompatActivity {
 
     @Override
     protected void onStart(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnStart() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnStart() Executed");
         super.onStart();
     }
 
     @Override
     protected void onPause(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnPause() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnPause() Executed");
         super.onPause();
     }
 
     @Override
     protected void onResume(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnResume() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnResume() Executed");
         super.onResume();
     }
 
     @Override
     protected void onStop(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnStop() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnStop() Executed");
         super.onStop();
     }
 
     @Override
     protected void onRestart(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnRestart() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnRestart() Executed");
         super.onRestart();
     }
 
     @Override
     protected void onDestroy() {
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnDestroy() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnDestroy() Executed");
         super.onDestroy();
     }
 

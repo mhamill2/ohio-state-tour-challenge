@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,9 +20,6 @@ import database.OsuTourDbSchema.DatabaseHelper;
 
 public class ListActivity extends AppCompatActivity {
 
-    private RecyclerView mlocations;
-    private RecyclerView.Adapter mAdapter;
-    private List<ListItem> listItems;
     private DatabaseHelper mDatabaseHelper = new DatabaseHelper(this);
     private User user;
     private String target;
@@ -36,17 +32,11 @@ public class ListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnCreate() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnCreate() Executed");
         setContentView(R.layout.activity_list);
         user = (User) getIntent().getSerializableExtra("User");
-        //Get username from log in activity
-        //String userName = getIntent().getExtras().getString("User");
 
-        TextView welcome = (TextView) findViewById(R.id.welcome);
-        if(welcome != null) {
-            //welcome.setText("Welcome " + userName + "!");
-        }
-        mlocations = (RecyclerView) findViewById(R.id.locationList);
+        RecyclerView mlocations = findViewById(R.id.locationList);
         //Every item has fixed size
         mlocations.setHasFixedSize(true);
 
@@ -67,9 +57,9 @@ public class ListActivity extends AppCompatActivity {
         Collections.sort(locations, Location.LocationNameComparator);
 
         //Button used to change target views
-        Button switchButton = (Button) findViewById(R.id.locationButton);
+        Button switchButton = findViewById(R.id.locationButton);
 
-        List<Location> targetLocations = new ArrayList<>();
+        List<Location> targetLocations;
         target = (String) getIntent().getSerializableExtra("Target");
         //If the target is null then make the locked locations
         if(target == null){
@@ -92,18 +82,18 @@ public class ListActivity extends AppCompatActivity {
         Collections.sort(targetLocations, Location.LocationNameComparator);
 
         //Set text of header and switch button based on target locations
-        TextView locationOption = (TextView) findViewById(R.id.header);
+        TextView locationOption = findViewById(R.id.header);
         if(target.equals("Locked")){
-            switchButton.setText("Unlocked Locations");
-            locationOption.setText("Your Locked Locations");
+            switchButton.setText(R.string.switch_button_locked_text);
+            locationOption.setText(R.string.location_option_locked_text);
         }else{
-            switchButton.setText("Locked Locations");
-            locationOption.setText("Your Unlocked Locations");
+            switchButton.setText(R.string.switch_button_unlocked_text);
+            locationOption.setText(R.string.location_option_unlocked_text);
         }
 
 
         //Display locations
-        listItems = new ArrayList<>();
+        List<ListItem> listItems = new ArrayList<>();
         String description;
         String smallDescription;
         for(Location entry: targetLocations) {
@@ -123,9 +113,9 @@ public class ListActivity extends AppCompatActivity {
             listItems.add(item);
         }
 
-        mAdapter = new myAdpater(listItems);
+        RecyclerView.Adapter adapter = new myAdapter(listItems);
 
-        mlocations.setAdapter(mAdapter);
+        mlocations.setAdapter(adapter);
 
     }
     @Override
@@ -164,7 +154,7 @@ public class ListActivity extends AppCompatActivity {
         Intent intent;
         if (v.getId() == R.id.textViewHead) {
             intent = new Intent(ListActivity.this, InformationActivity.class);
-            TextView TV = (TextView) v.findViewById(R.id.textViewHead);
+            TextView TV = v.findViewById(R.id.textViewHead);
             Location location = mDatabaseHelper.getLocation(TV.getText().toString());
             intent.putExtra("Location", location);
             intent.putExtra("User", user);
@@ -190,37 +180,37 @@ public class ListActivity extends AppCompatActivity {
 
     @Override
     protected void onStart(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnStart() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnStart() Executed");
         super.onStart();
     }
 
     @Override
     protected void onPause(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnPause() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnPause() Executed");
         super.onPause();
     }
 
     @Override
     protected void onResume(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnResume() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnResume() Executed");
         super.onResume();
     }
 
     @Override
     protected void onStop(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnStop() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnStop() Executed");
         super.onStop();
     }
 
     @Override
     protected void onRestart(){
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnRestart() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnRestart() Executed");
         super.onRestart();
     }
 
     @Override
     protected void onDestroy() {
-        Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnDestroy() Executed");
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnDestroy() Executed");
         super.onDestroy();
     }
 

@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import database.OsuTourDbSchema.DatabaseHelper;
 import im.delight.android.location.SimpleLocation;
@@ -58,12 +59,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
         //Get list of locked and unlocked locations
         unlocked = new ArrayList<>();
-        List<Location> locked = new ArrayList<>();
         for(Location place: mLocations){
             if(mDatabaseHelper.locationIsUnlocked(user.getId(), place.getId())){
                 unlocked.add(place);
-            }else{
-                locked.add(place);
             }
         }
 
@@ -137,7 +135,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
     private void createInfoWindow(Marker marker) {
-        if (marker.getTag().equals("Complete")) {
+        if (Objects.equals(marker.getTag(), "Complete")) {
             marker.setSnippet("Location Visited!");
         } else {
             marker.setSnippet("Location not visited! Distance to location = " +
@@ -152,7 +150,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         Location loc = mDatabaseHelper.getLocation(marker.getTitle());
 
         Intent intent = new Intent(this, InformationActivity.class);
-        if (marker.getTag().equals("Complete")) {
+        if (Objects.equals(marker.getTag(), "Complete")) {
             intent.putExtra("isUnlocked", true);
         } else {
             intent.putExtra("isUnlocked", false);

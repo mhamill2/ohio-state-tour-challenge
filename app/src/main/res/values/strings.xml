@@ -29,4 +29,9 @@
     <string name="sign_out">Sign Out</string>
     <string name="facebook_app_id">1535322139909118</string>
     <string name="fb_login_protocol_scheme">fb1535322139909118</string>
+    <string name="switch_button_locked_text">Unlocked Locations</string>
+    <string name="location_option_locked_text">Your Locked Locations</string>
+    <string name="switch_button_unlocked_text">Locked Locations</string>
+    <string name="location_option_unlocked_text">Your Unlocked Locations</string>
+    <string name="location_too_far_text">Go to this location to unlock the challenge question!</string>
 </resources>

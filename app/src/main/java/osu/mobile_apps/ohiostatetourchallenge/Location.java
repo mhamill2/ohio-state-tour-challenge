@@ -1,7 +1,6 @@
 package osu.mobile_apps.ohiostatetourchallenge;
 
 import java.util.Comparator;
-import java.util.List;
 import java.io.Serializable;
 
 
@@ -12,9 +11,13 @@ public class Location implements Serializable {
     private Double latitude;
     private Double longitude;
 
-    public Integer getId() { return id; }
+    public Integer getId() {
+        return id;
+    }
 
-    public void setId(Integer id) { this.id = id; }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -36,19 +39,19 @@ public class Location implements Serializable {
         return name;
     }
 
-    public String getDescription() {
+    String getDescription() {
         return description;
     }
 
-    public Double getLongitude() {
+    Double getLongitude() {
         return longitude;
     }
 
-    public Double getLatitude() {
+    Double getLatitude() {
         return latitude;
     }
 
-    public static Comparator<Location> LocationNameComparator = new Comparator<Location>() {
+    static Comparator<Location> LocationNameComparator = new Comparator<Location>() {
         @Override
         public int compare(Location loc1, Location loc2) {
             return loc1.getName().compareTo(loc2.getName());

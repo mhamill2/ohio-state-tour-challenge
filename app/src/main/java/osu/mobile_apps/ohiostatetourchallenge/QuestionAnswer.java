@@ -16,15 +16,15 @@ public class QuestionAnswer {
     private Integer answerId;
     private boolean isCorrect;
 
-    public Integer getQuestionId() {
-        return questionId;
-    }
-
     public void setQuestionId(Integer questionId) {
         this.questionId = questionId;
     }
 
-    public Integer getAnswerId() {
+    public int getQuestionId() {
+        return this.questionId;
+    }
+
+    Integer getAnswerId() {
         return answerId;
     }
 
@@ -32,7 +32,7 @@ public class QuestionAnswer {
         this.answerId = answerId;
     }
 
-    public boolean isCorrect() {
+    boolean isCorrect() {
         return isCorrect;
     }
 
