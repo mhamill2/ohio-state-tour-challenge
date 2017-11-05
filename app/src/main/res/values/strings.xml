@@ -34,4 +34,19 @@
     <string name="switch_button_unlocked_text">Locked Locations</string>
     <string name="location_option_unlocked_text">Your Unlocked Locations</string>
     <string name="location_too_far_text">Go to this location to unlock the challenge question!</string>
+    <string name="location_image_description_text">Location Image</string>
+    <string name="testing_text">Testing</string>
+    <string name="description_text">Description</string>
+    <string name="welcome_text">Welcome!</string>
+    <string name="location_button_text">Button</string>
+    <string name="header_text">Your Locations</string>
+    <string name="location_image">Location Image</string>
+    <string name="location">Location</string>
+    <string name="question">Question?</string>
+    <string name="button1">Button1</string>
+    <string name="button2">Button2</string>
+    <string name="button3">Button3</string>
+    <string name="button4">Button4</string>
+    <string name="heading">Heading</string>
+    <string name="description">Description</string>
 </resources>

@@ -124,10 +124,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             m.setTag("Incomplete");
 
             // Change locations in range to yellow markers
-            float distance = round(calculateDistance(m.getPosition().latitude,
+            int distance = (int) round(calculateDistance(m.getPosition().latitude,
                     m.getPosition().longitude, myLocation.getLatitude(),
                     myLocation.getLongitude()));
-            if (distance < R.integer.radius) {
+            if (distance < 50) {
                 m.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
             }
 

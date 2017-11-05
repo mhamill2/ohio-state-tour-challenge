@@ -133,7 +133,7 @@ public class ListActivity extends AppCompatActivity {
                 for (int i = 0; i < locked.size(); i++) {
                     if ((int) round(SimpleLocation.calculateDistance(
                             mSimpleLocation.getLatitude(), mSimpleLocation.getLongitude(),
-                            locked.get(i).getLatitude(), locked.get(i).getLongitude())) <= R.integer.radius) {
+                            locked.get(i).getLatitude(), locked.get(i).getLongitude())) <= 50) {
                         newLocationInRange = true;
                     }
                 }

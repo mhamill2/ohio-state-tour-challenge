@@ -60,7 +60,7 @@ public class InformationActivity extends AppCompatActivity {
 
         double distance = SimpleLocation.calculateDistance(myCoords, targetCoords);
         Log.d("TESTING", "Distance: " + distance + " meters");
-            if (distance > R.integer.radius) {
+            if (distance > 50) {
                 //Say too far away
                 TV = findViewById(R.id.description);
                 if (TV != null) {

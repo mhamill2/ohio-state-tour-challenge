@@ -7,10 +7,9 @@
     android:fillViewport="false">
 
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="osu.mobile_apps.ohiostatetourchallenge.QuestionActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -30,7 +29,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:contentDescription="Location Image"
+            android:contentDescription="@string/location_image"
             android:src="@drawable/test_image" />
 
     <TextView
@@ -39,7 +38,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="Location"
+        android:text="@string/location"
         tools:layout_absoluteX="0dp"
         tools:layout_absoluteY="0dp" />
     <View
@@ -52,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:text="Question?"
+        android:text="@string/question"
         tools:layout_absoluteX="10dp"
         tools:layout_absoluteY="0dp" />
 
@@ -62,28 +61,32 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:onClick="onClick"
-            android:text="Button1"/>
+            android:text="@string/button1"
+            android:focusable="true" />
         <Button
             android:id="@+id/Button2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:onClick="onClick"
-            android:text="Button2"/>
+            android:text="@string/button2"
+            android:focusable="true" />
         <Button
             android:id="@+id/Button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:onClick="onClick"
-            android:text="Button3"/>
+            android:text="@string/button3"
+            android:focusable="true" />
         <Button
             android:id="@+id/Button4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:onClick="onClick"
-            android:text="Button4" />
+            android:text="@string/button4"
+            android:focusable="true" />
 
 
     </LinearLayout>
