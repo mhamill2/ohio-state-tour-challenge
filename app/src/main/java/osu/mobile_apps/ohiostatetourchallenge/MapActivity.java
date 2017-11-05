@@ -123,6 +123,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                     mLocations.get(i).getLongitude())).title(mLocations.get(i).getName()));
             m.setTag("Incomplete");
 
+            // Change locations in range to yellow markers
+            float distance = round(calculateDistance(m.getPosition().latitude,
+                    m.getPosition().longitude, myLocation.getLatitude(),
+                    myLocation.getLongitude()));
+            if (distance < R.integer.radius) {
+                m.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+            }
+
             // Change each completed location marker to green
             for (int j = 0; j < unlocked.size(); j++) {
                 if (m.getTitle().equalsIgnoreCase(unlocked.get(j).getName())) {
@@ -135,13 +143,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     }
 
     private void createInfoWindow(Marker marker) {
+        float distance = round(calculateDistance(marker.getPosition().latitude,
+                marker.getPosition().longitude, myLocation.getLatitude(),
+                myLocation.getLongitude()));
         if (Objects.equals(marker.getTag(), "Complete")) {
             marker.setSnippet("Location Visited!");
         } else {
             marker.setSnippet("Location not visited! Distance to location = " +
-                    round(calculateDistance(marker.getPosition().latitude,
-                            marker.getPosition().longitude, myLocation.getLatitude(),
-                            myLocation.getLongitude())) + " m");
+                    distance + " m");
         }
     }
 

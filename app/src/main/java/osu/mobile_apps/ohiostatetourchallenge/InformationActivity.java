@@ -47,7 +47,7 @@ public class InformationActivity extends AppCompatActivity {
         Location location = (Location) getIntent().getSerializableExtra("Location");
 
         if (!isUnlocked) {
-        //get distance to location, check if close enough within 100 meters
+        //get distance to location, check if close enough within 50 meters
             SimpleLocation deviceLocation = new SimpleLocation(this);
         // if we can't access the location yet
         if (!deviceLocation.hasLocationEnabled()) {
@@ -60,7 +60,7 @@ public class InformationActivity extends AppCompatActivity {
 
         double distance = SimpleLocation.calculateDistance(myCoords, targetCoords);
         Log.d("TESTING", "Distance: " + distance + " meters");
-            if (distance > 250) {
+            if (distance > R.integer.radius) {
                 //Say too far away
                 TV = findViewById(R.id.description);
                 if (TV != null) {

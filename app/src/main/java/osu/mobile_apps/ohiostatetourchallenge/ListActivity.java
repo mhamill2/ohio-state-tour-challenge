@@ -1,5 +1,7 @@
 package osu.mobile_apps.ohiostatetourchallenge;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +19,10 @@ import java.util.Collections;
 import java.util.List;
 
 import database.OsuTourDbSchema.DatabaseHelper;
+import im.delight.android.location.SimpleLocation;
+
+import static android.support.v4.app.NotificationCompat.*;
+import static java.lang.Math.round;
 
 public class ListActivity extends AppCompatActivity {
 
@@ -24,6 +30,7 @@ public class ListActivity extends AppCompatActivity {
     private User user;
     private String target;
     private boolean completed = false;
+    private SimpleLocation mSimpleLocation;
 
     // Stops the back button
     @Override
@@ -46,7 +53,7 @@ public class ListActivity extends AppCompatActivity {
 
         //Get list of locked and unlocked locations
         List<Location> unlocked = new ArrayList<>();
-        List<Location> locked = new ArrayList<>();
+        final List<Location> locked = new ArrayList<>();
         for(Location place: locations){
             if(mDatabaseHelper.locationIsUnlocked(user.getId(), place.getId())){
                 unlocked.add(place);
@@ -117,7 +124,43 @@ public class ListActivity extends AppCompatActivity {
 
         mlocations.setAdapter(adapter);
 
+        // Location listener setup for notification
+        mSimpleLocation = new SimpleLocation(this);
+
+        mSimpleLocation.setListener(new SimpleLocation.Listener() {
+            public void onPositionChanged() {
+                boolean newLocationInRange = false;
+                for (int i = 0; i < locked.size(); i++) {
+                    if ((int) round(SimpleLocation.calculateDistance(
+                            mSimpleLocation.getLatitude(), mSimpleLocation.getLongitude(),
+                            locked.get(i).getLatitude(), locked.get(i).getLongitude())) <= R.integer.radius) {
+                        newLocationInRange = true;
+                    }
+                }
+                if (newLocationInRange) {
+                    Builder mBuilder = new Builder(getApplicationContext())
+                            .setSmallIcon(R.drawable.ic_launcher_background)
+                            .setContentTitle("Location In Range!")
+                            .setContentText("A new location is in range!");
+                    Intent mapIntent = new Intent(ListActivity.this, MapActivity.class);
+                    mapIntent.putExtra("User", user);
+                    PendingIntent resultPendingIntent = PendingIntent
+                            .getActivity(getApplicationContext(), 0
+                            ,mapIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+                    mBuilder.setContentIntent(resultPendingIntent);
+                    // Sets an ID for the notification
+                    int mNotificationId = R.integer.notification_id;
+                    // Gets an instance of the NotificationManager service
+                    NotificationManager mNotifyMgr =
+                            (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    // Builds the notification and issues it.
+                    assert mNotifyMgr != null;
+                    mNotifyMgr.notify(mNotificationId, mBuilder.build());
+                }
+            }
+        });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_list,menu);
@@ -214,7 +257,6 @@ public class ListActivity extends AppCompatActivity {
         Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnDestroy() Executed");
         super.onDestroy();
     }
-
 }
 
 
