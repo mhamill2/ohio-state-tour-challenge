@@ -21,7 +21,7 @@ import osu.mobile_apps.ohiostatetourchallenge.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
     private static final int VERSION = 10;
-    public static final String DATABASE_NAME = "osu_tour.db";
+    private static final String DATABASE_NAME = "osu_tour.db";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
@@ -151,7 +151,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 OsuTourDbSchema.QuestionAnswerTable.Cols.ANSWER_ID + " int not null, " +
                 OsuTourDbSchema.QuestionAnswerTable.Cols.IS_CORRECT + " int not null)"
         );
-        //TODO Mark correct questions as correct
+
         //Thompson
         int question = 1;
         String correct = "1";
@@ -298,31 +298,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return user;
     }
 
-    public Location getLocation(Integer locatonId) {
-        Location loc = new Location();
-        SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns = {OsuTourDbSchema.LocationTable.Cols.ID,
-                OsuTourDbSchema.LocationTable.Cols.NAME,
-                OsuTourDbSchema.LocationTable.Cols.LATITUDE,
-                OsuTourDbSchema.LocationTable.Cols.LONGITUDE,
-                OsuTourDbSchema.LocationTable.Cols.HISTORY};
-        Cursor cursor =
-                db.query(OsuTourDbSchema.LocationTable.NAME, columns,
-                        OsuTourDbSchema.LocationTable.Cols.ID + " =?",
-                        new String[] {String.valueOf(locatonId)},
-                        null, null, null, null);
-        if (cursor != null && cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            loc.setId(locatonId);
-            loc.setName(cursor.getString(0));
-            loc.setLatitude(cursor.getDouble(1));
-            loc.setLongitude(cursor.getDouble(2));
-            loc.setDescription(cursor.getString(3));
-            cursor.close();
-        }
-        return loc;
-    }
-
     public Location getLocation(String name) {
         Location loc = new Location();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -377,29 +352,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         }
         return locations;
-    }
-
-    public List<Location> getCompletedLocations(Integer userId) {
-        List<Location> locationsCompleted = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        String[] columns = {OsuTourDbSchema.PlayerLocationCompletedTable.Cols.USER_ID,
-                OsuTourDbSchema.PlayerLocationCompletedTable.Cols.LOCATION_ID,};
-        Cursor cursor =
-                db.query(OsuTourDbSchema.PlayerLocationCompletedTable.NAME,
-                        columns,
-                        OsuTourDbSchema.PlayerLocationCompletedTable.Cols.USER_ID + " = ?",
-                        new String[] {String.valueOf(userId)},
-                        null, null, null, null);
-        if (cursor != null && cursor.getCount() > 0) {
-            while(cursor.moveToNext()) {
-                Location loc = getLocation(cursor.getInt(1));
-                if(loc != null) {
-                    locationsCompleted.add(loc);
-                }
-            }
-            cursor.close();
-        }
-        return locationsCompleted;
     }
 
     public boolean locationIsUnlocked(Integer userId, Integer locationId) {

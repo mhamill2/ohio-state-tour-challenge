@@ -9,70 +9,70 @@ public class OsuTourDbSchema {
         public static final String NAME = "user";
 
         public static final class Cols {
-            public static final String ID = "id";
+            static final String ID = "id";
             public static final String USER_NAME = "user_name";
             public static final String PASSWORD = "password";
         }
     }
 
-    public static final class LocationTable {
-        public static final String NAME = "location";
+    static final class LocationTable {
+        static final String NAME = "location";
 
-        public static final class Cols {
-            public static final String ID = "id";
-            public static final String LATITUDE = "latitude";
-            public static final String LONGITUDE = "longitude";
-            public static final String NAME = "name";
-            public static final String HISTORY = "history";
+        static final class Cols {
+            static final String ID = "id";
+            static final String LATITUDE = "latitude";
+            static final String LONGITUDE = "longitude";
+            static final String NAME = "name";
+            static final String HISTORY = "history";
         }
     }
 
-    public static final class QuestionTable {
-        public static final String NAME = "question";
+    static final class QuestionTable {
+        static final String NAME = "question";
 
-        public static final class Cols {
-            public static final String ID = "id";
-            public static final String TEXT = "text";
+        static final class Cols {
+            static final String ID = "id";
+            static final String TEXT = "text";
         }
     }
 
-    public static final class AnswerTable {
-        public static final String NAME = "answer";
+    static final class AnswerTable {
+        static final String NAME = "answer";
 
-        public static final class Cols {
-            public static final String ID = "id";
-            public static final String TEXT = "text";
+        static final class Cols {
+            static final String ID = "id";
+            static final String TEXT = "text";
         }
     }
 
-    public static final class QuestionAnswerTable {
-        public static final String NAME = "question_answer_xref";
+    static final class QuestionAnswerTable {
+        static final String NAME = "question_answer_xref";
 
-        public static final class Cols {
-            public static final String ID = "id";
-            public static final String QUESTION_ID = "question_id";
-            public static final String ANSWER_ID = "answer_id";
-            public static final String IS_CORRECT = "is_correct";
+        static final class Cols {
+            static final String ID = "id";
+            static final String QUESTION_ID = "question_id";
+            static final String ANSWER_ID = "answer_id";
+            static final String IS_CORRECT = "is_correct";
         }
     }
 
-    public static final class LocationQuestionTable {
-        public static final String NAME = "location_question_xref";
+    static final class LocationQuestionTable {
+        static final String NAME = "location_question_xref";
 
-        public static final class Cols {
-            public static final String ID = "id";
-            public static final String LOCATION_ID = "location_id";
-            public static final String QUESTION_ID = "question_id";
+        static final class Cols {
+            static final String ID = "id";
+            static final String LOCATION_ID = "location_id";
+            static final String QUESTION_ID = "question_id";
         }
     }
 
-    public static final class PlayerLocationCompletedTable {
-        public static final String NAME = "player_locations_completed";
+    static final class PlayerLocationCompletedTable {
+        static final String NAME = "player_locations_completed";
 
-        public static final class Cols {
-            public static final String ID = "id";
-            public static final String USER_ID = "user_id";
-            public static final String LOCATION_ID = "location_id";
+        static final class Cols {
+            static final String ID = "id";
+            static final String USER_ID = "user_id";
+            static final String LOCATION_ID = "location_id";
         }
     }
 }
