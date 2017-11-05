@@ -144,6 +144,7 @@ public class ListActivity extends AppCompatActivity {
                 // Logout
                 Intent logoutIntent = new Intent(ListActivity.this, LoginActivity.class);
                 startActivity(logoutIntent);
+                this.finish();
                 return true;
 
         }
