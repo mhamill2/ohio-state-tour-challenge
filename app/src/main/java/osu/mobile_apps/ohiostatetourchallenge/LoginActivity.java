@@ -611,6 +611,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+
+    // Pressing back prompts user to quit application.
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -621,6 +623,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    // If user chooses to quit, clear activity call stack and remove all active tasks.
                     finishAndRemoveTask();
                 }
 
