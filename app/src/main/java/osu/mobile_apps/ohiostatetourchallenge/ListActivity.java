@@ -188,8 +188,6 @@ public class ListActivity extends AppCompatActivity {
         }
     }
 
-    // TODO - go back from unlocked location to unlocked list and vice versa
-
     @Override
     protected void onStart(){
         Log.d("LIFECYCLE",this.getClass().getSimpleName().toString() + " OnStart() Executed");

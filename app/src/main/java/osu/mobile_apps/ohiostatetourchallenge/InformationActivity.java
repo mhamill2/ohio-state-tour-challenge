@@ -30,9 +30,15 @@ public class InformationActivity extends AppCompatActivity {
             intent = new Intent(this, MapActivity.class);
         } else {
             intent = new Intent(this, ListActivity.class);
+            String isLocked;
+            if (this.getIntent().getBooleanExtra("isUnlocked", false)) {
+                isLocked = "Unlocked";
+            } else {
+                isLocked = "Locked";
+            }
+            intent.putExtra("Target", isLocked);
         }
         intent.putExtra("User", user);
-        intent.putExtra("Target", "Locked");
         startActivity(intent);
     }
 
