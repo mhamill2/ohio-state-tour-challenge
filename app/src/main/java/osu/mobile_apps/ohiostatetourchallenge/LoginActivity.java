@@ -131,7 +131,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         User osuTourUser = mDatabaseHelper.getUser(user.optString("email"));
                         Intent intent = new Intent(LoginActivity.this, ListActivity.class);
                         intent.putExtra("User", osuTourUser);
-                        startActivity(intent);
+                        startActivityForResult(intent, 0);
                     }
                 }).executeAsync();
             }
@@ -359,7 +359,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Log.d("USER: ", user.getUserName());
             intent.putExtra("User", user);
             intent.putExtra("Target", "Locked");
-            startActivity(intent);
+            startActivityForResult(intent, 0);
         }
     }
 
@@ -493,6 +493,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (requestCode == RC_SIGN_IN) {
             mGoogleSignInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(mGoogleSignInResult);
+        } else if (resultCode == 0) {
+            setResult(0);
+            finish();
         } else {
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
@@ -522,7 +525,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Log.d("USER: ", user.getUserName());
                 Intent intent = new Intent(LoginActivity.this, ListActivity.class);
                 intent.putExtra("User", user);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         } else {
             setSignInButton();
@@ -624,7 +627,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     // If user chooses to quit, clear activity call stack and remove all active tasks.
-                    finishAndRemoveTask();
+                    if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean("EXIT", false)) {
+                        setResult(0);
+                        finishAndRemoveTask();
+                    }
                 }
 
             })

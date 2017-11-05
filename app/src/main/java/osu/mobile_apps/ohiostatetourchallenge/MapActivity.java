@@ -42,7 +42,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     public void onBackPressed() {
         Intent intent = new Intent(this, ListActivity.class);
         intent.putExtra("User", user);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
     }
 
     @Override
@@ -168,7 +168,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         intent.putExtra("caller", "MapActivity");
         intent.putExtra("Location", loc);
         intent.putExtra("User", user);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
     }
 
 
@@ -206,5 +206,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     protected void onDestroy() {
         Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnDestroy() Executed");
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(resultCode)
+        {
+            case 0:
+                setResult(0);
+                finish();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

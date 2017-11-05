@@ -174,20 +174,21 @@ public class ListActivity extends AppCompatActivity {
                 //Start map activity
                 Intent mapIntent = new Intent(ListActivity.this, MapActivity.class);
                 mapIntent.putExtra("User", user);
-                startActivity(mapIntent);
+                startActivityForResult(mapIntent, 0);
                 return true;
 
             case R.id.about:
                 //Start about activity
                 Intent aboutIntent = new Intent(ListActivity.this, AboutActivity.class);
-                startActivity(aboutIntent);
+                aboutIntent.putExtra("User", user);
+                startActivityForResult(aboutIntent, 0);
                 return true;
 
             case R.id.logout:
                 // Logout
-                Intent logoutIntent = new Intent(ListActivity.this, LoginActivity.class);
-                startActivity(logoutIntent);
-                this.finish();
+                Intent intent = new Intent(ListActivity.this, LoginActivity.class);
+                intent.putExtra("EXIT", true);
+                startActivityForResult(intent, 0);
                 return true;
 
         }
@@ -203,7 +204,7 @@ public class ListActivity extends AppCompatActivity {
             intent.putExtra("Location", location);
             intent.putExtra("User", user);
             intent.putExtra("isUnlocked", mDatabaseHelper.locationIsUnlocked(user.getId(), location.getId()));
-            startActivity(intent);
+            startActivityForResult(intent, 0);
         } else if (v.getId() == R.id.locationButton){
             if (!completed) {
                 intent = new Intent(ListActivity.this, ListActivity.class);
@@ -214,7 +215,7 @@ public class ListActivity extends AppCompatActivity {
                     intent.putExtra("User", user);
                     intent.putExtra("Target", "Locked");
                 }
-                startActivity(intent);
+                startActivityForResult(intent, 0);
             }else{
                 Toast.makeText(getApplicationContext(), "All locations completed. Good job!!",
                         Toast.LENGTH_SHORT).show();
@@ -256,6 +257,17 @@ public class ListActivity extends AppCompatActivity {
     protected void onDestroy() {
         Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnDestroy() Executed");
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(resultCode)
+        {
+            case 0:
+                setResult(0);
+                finish();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
 

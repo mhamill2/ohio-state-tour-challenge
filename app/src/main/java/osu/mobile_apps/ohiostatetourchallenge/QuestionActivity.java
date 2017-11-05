@@ -29,12 +29,12 @@ public class QuestionActivity extends AppCompatActivity {
             intent = new Intent(QuestionActivity.this, callerClass);
             intent.putExtra("User", user);
             intent.putExtra("Target", "Locked");
-            startActivity(intent);
+            startActivityForResult(intent, 0);
         } catch(ClassNotFoundException e) {
             intent = new Intent(QuestionActivity.this, ListActivity.class);
             intent.putExtra("User", user);
             intent.putExtra("Target", "Locked");
-            startActivity(intent);
+            startActivityForResult(intent, 0);
         }
 
 
@@ -109,7 +109,7 @@ public class QuestionActivity extends AppCompatActivity {
             intent.putExtra("Location", location);
             intent.putExtra("User", user);
             intent.putExtra("isUnlocked", mDatabaseHelper.locationIsUnlocked(user.getId(), location.getId()));
-            startActivity(intent);
+            startActivityForResult(intent, 0);
 
         }else{
             //If incorrect, display incorrect toast
@@ -161,6 +161,17 @@ public class QuestionActivity extends AppCompatActivity {
         } else {
             b.setTag(false);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(resultCode)
+        {
+            case 0:
+                setResult(0);
+                finish();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 }

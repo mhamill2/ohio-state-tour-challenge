@@ -31,7 +31,7 @@ public class InformationActivity extends AppCompatActivity {
             intent.putExtra("Target", isLocked);
         }
         intent.putExtra("User", user);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class InformationActivity extends AppCompatActivity {
                 intent.putExtra("caller", caller);
                 intent.putExtra("Location", location);
                 intent.putExtra("User", user);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         } else {
             //Display everything, since location is unlocked and viewable from anywhere
@@ -110,7 +110,7 @@ public class InformationActivity extends AppCompatActivity {
     public void onClick(View v){
         Intent intent = new Intent(InformationActivity.this, ListActivity.class);
         intent.putExtra("User", user);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
     }
 
     @Override
@@ -147,6 +147,17 @@ public class InformationActivity extends AppCompatActivity {
     protected void onDestroy() {
         Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnDestroy() Executed");
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(resultCode)
+        {
+            case 0:
+                setResult(0);
+                finish();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 }
