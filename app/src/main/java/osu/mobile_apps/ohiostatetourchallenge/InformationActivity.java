@@ -49,17 +49,17 @@ public class InformationActivity extends AppCompatActivity {
         if (!isUnlocked) {
         //get distance to location, check if close enough within 50 meters
             SimpleLocation deviceLocation = new SimpleLocation(this);
-        // if we can't access the location yet
-        if (!deviceLocation.hasLocationEnabled()) {
-            // ask the user to enable location access
-            SimpleLocation.openSettings(this);
-        }
+            // if we can't access the location yet
+            if (!deviceLocation.hasLocationEnabled()) {
+                // ask the user to enable location access
+                SimpleLocation.openSettings(this);
+            }
 
-        SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
-        SimpleLocation.Point targetCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
+            SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
+            SimpleLocation.Point targetCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
 
-        double distance = SimpleLocation.calculateDistance(myCoords, targetCoords);
-        Log.d("TESTING", "Distance: " + distance + " meters");
+            double distance = SimpleLocation.calculateDistance(myCoords, targetCoords);
+            Log.d("TESTING", "Distance: " + distance + " meters");
             if (distance > 50) {
                 //Say too far away
                 TV = findViewById(R.id.description);
