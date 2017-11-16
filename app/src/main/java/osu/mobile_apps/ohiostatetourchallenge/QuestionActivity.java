@@ -104,6 +104,10 @@ public class QuestionActivity extends AppCompatActivity {
             //unlock location
             mDatabaseHelper.completeLocation(user.getId(), location.getId());
 
+            //Update list activity list
+            ListActivity.locked.remove(location);
+            ListActivity.unlocked.add(location);
+
             //Start information activity
             Intent intent = new Intent(QuestionActivity.this, InformationActivity.class);
             intent.putExtra("Location", location);

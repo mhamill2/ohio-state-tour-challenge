@@ -31,6 +31,8 @@ public class ListActivity extends AppCompatActivity {
     private String target;
     private boolean completed = false;
     private SimpleLocation mSimpleLocation;
+    public static List<Location> unlocked = new ArrayList<>();
+    public static List<Location> locked = new ArrayList<>();
 
     // Stops the back button
     @Override
@@ -40,6 +42,7 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnCreate() Executed");
+        overridePendingTransition(0,0);
         setContentView(R.layout.activity_list);
         user = (User) getIntent().getSerializableExtra("User");
 
@@ -52,13 +55,16 @@ public class ListActivity extends AppCompatActivity {
         List<Location> locations = mDatabaseHelper.getLocations();
 
         //Get list of locked and unlocked locations
-        List<Location> unlocked = new ArrayList<>();
-        final List<Location> locked = new ArrayList<>();
-        for(Location place: locations){
-            if(mDatabaseHelper.locationIsUnlocked(user.getId(), place.getId())){
-                unlocked.add(place);
-            }else{
-                locked.add(place);
+        //Use public static variables so only needs to be done once
+        //Updated Question Activity to remove from locked and add to unlocked
+        if(locked.isEmpty()&& unlocked.isEmpty()) {
+            Log.d("TESTING", "Populated the list for the first time");
+            for (Location place : locations) {
+                if (mDatabaseHelper.locationIsUnlocked(user.getId(), place.getId())) {
+                    unlocked.add(place);
+                } else {
+                    locked.add(place);
+                }
             }
         }
         Collections.sort(locations, Location.LocationNameComparator);
