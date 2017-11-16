@@ -106,7 +106,9 @@ public class ListActivity extends AppCompatActivity {
         for(Location entry: targetLocations) {
             description = entry.getDescription();
             //Check if location is unlocked or not
-            if(mDatabaseHelper.locationIsUnlocked(user.getId(), entry.getId())) {
+            //if(mDatabaseHelper.locationIsUnlocked(user.getId(), entry.getId())) {
+            //IMPROVED to look at target instead of checking each location locked status
+            if(!target.equals("Locked")) {
                 if (description.length() > 110) {
                     smallDescription = description.substring(0, 110) + "...";
                 } else {
@@ -203,7 +205,10 @@ public class ListActivity extends AppCompatActivity {
             Location location = mDatabaseHelper.getLocation(TV.getText().toString());
             intent.putExtra("Location", location);
             intent.putExtra("User", user);
-            intent.putExtra("isUnlocked", mDatabaseHelper.locationIsUnlocked(user.getId(), location.getId()));
+            //IMPROVED Look at target instead of calculating
+            //intent.putExtra("isUnlocked", mDatabaseHelper.locationIsUnlocked(user.getId(), location.getId()));
+            intent.putExtra("isUnlocked", !target.equals("Locked"));
+
             startActivityForResult(intent, 0);
         } else if (v.getId() == R.id.locationButton){
             if (!completed) {
