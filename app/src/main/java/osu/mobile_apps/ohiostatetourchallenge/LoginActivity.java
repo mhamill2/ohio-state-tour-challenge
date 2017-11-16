@@ -630,6 +630,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean("EXIT", false)) {
                         setResult(0);
                         finishAndRemoveTask();
+                    } else {
+                        finishAndRemoveTask();
                     }
                 }
 
