@@ -194,6 +194,10 @@ public class ListActivity extends AppCompatActivity {
 
             case R.id.logout:
                 // Logout
+                //Reset locked and unlocked list to ensure that recalculated on next login
+                //In case user made progress on another device, and we had our database set up to do that
+                locked = new ArrayList<>();
+                unlocked = new ArrayList<>();
                 Intent intent = new Intent(ListActivity.this, LoginActivity.class);
                 intent.putExtra("EXIT", true);
                 startActivityForResult(intent, 0);
