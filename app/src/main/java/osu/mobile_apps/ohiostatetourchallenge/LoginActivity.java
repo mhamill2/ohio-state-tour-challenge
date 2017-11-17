@@ -363,11 +363,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private boolean isEmailValid(String email) {
-        return email.length() > 5;
+    public boolean isEmailValid(String email) {
+        if(email.length() < 6) {
+            return false;
+        }
+        int count = 0;
+        for(int i = 0; i < email.length(); i++) {
+            if(!Character.isWhitespace(email.charAt(i))) {
+                count++;
+            }
+        }
+        if(count < 6) {
+            return false;
+        }
+        return true;
     }
 
-    private boolean isPasswordValid(String password) {
+    public boolean isPasswordValid(String password) {
         return password.length() > 6;
     }
 
