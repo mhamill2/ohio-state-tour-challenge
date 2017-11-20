@@ -582,8 +582,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String[] pieces = credential.split(getString(R.string.credential_split_string));
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
-                    String passwordHash = PasswordHash.hashPassword(mPassword);
-                    return pieces[1].equals(passwordHash);
+                    return PasswordHash.checkHashEquality(pieces[1], mPassword);
                 }
             }
 
