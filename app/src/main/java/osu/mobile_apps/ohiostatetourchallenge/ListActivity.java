@@ -2,10 +2,19 @@ package osu.mobile_apps.ohiostatetourchallenge;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.location.LocationManager;
+import android.os.Build;
+import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.*;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +30,7 @@ import java.util.List;
 import database.OsuTourDbSchema.DatabaseHelper;
 import im.delight.android.location.SimpleLocation;
 
+import static android.content.DialogInterface.*;
 import static android.support.v4.app.NotificationCompat.*;
 import static java.lang.Math.round;
 
@@ -33,6 +43,7 @@ public class ListActivity extends AppCompatActivity {
     private SimpleLocation mSimpleLocation;
     public static List<Location> unlocked = new ArrayList<>();
     public static List<Location> locked = new ArrayList<>();
+    private boolean locationEnabled = false;
 
     // Stops the back button
     @Override
@@ -167,6 +178,22 @@ public class ListActivity extends AppCompatActivity {
                 }
             }
         });
+
+        SimpleLocation deviceLocation = new SimpleLocation(this);
+        if (!deviceLocation.hasLocationEnabled()) {
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Location Services Disabled!")
+                    .setMessage("This application requires location services. " +
+                            "Please enable location services before continuing. ")
+                    .setNeutralButton("Enable location services", new OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SimpleLocation.openSettings(getApplicationContext());
+                        }
+                    })
+                    .show();
+        }
     }
 
     @Override
@@ -238,6 +265,16 @@ public class ListActivity extends AppCompatActivity {
         }
     }
 
+    private BroadcastReceiver mGpsSwitchStateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.getAction().matches(getString(R.string.location_change))) {
+                recreate();
+            }
+        }
+    };
+
     @Override
     protected void onStart(){
         Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnStart() Executed");
@@ -254,6 +291,7 @@ public class ListActivity extends AppCompatActivity {
     protected void onResume(){
         Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnResume() Executed");
         super.onResume();
+        registerReceiver(mGpsSwitchStateReceiver, new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
     }
 
     @Override
@@ -272,6 +310,7 @@ public class ListActivity extends AppCompatActivity {
     protected void onDestroy() {
         Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnDestroy() Executed");
         super.onDestroy();
+        unregisterReceiver(mGpsSwitchStateReceiver);
     }
 
     @Override

@@ -1,6 +1,12 @@
 package osu.mobile_apps.ohiostatetourchallenge;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.location.LocationManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,8 +57,18 @@ public class InformationActivity extends AppCompatActivity {
             SimpleLocation deviceLocation = new SimpleLocation(this);
             // if we can't access the location yet
             if (!deviceLocation.hasLocationEnabled()) {
-                // ask the user to enable location access
-                SimpleLocation.openSettings(this);
+                new AlertDialog.Builder(this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Location Services Disabled!")
+                        .setMessage("This application requires location services. " +
+                                "Please enable location services before continuing. ")
+                        .setNeutralButton("Enable location services", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SimpleLocation.openSettings(getApplicationContext());
+                            }
+                        })
+                        .show();
             }
 
             SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
@@ -124,6 +140,30 @@ public class InformationActivity extends AppCompatActivity {
                 finish();
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private BroadcastReceiver mGpsSwitchStateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.getAction().matches(getString(R.string.location_change))) {
+                recreate();
+            }
+        }
+    };
+
+    @Override
+    protected void onResume(){
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnResume() Executed");
+        super.onResume();
+        registerReceiver(mGpsSwitchStateReceiver, new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION));
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d("LIFECYCLE",this.getClass().getSimpleName() + " OnDestroy() Executed");
+        super.onDestroy();
+        unregisterReceiver(mGpsSwitchStateReceiver);
     }
 
 }
