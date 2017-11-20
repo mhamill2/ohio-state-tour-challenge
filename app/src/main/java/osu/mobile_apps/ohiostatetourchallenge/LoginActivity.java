@@ -306,6 +306,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         boolean cancel = false;
         View focusView = null;
+        boolean newUser = false;
 
         // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
@@ -326,21 +327,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else {
             user = mDatabaseHelper.getUser(email);
             if (user.getPassword() != null) {
-                if (!user.getPassword().equals(password)) {
+                if (!PasswordHash.checkHashEquality(user.getPassword(), password)) {
                     mPasswordView.setError(getString(R.string.error_incorrect_password));
                     focusView = mPasswordView;
                     cancel = true;
                 }
-            } else if(!cancel){
-                ContentValues values = new ContentValues();
-                values.put(OsuTourDbSchema.UserTable.Cols.USER_NAME, email);
-                values.put(OsuTourDbSchema.UserTable.Cols.PASSWORD, password);
-                long newRowId = mDatabaseWrite.insert(OsuTourDbSchema.UserTable.NAME, null, values);
-                Toast.makeText(this, "New Account Created!", Toast.LENGTH_SHORT).show();
-                if(newRowId < 0) {
-                    Log.d("ERROR", "User not saved in LoginActivity");
-                }
-                user = mDatabaseHelper.getUser(email);
+            } else {
+                newUser = true;
             }
         }
 
@@ -355,8 +348,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
+            user = mDatabaseHelper.getUser(email);
+            if (newUser) {
+                Toast.makeText(this, "New Account Created!", Toast.LENGTH_SHORT).show();
+            }
             Intent intent = new Intent(LoginActivity.this, ListActivity.class);
-            Log.d("USER: ", user.getUserName());
             intent.putExtra("User", user);
             intent.putExtra("Target", "Locked");
             startActivityForResult(intent, 0);
@@ -373,10 +369,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 count++;
             }
         }
-        if(count < 6) {
-            return false;
-        }
-        return true;
+        return count >= 6;
     }
 
     public boolean isPasswordValid(String password) {
@@ -586,16 +579,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
 
             for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
+                String[] pieces = credential.split(getString(R.string.credential_split_string));
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                    String passwordHash = PasswordHash.hashPassword(mPassword);
+                    return pieces[1].equals(passwordHash);
                 }
             }
 
             ContentValues values = new ContentValues();
+            String passwordHash = PasswordHash.hashPassword(mPassword);
             values.put(OsuTourDbSchema.UserTable.Cols.USER_NAME, mEmail);
-            values.put(OsuTourDbSchema.UserTable.Cols.PASSWORD, mPassword);
+            values.put(OsuTourDbSchema.UserTable.Cols.PASSWORD, passwordHash);
             long newRowId = mDatabaseWrite.insert(OsuTourDbSchema.UserTable.NAME, null, values);
             if(newRowId < 0) {
                 Log.d("ERROR", "User not saved in LoginActivity");
