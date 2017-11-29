@@ -28,12 +28,7 @@ public class InformationActivity extends AppCompatActivity {
             intent = new Intent(this, MapActivity.class);
         } else {
             intent = new Intent(this, ListActivity.class);
-            String isLocked;
-            if (this.getIntent().getBooleanExtra("isUnlocked", false)) {
-                isLocked = "Unlocked";
-            } else {
-                isLocked = "Locked";
-            }
+            String isLocked = "Locked";
             intent.putExtra("Target", isLocked);
         }
         intent.putExtra("User", user);
@@ -71,7 +66,9 @@ public class InformationActivity extends AppCompatActivity {
                         .show();
             }
 
-            SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
+            //SimpleLocation.Point myCoords = new SimpleLocation.Point(deviceLocation.getLatitude(), deviceLocation.getLongitude());
+            SimpleLocation.Point myCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
+
             SimpleLocation.Point targetCoords = new SimpleLocation.Point(location.getLatitude(), location.getLongitude());
 
             double distance = SimpleLocation.calculateDistance(myCoords, targetCoords);

@@ -105,14 +105,23 @@ public class QuestionActivity extends AppCompatActivity {
             mDatabaseHelper.completeLocation(user.getId(), location.getId());
 
             //Update list activity list
-            ListActivity.locked.remove(location);
+            Log.d("TESTING", ListActivity.locked.toString());
+            Log.d("TESTING", location.toString());
+            for(int i =0; i < ListActivity.locked.size()-1; i++){
+                if(ListActivity.locked.get(i).getName().equals(location.getName())){
+                    //ListActivity.locked.remove(lockedLocation);
+                    ListActivity.locked.remove(i);
+                }
+            }
+            Log.d("TESTING", "After Removal: " + ListActivity.locked.toString());
+
             ListActivity.unlocked.add(location);
 
             //Start information activity
             Intent intent = new Intent(QuestionActivity.this, InformationActivity.class);
             intent.putExtra("Location", location);
             intent.putExtra("User", user);
-            intent.putExtra("isUnlocked", mDatabaseHelper.locationIsUnlocked(user.getId(), location.getId()));
+            intent.putExtra("isUnlocked", true);
             startActivityForResult(intent, 0);
 
         }else{

@@ -58,6 +58,7 @@ import com.google.android.gms.common.api.Status;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,6 +108,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("REQUIRED",this.getClass().getSimpleName() + " OnCreate() Executed");
         super.onCreate(savedInstanceState);
+        
         mDatabaseWrite = new DatabaseHelper(this).getWritableDatabase();
         setContentView(R.layout.activity_login);
         // Set up the login form.
